@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="tcbillboard" baseClass="xPDOObject" platform="mysql" defaultEngine="InnoDB" phpdoc-package="tcbillboard"
+       version="1.1">
+
+    <object class="tcBillboardOrders" table="tc_billboard_orders" extends="xPDOSimpleObject">
+        <field key="res_id" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false"/>
+        <field key="stock_name" dbtype="varchar" precision="255" phptype="string" null="true"/>
+        <field key="user_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false"/>
+        <field key="num" dbtype="varchar" precision="20" phptype="string" null="true" default=""/>
+        <field key="days" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="true"/>
+        <field key="price" dbtype="decimal" precision="12,2" phptype="float" null="true" default="0"/>
+        <field key="sum" dbtype="decimal" precision="12,2" phptype="float" null="true" default="0"/>
+        <field key="start_stock" dbtype="datetime" phptype="datetime" null="true" />
+        <field key="end_stock" dbtype="datetime" phptype="datetime" null="true" />
+        <field key="createdon" dbtype="datetime" phptype="datetime" null="true" />
+        <field key="pubdatedon" dbtype="datetime" phptype="datetime" null="true" />
+        <field key="unpubdatedon" dbtype="datetime" phptype="datetime" null="true" />
+        <field key="payment" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0" />
+        <field key="status" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0" />
+        <field key="paymentdate" dbtype="datetime" phptype="datetime" null="true" />
+        <field key="notice" dbtype="varchar" precision="10" phptype="string" null="true" default="0" />
+        <field key="date_notice" dbtype="datetime" phptype="datetime" null="true" />
+        <field key="penalty" dbtype="decimal" precision="12,2" phptype="float" null="true" default="0" />
+        <field key="invoice" dbtype="varchar" precision="255" phptype="string" null="true" />
+        <field key="invoice_downloaded" dbtype="tinyint" precision="1" phptype="integer" null="true" default="0" />
+
+        <index alias="user_id" name="user_id" primary="false" unique="false" type="BTREE">
+            <column key="user_id" length="" collation="A" null="false"/>
+        </index>
+        <index alias="status" name="status" primary="false" unique="false" type="BTREE">
+            <column key="status" length="" collation="A" null="false"/>
+        </index>
+        <index alias="notice" name="notice" primary="false" unique="false" type="BTREE">
+            <column key="notice" length="" collation="A" null="false"/>
+        </index>
+        <index alias="penalty" name="penalty" primary="false" unique="false" type="BTREE">
+            <column key="penalty" length="" collation="A" null="false"/>
+        </index>
+
+        <aggregate alias="User" class="modUser" local="user_id" foreign="id" cardinality="one" owner="foreign"/>
+        <aggregate alias="Profile" class="modUserProfile" local="user_id" foreign="internalKey" cardinality="one" owner="foreign"/>
+        <aggregate alias="Status" class="tcBillboardStatus" local="status" foreign="id" cardinality="one" owner="local"/>
+        <aggregate alias="Payment" class="tcBillboardPayment" local="payment" foreign="id" cardinality="one" owner="local"/>
+        <aggregate alias="Resource" class="modResource" local="res_id" foreign="id" cardinality="one" owner="foreign"/>
+
+        <composite alias="Files" class="tcBillboardWarnFiles" local="id" foreign="order" cardinality="many" owner="local" />
+    </object>
+
+    <object class="tcBillboardWarnFiles" table="tc_billboard_warn_files" extends="xPDOSimpleObject">
+        <field key="order" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false"/>
+        <field key="order_num" dbtype="varchar" precision="20" phptype="string" null="true" default=""/>
+        <field key="formed_date" dbtype="datetime" phptype="datetime" null="true" />
+        <field key="file" dbtype="varchar" precision="255" phptype="string" null="true"/>
+        <field key="downloaded" dbtype="tinyint" precision="1" phptype="integer" null="true" default="0"/>
+        <field key="rank" dbtype="varchar" precision="10" phptype="string" null="true" default=""/>
+
+        <index alias="order" name="order" primary="false" unique="false" type="BTREE">
+            <column key="order" length="" collation="A" null="false"/>
+        </index>
+        <index alias="rank" name="rank" primary="false" unique="false" type="BTREE">
+            <column key="rank" length="" collation="A" null="false"/>
+        </index>
+
+        <aggregate alias="Orders" class="tcBillboardOrders" local="order" foreign="id" cardinality="one" owner="foreign"/>
+    </object>
+
+    <object class="tcBillboardPrice" table="tc_billboard_price" extends="xPDOSimpleObject">
+        <field key="period" dbtype="int" precision="3" phptype="integer" null="true" default="0"/>
+        <field key="price" dbtype="decimal" precision="12,2" phptype="float" null="true" default="0"/>
+        <field key="graceperiod" dbtype="datetime" phptype="datetime" null="true" />
+        <field key="graceperiodprice" dbtype="decimal" precision="12,2" phptype="float" null="true" default="0"/>
+        <field key="active" dbtype="tinyint" precision="1" phptype="integer" null="true" default="1"/>
+
+        <index alias="active" name="active" primary="false" unique="false" type="BTREE">
+            <column key="active" length="" collation="A" null="false"/>
+        </index>
+    </object>
+
+    <object class="tcBillboardStatus" table="tc_billboard_status" extends="xPDOSimpleObject">
+        <field key="name" dbtype="varchar" precision="100" phptype="string" null="false"/>
+        <field key="description" dbtype="text" phptype="string" null="true"/>
+        <field key="color" dbtype="char" precision="6" phptype="string" null="true" default="000000"/>
+        <field key="email_user" dbtype="tinyint" precision="1" phptype="integer" null="true" default="0"/>
+        <field key="email_manager" dbtype="tinyint" precision="1" phptype="integer" null="true" default="0"/>
+        <field key="subject_user" dbtype="varchar" precision="255" phptype="string" null="true" default=""/>
+        <field key="subject_manager" dbtype="varchar" precision="255" phptype="string" null="true" default=""/>
+        <field key="chunk_user" dbtype="int" precision="10" phptype="integer" null="true" default="0"/>
+        <field key="chunk_manager" dbtype="int" precision="10" phptype="integer" null="true" default="0"/>
+        <field key="active" dbtype="tinyint" precision="1" phptype="integer" null="true" default="1"/>
+        <field key="final" dbtype="tinyint" precision="1" phptype="integer" null="true" default="0"/>
+        <field key="fixed" dbtype="tinyint" precision="1" phptype="integer" null="true" default="0"/>
+        <field key="rank" dbtype="tinyint" precision="1" phptype="integer" attributes="unsigned" null="true" default="0"/>
+        <field key="editable" dbtype="tinyint" precision="1" phptype="integer" null="true" default="1"/>
+
+        <index alias="active" name="active" primary="false" unique="false" type="BTREE">
+            <column key="active" length="" collation="A" null="false"/>
+        </index>
+
+        <aggregate alias="Orders" class="tcBillboardOrders" local="id" foreign="status" cardinality="many" owner="local"/>
+    </object>
+
+    <object class="tcBillboardPayment" table="tc_billboard_payment" extends="xPDOSimpleObject">
+        <field key="name" dbtype="varchar" precision="255" phptype="string" null="false"/>
+        <field key="description" dbtype="text" phptype="string" null="true"/>
+        <field key="rank" dbtype="tinyint" precision="1" attributes="unsigned" phptype="integer" null="true"
+               default="0"/>
+        <field key="active" dbtype="tinyint" precision="1" attributes="unsigned" phptype="integer" null="true"
+               default="1"/>
+
+        <aggregate alias="Orders" class="tcBillboardOrders" local="id" foreign="payment" cardinality="many" owner="local"/>
+    </object>
+
+    <object class="tcBillboardPenalty" table="tc_billboard_penalty" extends="xPDOSimpleObject">
+        <field key="days" dbtype="int" precision="2" phptype="integer" null="true"/>
+        <field key="formula" dbtype="varchar" precision="20" phptype="string" null="true" default=""/>
+        <field key="percent" dbtype="decimal" precision="12,2" phptype="float" null="true" default="0"/>
+        <field key="fine" dbtype="decimal" precision="12,2" phptype="float" null="true" default="0"/>
+        <field key="description" dbtype="text" phptype="string" null="true"/>
+        <field key="chunk" dbtype="int" precision="5" phptype="integer" null="true" default="0"/>
+        <field key="active" dbtype="tinyint" precision="1" attributes="unsigned" phptype="integer" null="true"
+               default="1"/>
+    </object>
+
+    <object class="tcBillboardOption" table="tc_billboard_option" extends="xPDOSimpleObject">
+        <field key="key" dbtype="varchar" precision="50" phptype="string" null="false" default="" />
+        <field key="value" dbtype="text" phptype="string" null="false" default="" />
+
+        <index alias="key" name="key" primary="false" unique="false" type="BTREE">
+            <column key="key" length="" collation="A" null="false"/>
+        </index>
+    </object>
+
+</model>

@@ -1,0 +1,24 @@
+.tcbillboard-form.well { border: none; background-color: inherit; }
+.tcbilboard-label { border-bottom: 0; border-top: 0; border-left: 0; background: #fff; font-weight: bold; }
+.form-inline .tcbilboard-input { width: 150px; }
+.tcbillboard-preview { padding-top: 20px; text-align: center; }
+.tcbillboard-preview-img { padding: 3px; border: 1px solid #ddd; }
+.tcbillboard-preview-user { margin-top: 40px; }
+.tcbillboard-preview-pagetitle { padding: 6px; background: #c673a5; color: #fff; font-size: 1.1em; }
+.tcbillboard-preview-dates { padding: 12px; border-bottom: 1px solid #ddd }
+.tcbillboard-preview-expand { padding: 12px; }
+.tcbillboard-hr { border-bottom: 1px solid #ddd  }
+.tcbillboard-preview-promotion { padding: 7px; background: #e78439; color: #fff; text-align: center; }
+.tcbillboard-preview-promotion,
+.tcbillboard-preview-imges,
+.tcbillboard-preview-content{ margin-bottom: 20px; }
+.tcbillboard-imges { padding: 5px; margin: 5px; border: 1px solid #ddd; display: inline-block; }
+#ticket-files-list .ticket-file.new.tcbillboard-file-meta { outline-color: #fff; }
+#ticket-files-list .ticket-file-image-wrapper.tcbillboard-file-wrapper {
+    width: inherit; height: inherit; margin-bottom: 5px; padding: 3px; border: 1px solid #ddd; }
+.tcbillboard-file-btn.btn { font-size: inherit; }
+#map { height: 300px; }
+.tcbillboard-wrap-map { padding: 3px; border: 1px solid #ddd; }
+.tcbillboard-table { margin-top: 20px; }
+.tcbillboard-preview-img { width: 170px; height: 170px; line-height: 170px; }
+.tcbillboard-display-none { display: none; }

@@ -1,0 +1,26 @@
+<table class="table tcbillboard-table">
+    <tr>
+        <td>[[%tcbillboard_front_price_day]]:</td>
+        <td>[[+price]]</td>
+    </tr>
+    <tr>
+        <td>[[%tcbillboard_front_price_grace_period]]:</td>
+        <td>[[+graceperiodprice]]</td>
+    </tr>
+    <tr>
+        <td>[[%tcbillboard_front_grace_day]]:</td>
+        <td>[[+graceDays]]</td>
+    </tr>
+    <tr>
+        <td>[[%tcbillboard_front_just_day]]:</td>
+        <td>[[+totalDays]]</td>
+    </tr>
+    <tr>
+        <td>[[%tcbillboard_front_amount_grace_period]]:</td>
+        <td>[[+costGrace]]</td>
+    </tr>
+    <tr>
+        <th>[[%tcbillboard_front_total]]:</th>
+        <th>[[+cost]]</th>
+    </tr>
+</table>
