@@ -9,7 +9,7 @@
 <div style="margin:0 auto;width:800px;height:100%;padding:20px;background:#ffffff;border:1px solid #999999;">
     <a href="[[++site_url]]">
         <img style="display:block;margin: auto;"
-             src="[[++site_url]][[+assets_url]]"
+             src="[[++site_url]][[+assets_url]]/assets/components/tcbillboard/examples/img/logo.png"
              alt="[[++site_name]]"
              width="120" height="90"/>
     </a>
