@@ -414,10 +414,14 @@ class tcBillboard
             $prevWarning = strtotime($data['date_notice']);
             $data['prevWarning'] = date($this->config['dateFormat'], $prevWarning);
         }
-        $t = $this->user->toArray();
-        $data = array_merge($t, $t['extended'], $data);
 
-        $this->modx->log(modX::LOG_LEVEL_ERROR, print_r($t, 1));
+        if ($user = $this->modx->getObject('modUser', $data['user_id'])) {
+            $profile = $user->getOne('Profile');
+            $t = $profile->toArray();
+            $data = array_merge($t, $t['extended'], $data);
+        }
+
+        //$this->modx->log(modX::LOG_LEVEL_ERROR, print_r($data, 1));
 
         switch ($mode) {
             case 'invoice':
