@@ -1,7 +1,4 @@
 <?php
-ini_set('error_reporting', E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
 
 class tcBillboard
 {
@@ -632,7 +629,7 @@ class tcBillboard
             ));
             $setOrder->save();
 
-            unset($_SESSION['tcBillboard']);
+            //unset($_SESSION['tcBillboard']);
             return true;
         }
         return false;
@@ -737,11 +734,20 @@ class tcBillboard
             if ($difference = $this->getDifference($endPeriod, $this->order['unpubdate'])) {
                 $priceDays = $this->countDate($endPeriod, $this->order['unpubdate']);
 
-                $costGrace = ($days - $priceDays) * $price['graceperiodprice'];
-                $price['graceDays'] = $days - $priceDays;
-                $price['totalDays'] = $days;
-                $price['costGrace'] = $costGrace;
-                $price['cost'] = $priceDays * $price['price'] + $costGrace;
+                $difference = $days - $priceDays;
+                // Если $difference больше нуля, т.е льготный период не прошёл
+                if ($difference > 0 ) {
+                    $costGrace = ($days - $priceDays) * $price['graceperiodprice'];
+                    $price['graceDays'] = $days - $priceDays;
+                    $price['totalDays'] = $days;
+                    $price['costGrace'] = $costGrace;
+                    $price['cost'] = $priceDays * $price['price'] + $costGrace;
+                } else {
+                    $price['graceDays'] = 0;
+                    $price['totalDays'] = $days;
+                    $price['costGrace'] = 0;
+                    $price['cost'] = $days * $price['price'];
+                }
             } else {
                 $cost = $days * $price['graceperiodprice'];
                 $price['graceDays'] = $days;
@@ -850,10 +856,12 @@ class tcBillboard
      */
     public function countDate($minDate, $maxDate)
     {
+        $output = 1;
         $min = new DateTime($minDate);
         $max = new DateTime($maxDate);
         $interval = $max->diff($min);
-        return (int)$interval->format('%a');
+        $output += (int)$interval->format('%a');
+        return $output;
     }
 
 
@@ -935,22 +943,19 @@ class tcBillboard
 
 
     /**
-     * Если сумма заказа больше нуля, то отдаём чанк с благодарностью и банковскими
-     * реквизитами.
+     * Отдаём чанк с благодарностью и банковскими реквизитами.
      * $resId - ID созданного ресурса
      * @param $resId
      * @return string
      */
     public function chunkGratitude($resId)
     {
-        $output = '';
-
         $order = $this->modx->getObject('tcBillboardOrders', array('res_id' => (int)$resId));
         $data = $order->toArray();
-        if ($data['sum'] > 0) {
+        //if ($data['sum'] > 0) {
             $properties = $this->getSnippetProperties('tcBillboardForm');
             $output = $this->getChunk($properties['tplSuccessBank'], $data);
-        }
+        //}
         return $output;
     }
 

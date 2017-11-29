@@ -8,6 +8,7 @@ $q->where(array(
     'class' => 'Ticket',
     'parent' => $id,
     'createdby' => $modx->user->id,
+    'deleted' => 0,
 ));
 
 if ($q->prepare() && $q->stmt->execute()) {

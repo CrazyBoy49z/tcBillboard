@@ -87,6 +87,7 @@ var tcBillboard = {
         });
         $(dtPicker3).on("dp.change",function (e) {
             $(dtPicker4).data("DateTimePicker").minDate(e.date);
+            $(dtPicker1).data("DateTimePicker").maxDate(e.date);
             $(maskStartStock).val(e.currentTarget.value).change();
 
             var action = $(this).data('tcbillboard');

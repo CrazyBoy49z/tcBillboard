@@ -1,12 +1,8 @@
 <div class="row">
-    <div class="col-md-5 col-md-push-5 alert alert-success">
-        <span>[[%tcbillboard_front_titular_text? &namespace=`tcbillboard`]]</span>
-        <br /><br />
-    </div>
-    <div class="col-md-5 col-md-pull-5">
+    <div class="col-md-5">
         <div class="tcbillboard-preview thumbnail">
             <img class="tcbillboard-preview-img" src="[[+thumbp]]" />
-            <p class="tcbillboard-preview-user">[[+modx.user.id:userinfo=`username`]]</p>
+            <p class="tcbillboard-preview-user">[[+modx.user.id:userinfo=`fullname`]]</p>
             <div class="tcbillboard-preview-pagetitle bgp">[[+pagetitle]]</div>
             <div class="tcbillboard-preview-dates">[[+start_stock]] &mdash; [[+end_stock]]</div>
             <div class="tcbillboard-preview-expand">[[%tcbillboard_front_expand? &namespace=`tcbillboard`]]&nbsp;&nbsp;
@@ -18,11 +14,16 @@
 
     <div class="col-md-5">
         <div class="tcbillboard-preview">
-            <img class="tcbillboard-preview-img" src="[[+thumbp]]" />
+            <img class="tcbillboard-preview-img"
+                 src="[[+modx.user.id:userinfo=`photo`:isnot=``:then=`
+                    [[+modx.user.id:userinfo=`photo`]]
+                 `:else=`
+                    [[+thumbp]]
+                 `]]" />
         </div>
     </div>
-    <div class="col-md-7">
-        <h2>[[+modx.user.id:userinfo=`username`]]</h2>
+    <div class="col-md-7 text-center">
+        <h2>[[+modx.user.id:userinfo=`fullname`]]</h2>
         <br />
         <h4>[[+pagetitle]]</h4>
         <br />

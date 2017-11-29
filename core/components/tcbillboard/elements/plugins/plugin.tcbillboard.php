@@ -104,9 +104,18 @@ switch ($modx->event->name) {
             $modx->setOption('tickets.frontend_js', '[[+jsUrl]]web/customdefault.js');
         }
         // Подменяет контент на тест с благодарностью
-        if ($_GET['payment'] == 1) {
+        if ($_GET['tcbillboard'] == 'payment') {
             $modx->resource->set('cacheable', 0);
-            $modx->resource->set('content', $tcBillboard->chunkGratitude($modx->resource->id));
+            if ($_SESSION['tcBillboard'] == 1) {
+                $modx->resource->set('content', $tcBillboard->chunkGratitude($modx->resource->id));
+            } elseif ($_SESSION['tcBillboard'] == 2) {
+                $modx->resource->set('content', 'PayPall');
+            }
+
+
+            $modx->log(1, $modx->event->name . ' ' . print_r($_SESSION['tcBillboard'], 1));
+
+            unset($_SESSION['tcBillboard']);
         }
         // Отмечает чекбокс "Удалён" у ресурса
         if ($deleteDay = $modx->getOption('tcbillboard_delete_day')) {

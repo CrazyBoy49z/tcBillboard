@@ -247,7 +247,7 @@ var Tickets = {
                         }
                         else if (response.data.redirect) {
                             //document.location.href = response.data.redirect;
-                            var url = response.data.redirect + '?payment=1';
+                            var url = response.data.redirect + '?tcbillboard=payment';
                             document.location.href = url;
 
                             console.log(response);

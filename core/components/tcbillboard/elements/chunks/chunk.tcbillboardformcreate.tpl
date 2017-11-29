@@ -1,6 +1,5 @@
-<form class="tcbillboard-form well create" method="post" action="" id="ticketForm" enctype="multipart/form-data">
+<form class="tcbillboard-form create" method="post" action="" id="ticketForm" enctype="multipart/form-data">
     <input type="hidden" name="tid" value="0"/>
-
     <input type="hidden" name="files" value="" />
 
     <div class="form-group">
@@ -144,7 +143,8 @@
             <div>
                 <label for="tcbillboard-checked">
                     <input type="checkbox" id="tcbillboard-checked" />
-                    Я прочитал <a href="" target="_blank">условия договора</a> и согласен с ним.
+                    Ich habe die <a href="[[~24]]" style="text-decoration: underline;" target="_blank">allgemeinen Geschäftsbedingungen</a> und
+                    <a href="[[~24]]" style="text-decoration: underline;" target="_blank">Datenschutzerklärung</a> gelesen und akzeptiert.
                 </label>
             </div>
             <br />
@@ -200,6 +200,6 @@
         advlist_bullet_styles:'',
         advlist_number_styles:'',
         menu:{},
-        toolbar:'undo redo | bold italic underline strikethrough alignleft aligncenter | bullist numlist | link'
+        toolbar:'undo redo | bold italic underline strikethrough alignleft aligncenter | bullist numlist'
     });
 </script>

@@ -1,6 +1,8 @@
 <div>
     <p>[[%tcbillboard_bank_success]]</p>
     <br /><br /><br />
+
+    [[+sum:gt=`0`:then=`
     <table class="table tcbillboard-table">
         <tr>
             <th>[[%tcbillboard_bank]]</th>
@@ -31,6 +33,8 @@
             <td><strong>[[+sum]]€</strong></td>
         </tr>
     </table>
+    `]]
+
     <br /><br />
     <a href="[[*uri]]" class="btn btn-default">[[%tcbillboard_open]]</a>
 </div>
