@@ -21,6 +21,7 @@ $tplScore = $modx->getOption('tplScore', $scriptProperties, 'tcBillboardScoreTpl
 $tplInvoiceNew = $modx->getOption('tplInvoiceNew', $scriptProperties, 'tcBillboardEmailInvoiceTpl', true);
 $tplInvoiceNewPdf = $modx->getOption('tplInvoiceNewPdf', $scriptProperties, 'tcBillboardEmailInvoiceNewPdfTpl', true);
 $tplSuccessBank = $modx->getOption('tplSuccessBank' , $scriptProperties, 'tcBillboardSuccessBankTpl', true);
+$tplSuccessPayPal = $modx->getOption('tplSuccessPayPal' , $scriptProperties, 'tcBillboardSuccessPayPalTpl', true);
 $frontendCss = trim($modx->getOption('frontedCss', $scriptProperties, 'components/tcbillboard/css/web/tcbillboard.css', true));
 $frontendJsFile = trim($modx->getOption('frontendJsFile', $scriptProperties, 'components/tcbillboard/js/web/tcbillboardfile.js', true));
 $frontendJs = trim($modx->getOption('frontendJs', $scriptProperties, 'components/tcbillboard/js/web/tcbillboard.js', true));

@@ -950,12 +950,15 @@ class tcBillboard
      */
     public function chunkGratitude($resId)
     {
+        $output = '';
+        $properties = $this->getSnippetProperties('tcBillboardForm');
         $order = $this->modx->getObject('tcBillboardOrders', array('res_id' => (int)$resId));
         $data = $order->toArray();
-        //if ($data['sum'] > 0) {
-            $properties = $this->getSnippetProperties('tcBillboardForm');
+        if ($data['payment'] == 1) {
             $output = $this->getChunk($properties['tplSuccessBank'], $data);
-        //}
+        } elseif ($data['payment'] == 2) {
+            $output = $this->getChunk($properties['tplSuccessPayPal'], $data);
+        }
         return $output;
     }
 

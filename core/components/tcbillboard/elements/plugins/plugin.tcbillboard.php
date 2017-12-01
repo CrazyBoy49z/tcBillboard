@@ -106,14 +106,25 @@ switch ($modx->event->name) {
         // Подменяет контент на тест с благодарностью
         if ($_GET['tcbillboard'] == 'payment') {
             $modx->resource->set('cacheable', 0);
-            if ($_SESSION['tcBillboard'] == 1) {
+            if ($_SESSION['tcBillboard']['payment'] == 1) {
                 $modx->resource->set('content', $tcBillboard->chunkGratitude($modx->resource->id));
-            } elseif ($_SESSION['tcBillboard'] == 2) {
-                $modx->resource->set('content', 'PayPall');
-            }
+            } //elseif ($_SESSION['tcBillboard']['payment'] == 2) {
+                //$modx->resource->set('content', 'PayPall');
+
+                //$properties = $modx->fromJSON($resource->get('properties'));
+
+            $modx->resource->setProperties(array(
+                'disable_jevix' => 1,
+                'process_tags' => 1,
+            ), 'tickets');
+
+                $modx->resource->set('content', $tcBillboard->chunkGratitude($modx->resource->id));
+                //$href = 'https://extras.marabar.ru/demonstration/tcbillboard/tcbillboard-section-2/202-test?tcbillboard=payment';
+                //$page = file_get_contents($href);
+           // }
 
 
-            $modx->log(1, $modx->event->name . ' ' . print_r($_SESSION['tcBillboard'], 1));
+            //$modx->log(1, $modx->event->name . ' ' . print_r($page, 1));
 
             unset($_SESSION['tcBillboard']);
         }

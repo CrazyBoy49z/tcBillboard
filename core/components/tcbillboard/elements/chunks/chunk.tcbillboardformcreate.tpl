@@ -156,6 +156,10 @@
 
 </form>
 
+<pre>
+    [[#SESSION.tcBillboard]]
+</pre>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $('#tcbillboard-checked').change(function() {

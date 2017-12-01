@@ -65,6 +65,10 @@ $tmp = array(
         'file' => 'tcbillboardsuccessbank',
         'description' => '',
     ),
+    'tcBillboardSuccessPayPalTpl' => array(
+        'file' => 'tcbillboardsuccesspaypal',
+        'description' => '',
+    ),
 );
 
 // Save chunks for setup options

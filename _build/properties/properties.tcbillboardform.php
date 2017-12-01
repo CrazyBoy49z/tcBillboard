@@ -39,6 +39,10 @@ $tmp = array(
         'type' => 'textfield',
         'value' => 'tcBillboardSuccessBankTpl',
     ),
+    'tplSuccessPayPal' => array(
+        'type' => 'textfield',
+        'value' => 'tcBillboardSuccessPayPalTpl',
+    ),
     'frontedCss' => array(
         'type' => 'textfield',
         'value' => 'components/tcbillboard/css/web/tcbillboard.css',
