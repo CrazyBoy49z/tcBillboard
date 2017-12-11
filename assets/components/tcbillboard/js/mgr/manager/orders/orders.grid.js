@@ -31,13 +31,16 @@ tcBillboard.grid.Orders = function (config) {
             autoFill: true,
             showPreview: true,
             scrollOffset: 0,
-            getRowClass: function (rec) {
+            getRowClass: function (rec, rowIndex, p, ds) {
                 if (rec.data.notice == 1) {
                     return 'tcbillboard-notice-1';
-                } else if (rec.data.notice == 2) {
+                } else if (rec.data.notice == 2 && rec.data.status != 2) {
                     return 'tcbillboard-notice-2';
-                } else {
-                    return '';
+                } else if (rec.data.notice == 'incasso') {
+                    return 'tcbillboard-notice-incasso';
+                }
+                if (rec.data.status == 2) {
+                    return 'tcbillboard-status-2';
                 }
             }
         },
@@ -65,11 +68,9 @@ Ext.extend(tcBillboard.grid.Orders, MODx.grid.Grid, {
     },
 
     getFields: function () {
-        return ['id', 'num', 'createdon', 'user_fullname', 'user_id', 'res_id', 'stock_name', 'pubdatedon', 'unpubdatedon',
-            'sum', 'payment_name', 'status', 'status_name', 'paymentdate', 'notice', 'penalty', 'actions'
+        return ['id', 'num', 'createdon', 'user_fullname', 'user_id', 'res_id', 'stock_name', /*'pubdatedon',*/ 'unpubdatedon',
+            'sum', 'penalty', 'pay', 'paid', 'payment_name', 'status', 'status_name', 'paymentdate', 'notice', 'actions'
         ];
-
-        //return ['id', 'num', 'createdon', 'user_id', 'res_id', 'status', 'actions'];
     },
 
     getColumns: function () {
@@ -85,7 +86,7 @@ Ext.extend(tcBillboard.grid.Orders, MODx.grid.Grid, {
             renderer: function(val, cell, row) {
                 return tcBillboard.utils.userLink(val, row.data['user_id'], true);
             },
-            width: 200
+            width: 150
         },{
             header: _('tcbillboard_stock_name'),
             dataIndex: 'stock_name',
@@ -96,23 +97,32 @@ Ext.extend(tcBillboard.grid.Orders, MODx.grid.Grid, {
         },{
             header: _('tcbillboard_account'), dataIndex: 'sum', width: 100
         },{
-            header: _('tcbillboard_payment'), dataIndex: 'payment_name', width: 150
+            header: _('tcbillboard_penalty'), dataIndex: 'penalty', width: 100
         },{
-            header: _('tcbillboard_status'), dataIndex: 'status', /*sortable: true,*/ width: 100
+            header: _('tcbillboard_order_pay'),
+            dataIndex: 'pay',
+            renderer: function(val, cell, row) {
+                return row.data.sum + row.data.penalty;
+            },
+            width: 100
         },{
-            header: _('tcbillboard_paymentdate'), dataIndex: 'paymentdate', width: 150
+            header: 'Оплачено', dataIndex: 'paid', width: 120
         },{
+            header: _('tcbillboard_payment'), dataIndex: 'payment_name', width: 100
+        },{
+            header: _('tcbillboard_status'), dataIndex: 'status_name', /*sortable: true,*/ width: 100
+        },{
+            header: _('tcbillboard_paymentdate'), dataIndex: 'paymentdate', width: 130
+        },/*{
             header: _('tcbillboard_pubdatedon'), dataIndex: 'pubdatedon', width: 150
-        },{
-            header: _('tcbillboard_unpubdatedon'), dataIndex: 'unpubdatedon', width: 150
+        },*/{
+            header: _('tcbillboard_unpubdatedon'), dataIndex: 'unpubdatedon', width: 130
         },{
             header: _('tcbillboard_notice'),
             dataIndex: 'notice',
             renderer: tcBillboard.utils.renderNotice,
             //sortable: true,
             width: 150
-        },{
-            header: _('tcbillboard_penalty'), dataIndex: 'penalty', width: 100
         },{
             header: _('tcbillboard_actions'),
             dataIndex: 'actions',
@@ -191,34 +201,6 @@ Ext.extend(tcBillboard.grid.Orders, MODx.grid.Grid, {
             }
         });
     },
-
-    // updateOrder: function (btn, e, row) {
-    //     if (typeof(row) != 'undefined') {
-    //         this.menu.record = row.data;
-    //     }
-    //
-    //     var w = Ext.getCmp('tcbillboard-order-window-update');
-    //     if (w) {
-    //         w.close();
-    //     }
-    //
-    //     w = MODx.load({
-    //         xtype: 'tcbillboard-order-window-update',
-    //         id: 'tcbillboard-order-window-update',
-    //         title: this.menu.record['name'],
-    //         record: this.menu.record,
-    //         listeners: {
-    //             success: {
-    //                 fn: function () {
-    //                     this.refresh();
-    //                 }, scope: this
-    //             }
-    //         }
-    //     });
-    //     w.fp.getForm().reset();
-    //     w.fp.getForm().setValues(this.menu.record);
-    //     w.show(e.target);
-    // },
 
     /*removeOrder: function () {
         var ids = this._getSelectedIds();

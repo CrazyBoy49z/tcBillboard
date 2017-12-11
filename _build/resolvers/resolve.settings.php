@@ -99,10 +99,10 @@ if ($transport->xpdo) {
                     'name' => !$lang ? 'Банковский перевод' : 'Bank transfer',
                     'active' => 1,
                     'rank' => 0,
+                    'editable' => 0,
                 ), '', true);
                 $payment->save();
             }
-            /** @var tcBillboardPayment $payment */
             if (!$payment = $modx->getObject('tcBillboardPayment', 2)) {
                 $payment = $modx->newObject('tcBillboardPayment');
                 $payment->fromArray(array(
@@ -110,36 +110,21 @@ if ($transport->xpdo) {
                     'name' => 'PayPal',
                     'active' => 1,
                     'rank' => 1,
+                    'editable' => 0,
                 ), '', true);
                 $payment->save();
             }
-            /** @var msDeliveryMember $member */
-            /*if (!$member = $modx->getObject('msDeliveryMember', array('payment_id' => 1, 'delivery_id' => 1))) {
-                $member = $modx->newObject('msDeliveryMember');
-                $member->fromArray(array(
-                    'payment_id' => 1,
-                    'delivery_id' => 1,
-                ), '', true);
-                $member->save();
-            }
-            if ($setting = $modx->getObject('modSystemSetting', array('key' => 'ms2_order_product_fields'))) {
-                $value = $setting->get('value');
-                if (strpos($value, 'product_pagetitle') !== false) {
-                    $value = str_replace('product_pagetitle', 'name', $value);
-                    $setting->set('value', $value);
-                    $setting->save();
+            // update tcBillboardPayment
+            foreach (array(1, 2) as $id) {
+                if ($editable = $modx->getObject('tcBillboardPayment', $id)) {
+                    if ($editable->get('editable') == 1) {
+                        $editable->set('editable', 0);
+                        $editable->save();
+                    }
                 }
             }
-            $old_settings = array(
-                'ms2_category_remember_grid',
-                'ms2_product_thumbnail_size',
-            );
-            foreach ($old_settings as $key) {
-                if ($item = $modx->getObject('modSystemSetting', $key)) {
-                    $item->remove();
-                }
-            }*/
             break;
+
         case xPDOTransport::ACTION_UNINSTALL:
             $modx->removeCollection('modSystemSetting', array(
                 'namespace' => 'tcbillboard',

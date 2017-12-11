@@ -35,3 +35,8 @@ ul.tcbillboard-row-actions .actions-menu:after { content: " \f107"; }
 .tcbilboard-notice-box span { padding: 5px; background-color: #ffffff;  border: 1px solid #cac6c6;  border-radius: 3px; }
 .tcbillboard-notice-1 { background-color: #f5f7d6; }
 .tcbillboard-notice-2 { background-color: #fbd5d5; }
+.tcbillboard-notice-incasso-box { margin-top: 5px; }
+.tcbillboard-notice-incasso { background-color: #ea7b7b; color: #fff; }
+.tcbillboard-notice-incasso a { color: #fff; }
+.tcbillboard-status-2 { background-color: #b5dab5; }
+.modx-combo.disabled { cursor: not-allowed; }

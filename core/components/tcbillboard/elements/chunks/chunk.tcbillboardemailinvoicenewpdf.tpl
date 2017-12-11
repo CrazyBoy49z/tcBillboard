@@ -3,7 +3,6 @@
     <style>
         body { font-family: sans-serif; font-size: 11pt; }
         table { width: 100% }
-        .color-red { color: #800000; }
     </style>
 </head>
 <body>
@@ -21,10 +20,10 @@
 <table>
     <tr>
         <td width="25%" valign="top">
-            <p class="color-red">[[+fullname]]</p>
-            <p class="color-red">[[+anrede]] [[+vorname]] [[+nachname]]</p>
-            <p class="color-red">[[+address]]</p>
-            <p class="color-red">[[+zip]] [[+city]]</p>
+            <p>[[+fullname]]</p>
+            <p>[[+anrede]] [[+vorname]] [[+nachname]]</p>
+            <p>[[+address]]</p>
+            <p>[[+zip]] [[+city]]</p>
         </td>
         <td width="40%"></td>
         <td width="35%" valign="top">
@@ -38,15 +37,13 @@
         </td>
     </tr>
 </table>
-
+<br />
 <table>
     <tr>
-        <td width="25%">
+        <td width="65%">
             <h3>Rechnung</h3>
-            <p class="color-red">[[+createdon]]</p>
         </td>
-        <td width="50%"></td>
-        <td width="25%" valign="top">Rechnungsdatum:</td>
+        <td width="35%" valign="top">Rechnungsdatum: [[+createdon]]</td>
     </tr>
     <tr></tr>
 </table>
@@ -55,7 +52,7 @@
 <table style="border-bottom: 1px solid #000000; padding-bottom: 10pt;">
     <tr>
         <td>
-            <h4>Rechnung Nr. <span class="color-red">[[+num]]</span></h4>
+            <h4>Rechnung Nr. <span>[[+num]]</span></h4>
             <p style="font-size: 10pt;">Bitte bei Zahlungen und Schriftverkehr angeben!</p>
         </td>
     </tr>
@@ -68,22 +65,22 @@
     </tr>
     <tr>
         <td style="border-left: 1px solid #000000;">
-            Werbung von <span class="color-red">[[+pub_date]]</span> bis <span class="color-red">[[+unpub_date]]</span>
+            Werbung von <span>[[+pub_date]]</span> bis <span>[[+unpub_date]]</span>
         </td>
         <td align="right" style="border-left: 1px solid #000000; border-right: 1px solid #000000;">
-            <span class="color-red">[[+sum]] EUR</span>
+            <span>[[+sum]] EUR</span>
         </td>
     </tr>
     <tr>
         <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000;">
-            <span class="color-red">[[+days]]</span> Tagen je <span class="color-red">[[+price]]</span> EUR
+            <span>[[+days]]</span> Tagen je <span>[[+price]]</span> EUR
         </td>
         <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000;"></td>
     </tr>
     <tr>
         <th align="right">Gesamtbetrag</th>
         <th align="right" style="border-left: 1px solid #000000; border-bottom: 1px solid #000000;
-            border-right: 1px solid #000000;"><span class="color-red">[[+sum]] EUR</span></th>
+            border-right: 1px solid #000000;"><span>[[+sum]] EUR</span></th>
     </tr>
 </table>
 <br />
@@ -92,7 +89,7 @@
 <br />
 
 <div>
-    <span>Zahlungsart: <span class="color-red">[[+paymentName]]</span></span>
+    <span>Zahlungsart: <span>[[+paymentName]]</span></span>
     <br />
     <span>Bitte überweisen Sie den Rechnungsbetrag innerhalb von 15 Tagen.</span>
 </div>
@@ -103,8 +100,8 @@
     <span>Alexander Lotz</span><br />
     <span>IBAN [[++tcbillboard_bank_transfer_iban]]</span><br />
     <span>BIC [[++tcbillboard_bank_transfer_bic]]</span><br />
-    <span>Verwendungszweck: <span class="color-red">[[+num]]</span></span><br />
-    <span>Bertag: <span class="color-red">[[+sum]]</span>€</span>
+    <span>Verwendungszweck: <span>[[+num]]</span></span><br />
+    <span>Bertag: <span>[[+sum]]&nbsp;</span>€</span>
 </div>
 <br /><br /><br />
 
@@ -112,7 +109,7 @@
     <tr>
         <td>Werbeagentur Lotz</td>
         <td>[[++tcbillboard_bank_transfer_name]]</td>
-        <td>Steuer-Nr 12345612</td>
+        <td>DE314077357</td>
         <td></td>
     </tr>
     <tr>
@@ -131,18 +128,6 @@
         <td></td>
     </tr>
 </table>
-
-<!--mpdf
-<htmlpagefooter name="myfooter">
-<div style="border-top: 1px solid #000000; font-size: 9pt; text-align: center; padding-top: 3mm; ">
-{PAGENO}-{nb}
-</div>
-</htmlpagefooter>
-
-<sethtmlpageheader name="myheader" value="on" show-this-page="1" />
-<sethtmlpagefooter name="myfooter" value="on" />
-mpdf-->
-
 
 </body>
 </html>

@@ -14,6 +14,8 @@ $tmp = array(
             'OnDocFormSave' => array(),
             'OnLoadWebDocument' => array(),
             'OnManagerAuthentication' => array(),
+            'tcBillboardAfterCancelOrder' => array(),
+            'OnEmptyTrash' => array(),
         )
     )
 );

@@ -40,22 +40,37 @@
 
     <div class="col-xs-12 tcbillboard-preview-imges">
         [[!tcBillboardPreviewImg?
-            &id = `[[+tid]]`
+        &id = `[[+tid]]`
         ]]
     </div>
 
     <div class="col-xs-12">
-        <div>
-            <caption><b>Adresse:</b></caption>
-            <table>
-                <tr>
-                    <td>[[+modx.user.id:userinfo=`address`]]</td>
-                </tr>
-                <tr>
-                    <td>[[+modx.user.id:userinfo=`zip`]] [[+modx.user.id:userinfo=`city`]]</td>
-                </tr>
-            </table>
-            <br />
+
+        [[!+modx.user.id:ismember=`Skunden`:then=`
+            <div>
+                <caption><b>Adresse:</b></caption>
+                <table>
+                    <tr>
+                        <td>[[+modx.user.id:userinfo=`address`]]</td>
+                    </tr>
+                    <tr>
+                        <td>[[+modx.user.id:userinfo=`zip`]] [[+modx.user.id:userinfo=`city`]]</td>
+                    </tr>
+                </table>
+                <br />
+                [[+modx.user.id:userinfo=`website`:isnot=``:then=`
+                <caption><b>Webseite:</b></caption>
+                <table>
+                    <tr>
+                        <td><a href="http://[[+modx.user.id:userinfo=`website`]]" target="_blank">[[+modx.user.id:userinfo=`website`]]</a></td>
+                    </tr>
+                </table>
+                <br />
+                `]]
+            </div>
+        `]]
+
+        [[!+modx.user.id:ismember=`Okunden`:then=`
             [[+modx.user.id:userinfo=`website`:isnot=``:then=`
                 <caption><b>Webseite:</b></caption>
                 <table>
@@ -65,29 +80,14 @@
                 </table>
                 <br />
             `]]
-        </div>
+        `]]
         <div class="tcbillboard-wrap-map">
             <div id="map"></div>
         </div>
     </div>
 </div>
 
-<script type="text/javascript">
-    var safeColors = ['d5423f','e2843e','c571a1','a478d3','53c760','78a744','07b1aa','0aa9ec','2b98e3','845cb5'];
-    var rand = function() {
-        return Math.floor(Math.random()*10);
-    };
-    var randomColor = function() {
-        var r = safeColors[rand()];
-        return "#"+r;
-    };
-    function colr(){
-        $('.bgp').each(function() {
-            $(this).css('background',randomColor());
-        });
-    }
-    window.addEventListener('onload', colr());
-</script>
+[[$streifen]]
 
 <script>
     function initMap() {

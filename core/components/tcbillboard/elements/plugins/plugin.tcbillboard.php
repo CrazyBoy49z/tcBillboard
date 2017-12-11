@@ -89,13 +89,7 @@ switch ($modx->event->name) {
             unset($dataRes['id']);
             $data = array_merge($order, $dataRes);
             $tcBillboard->prepareInvoice($data);
-            // Отправить клиента на оплату или показать реквизиты
-            //if ($data['payment'] === 1) {
-                //$modx->sendRedirect($modx->makeUrl(17,'','','full'));
-            //}
         }
-
-        //$modx->log(1, $modx->event->name . ' ' . print_r($modx->makeUrl(17,'','','full'), 1));
         break;
 
     case 'OnLoadWebDocument':
@@ -103,30 +97,32 @@ switch ($modx->event->name) {
         if ($modx->resource->id == (int)$modx->getOption('tcbillboard_resource_form')) {
             $modx->setOption('tickets.frontend_js', '[[+jsUrl]]web/customdefault.js');
         }
-        // Подменяет контент на тест с благодарностью
+        // Подменяет контент на текст с благодарностью или оплату PayPal
         if ($_GET['tcbillboard'] == 'payment') {
+            if (!$modx->user->isAuthenticated($modx->context->key)
+                || !$tcBillboard->getTotalCostOrder($modx->resource->id)) {
+
+                $modx->sendRedirect($modx->makeUrl($modx->resource->id, '', '', 'full'));
+            }
             $modx->resource->set('cacheable', 0);
             if ($_SESSION['tcBillboard']['payment'] == 1) {
+                $modx->resource->setProperties(array(
+                    'disable_jevix' => 1,
+                    'process_tags' => 1,
+                ), 'tickets');
                 $modx->resource->set('content', $tcBillboard->chunkGratitude($modx->resource->id));
-            } //elseif ($_SESSION['tcBillboard']['payment'] == 2) {
-                //$modx->resource->set('content', 'PayPall');
-
-                //$properties = $modx->fromJSON($resource->get('properties'));
-
-            $modx->resource->setProperties(array(
-                'disable_jevix' => 1,
-                'process_tags' => 1,
-            ), 'tickets');
-
+            } elseif ($_SESSION['tcBillboard']['payment'] == 2) {
+                $modx->resource->setProperties(array(
+                    'disable_jevix' => 1,
+                    'process_tags' => 1,
+                ), 'tickets');
                 $modx->resource->set('content', $tcBillboard->chunkGratitude($modx->resource->id));
-                //$href = 'https://extras.marabar.ru/demonstration/tcbillboard/tcbillboard-section-2/202-test?tcbillboard=payment';
-                //$page = file_get_contents($href);
-           // }
-
-
-            //$modx->log(1, $modx->event->name . ' ' . print_r($page, 1));
-
-            unset($_SESSION['tcBillboard']);
+            }
+            unset($_SESSION['tcBillboard']['order']);
+            unset($_SESSION['tcBillboard']['startstock']);
+            unset($_SESSION['tcBillboard']['endstock']);
+            unset($_SESSION['tcBillboard']['pubdate']);
+            unset($_SESSION['tcBillboard']['unpubdate']);
         }
         // Отмечает чекбокс "Удалён" у ресурса
         if ($deleteDay = $modx->getOption('tcbillboard_delete_day')) {
@@ -137,6 +133,11 @@ switch ($modx->event->name) {
 //            $time = time() - $firstWarning * 24 * 60 * 60;
 //            $test = $tcBillboard->parseOption($time, 'first_warning');
 //        }
+
+        if (!$tcBillboard->prepareRequestPenalty()) {
+            $modx->log(1, $modx->event->name . ' '
+                . $this->modx->lexicon('tcbillboard_err_request_penalty'));
+        }
 
         // Процессор очистки корзины
         //$response = $modx->runProcessor('resource/emptyrecyclebin');
@@ -158,6 +159,35 @@ switch ($modx->event->name) {
         if (!$tcBillboard->prepareRequestPenalty()) {
             $modx->log(1, $modx->event->name . ' '
                 . $this->modx->lexicon('tcbillboard_err_request_penalty'));
+        }
+        break;
+
+    case 'tcBillboardAfterCancelOrder':
+        // Срабатывает после изменения статуса ордера
+        // $mode - new | upd | incasso
+        // $order - Массив с данными ордера
+        /** @var tcBillboardOrders $order */
+        switch ($mode) {
+            case 'new':
+            case 'incasso':
+                    $tcBillboard->changeStatusEmail($order);
+                break;
+        }
+        break;
+
+    case 'OnEmptyTrash':
+        if ($ids) {
+            foreach ($ids as $id) {
+                $pathTickets = MODX_ASSETS_PATH . 'images/tickets/' . $id . '/';
+                $pathTcBillboard = MODX_ASSETS_PATH . 'images/tcbillboard/' . $id . '/';
+                if (file_exists($pathTickets)) {
+                    $tcBillboard->removeDir($pathTickets);
+                }
+                if (file_exists($pathTcBillboard)) {
+                    $tcBillboard->removeDir($pathTcBillboard);
+                }
+            }
+            //$tcBillboard->removeCollectionFile('TicketFile');
         }
         break;
 }

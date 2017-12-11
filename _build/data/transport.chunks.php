@@ -5,16 +5,13 @@
 $chunks = array();
 
 $tmp = array(
+    // tcBillboardForm
     'tcBillboardFormCreateTpl' => array(
         'file' => 'tcbillboardformcreate',
         'description' => '',
     ),
     'tcBillboardFormPreviewTpl' => array(
         'file' => 'tcbillboardformpreview',
-        'description' => '',
-    ),
-    'tcBillboardEmailNewUserTpl' => array(
-        'file' => 'tcbillboardemailnewuser',
         'description' => '',
     ),
     'tcBillboardEmailNewManagerTpl' => array(
@@ -69,6 +66,11 @@ $tmp = array(
         'file' => 'tcbillboardsuccesspaypal',
         'description' => '',
     ),
+    // tcBillboard
+    'tcBillboardPreviewTpl' => array(
+        'file' => 'tcbillboardpreview',
+        'description' => '',
+    )
 );
 
 // Save chunks for setup options

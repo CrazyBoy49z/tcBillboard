@@ -51,6 +51,10 @@ switch ($action) {
     case 'tcbillboard/endstock':
         $response = $tcBillboard->prepareDate($_POST['value'], $_POST['action']);
         break;
+
+    case 'tcBillboard/paymentPayPal':
+        $response = $tcBillboard->processPayPalPayment($_POST['value'], (int)$_POST['res']);
+        break;
 }
 if (is_array($response)) {
     $response = json_encode($response);

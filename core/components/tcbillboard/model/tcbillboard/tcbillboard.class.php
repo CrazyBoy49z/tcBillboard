@@ -96,7 +96,6 @@ class tcBillboard
         return true;
     }
 
-
     /**
      * Обработка подключаемого сниппета
      * @param $name
@@ -125,6 +124,161 @@ class tcBillboard
         return false;
     }
 
+    public function processPayPalPayment(array $data, $resourceId)
+    {
+        $response = '';
+
+        $payment['payment'] = array();
+        $payment['payment']['id'] = $data['id'];
+        $payment['payment']['cart'] = $data['cart'];
+        $payment['payment']['state'] = $data['state'];
+        $payment['payment']['payment_method'] = $data['payer']['payment_method'];
+        $payment['payment']['total'] = $data['transactions'][0]['amount']['total'];
+        $payment['payment']['currency'] = $data['transactions'][0]['amount']['currency'];
+        $payment['payment']['payer_id'] = $data['payer']['payer_info']['payer_id'];
+        $payment['payment']['email'] = $data['payer']['payer_info']['email'];
+
+        switch ($payment['payment']['state']) {
+            case 'created':
+                if ($order = $this->modx->getObject('tcBillboardOrders', array(
+                    'res_id' => (int)$resourceId,
+                ))) {
+                    if ($order->get('user_id') != $this->modx->user->id) {
+                        return $this->error('tcbillboard_err_user_not');
+                    }
+
+                    $response = $this->success('');
+                } else {
+                    return $this->error('tcbillboard_err_order_not');
+                }
+                break;
+
+            case 'approved':
+                if ($order = $this->modx->getObject('tcBillboardOrders', array(
+                    'res_id' => (int)$resourceId,
+                ))) {
+                    $paid = $order->get('paid') + $payment['payment']['total'];
+                    $properties = $this->modx->fromJSON($order->get('properties'));
+                    $properties['tcBillboard'] = $payment;
+
+                    $order->set('paid', $paid);
+                    $order->set('status', 2);
+                    $order->set('paymentdate', $data['create_time']);
+                    $order->set('properties', $this->modx->toJSON($properties));
+                    $order->save();
+
+                    $this->changeStatusEmail($order->toArray());
+
+                    $response = $this->success('');
+                } else {
+                    $response = $this->error('');
+                }
+                break;
+
+            default:
+                $response = $this->error('');
+                break;
+        }
+
+
+        //print_r($payment);
+        //print_r($resourceId);
+        return $response;
+    }
+
+    /**
+     * Проверяет оплату ордера. Если оплачено меньше чем долг, то возвращает остаток
+     * долга, иначе false
+     * @param $resId
+     * @return bool
+     */
+    public function getTotalCostOrder($resId)
+    {
+        $response = false;
+
+        if ($order = $this->modx->getObject('tcBillboardOrders', array('res_id' => $resId))) {
+            $pay = $order->get('sum') + $order->get('penalty');
+            $paid = $order->get('paid');
+            if ($paid < $pay) {
+                $response = $pay - $paid;
+            } elseif ($paid > $pay) {
+                return $response;
+            }
+        }
+        return $response;
+    }
+
+    /**
+     * Подготавливает письма при изменении статуса ордера
+     * @param array $order
+     * @return bool
+     */
+    public function changeStatusEmail(array $order)
+    {
+        $response = false;
+
+        if ($data = $this->getStatusData($order['status'])) {
+            if ($data['email_user'] && $order['status'] != 1) {
+                if ($chunkName = $this->getChunkName($data['chunk_user'])) {
+                    $chunk = $this->getChunk($chunkName);
+                    $profile = $this->getUserProfile($order['user_id']);
+
+                    $this->sendEmail($chunk,
+                        $this->modx->lexicon($data['subject_user']), $profile->email);
+                } else {
+                    $this->modx->log(modX::LOG_LEVEL_ERROR,
+                        $this->modx->lexicon('tcbillboard_err_email_chunk_user')
+                        . ' ' . $data['chunk_user']);
+                }
+            }
+            if ($data['email_manager']) {
+                if ($idsManager = $this->modx->getOption('tcbillboard_email_to_manager')) {
+                    if ($chunkName = $this->getChunkName($data['chunk_manager'])) {
+                        $chunk = $this->getChunk($chunkName);
+                        $managers = explode(',', $idsManager);
+                        $managers = array_map('trim', $managers);
+
+                        foreach ($managers as $manager) {
+                            $profile = $this->getUserProfile($manager);
+
+                            $this->sendEmail($chunk,
+                                $this->modx->lexicon($data['subject_manager']), $profile->email);
+                        }
+                    } else {
+                        $this->modx->log(modX::LOG_LEVEL_ERROR,
+                            $this->modx->lexicon('tcbillboard_err_email_chunk_manager')
+                            . ' ' . $data['chunk_manager']);
+                    }
+                } else {
+                    $this->modx->log(modX::LOG_LEVEL_ERROR,
+                        $this->modx->lexicon('tcbillboard_err_email_to_manager'));
+                }
+            }
+            $response = true;
+        }
+        return $response;
+    }
+
+    /**
+     * Возвращает все поля статуса
+     * $statusId - ID статуса
+     * @param $statusId
+     * @return bool
+     */
+    public function getStatusData($statusId)
+    {
+        $response = false;
+        if ($status = $this->modx->getObject('tcBillboardStatus', array(
+            'id' => $statusId,
+            'active' => 1,
+        ))) {
+            $response = $status->toArray();
+        } else {
+            $this->modx->log(modX::LOG_LEVEL_ERROR,
+                $this->modx->lexicon('tcbillboard_err_status_get') . ' ID = ' . $statusId);
+        }
+        return $response;
+    }
 
     /**
      * Подготавливает запрос неустойки
@@ -140,10 +294,10 @@ class tcBillboard
             foreach ($penalty as $item) {
                 $maxDate = time() - (int)$item['days'] * 24 * 60 * 60;
                 // Получить ордера с просроченной оплатой
-                $orders = $this->getOrdersPenalty($maxDate, $notice = $i == 0 ? null : $i);
+                $orders = $this->getOrdersPenalty($maxDate, $i);
                     if ($orders) {
                         // Обновить ордер
-                        $this->updateOrdersPenalty($item, $orders, $i + 1);
+                        $this->updateOrderPenalty($item, $orders, $i + 1);
                     }
                     unset($item);
                 $i++;
@@ -152,7 +306,6 @@ class tcBillboard
         }
         return $reply;
     }
-
 
     /**
      * Записывает неустойку (штраф) в ордер
@@ -163,7 +316,7 @@ class tcBillboard
      * @param array $orders
      * @param $notice
      */
-    public function updateOrdersPenalty(array $penaltyItem, array $orders, $notice)
+    public function updateOrderPenalty(array $penaltyItem, array $orders, $notice)
     {
         foreach ($orders as $order) {
             $penalty = null;
@@ -173,17 +326,6 @@ class tcBillboard
                 $str = $order['sum'] . $formula;
                 eval('$s = ' . $str . ';');
                 $penalty = (float)round($s, 2);
-            }
-            if ($obj = $this->modx->getObject('tcBillboardOrders', (int)$order['id'])) {
-                $obj->set('notice', $notice);
-                $obj->set('date_notice', date($this->config['dateFormat']));
-                if ($formula == 'incasso') {
-                    $obj->set('penalty', 'incasso');
-                    $this->runProcessor('resource/delete', array('id' => $order['res_id']));
-                } else {
-                    $obj->set('penalty', $penalty);
-                }
-                $obj->save();
 
                 // Отправляем на подготовку PDF-файла
                 $data = array_merge($penaltyItem, $order);
@@ -192,15 +334,37 @@ class tcBillboard
                 // Итого вместе со штрафом
                 $data['cost'] = $data['sum'] + $data['penalty'];
 
-                //return $data;
                 $this->prepareInvoice($data, 'warning_' . $notice);
+            }
+            if ($obj = $this->modx->getObject('tcBillboardOrders', (int)$order['id'])) {
+                if ($formula == 'incasso' && $obj->get('notice') != 'incasso') {
+                    $obj->set('notice', 'incasso');
+                    $obj->set('status', 3);
+                    $obj->set('unpubdatedon', time());
+                    // Удалить акцию неплательщика
+                    $response = $this->runProcessor('resource/delete', array('id' => $obj->get('res_id')));
+                    if ($response->isError()) {
+                        $this->modx->log(modX::LOG_LEVEL_ERROR, 'tcBillboard: ' . $response->getMessage());
+                    } else {
+                        $this->runProcessor('resource/emptyrecyclebin');
+                    }
+                    $obj->save();
+
+                    $this->invokeEvent('tcBillboardAfterCancelOrder', array(
+                        'mode' => 'incasso',
+                        'order' => $obj->toArray(),
+                    ));
+                } else {
+                    $obj->set('penalty', $penalty);
+                    $obj->set('notice', $notice);
+                    $obj->set('date_notice', date($this->config['dateFormat']));
+                    $obj->save();
+                }
             }
             unset($order);
         }
         return;
     }
-
-
 
     /**
      * Получает ордера с просроченной оплатой
@@ -225,7 +389,6 @@ class tcBillboard
         $q->andCondition(array(
             'createdon:<' => date('Y-m-d 00:00:00', $maxDate),
         ));
-        //$q->limit(1);
         if ($q->prepare() && $q->stmt->execute()) {
             while ($row = $q->stmt->fetch(PDO::FETCH_ASSOC)) {
                 $orders[] = $row;
@@ -233,7 +396,6 @@ class tcBillboard
         }
         return $orders;
     }
-
 
     /**
      * Получает список неустоек (штрафов)
@@ -244,11 +406,7 @@ class tcBillboard
     {
         $penalty = array();
 
-        if (!$q = $this->modx->newQuery('tcBillboardPenalty')) {
-            $this->modx->log(modX::LOG_LEVEL_ERROR,
-                $this->modx->lexicon('tcbillboard_err_penalty_table'));
-            return false;
-        }
+        $q = $this->modx->newQuery('tcBillboardPenalty');
         $q->select('id, days, formula, percent, fine, chunk, active');
         $q->where(array(
             'active' => $active,
@@ -258,10 +416,15 @@ class tcBillboard
             while ($row = $q->stmt->fetch(PDO::FETCH_ASSOC)) {
                 $penalty[] = $row;
             }
+            // Если не заполнена таблица
+            if (!$penalty) {
+                $this->modx->log(modX::LOG_LEVEL_ERROR,
+                    $this->modx->lexicon('tcbillboard_err_penalty_table'));
+                return false;
+            }
         }
         return $penalty;
     }
-
 
     /**
      * Удаляет ресурс через указанное время $time
@@ -293,15 +456,16 @@ class tcBillboard
                 if ($row['res_id'] && $mode == 'delete') {
                     $response = $this->runProcessor('resource/delete', array('id' => $row['res_id']));
                     if ($response->isError()) {
-                        $this->modx->log(modX::LOG_LEVEL_ERROR,
-                            $this->modx->lexicon('tcbillboard_err_delete_resource') . ': ' . $row['res_id']);
+//                        $this->modx->log(modX::LOG_LEVEL_ERROR,
+//                            $this->modx->lexicon('tcbillboard_err_delete_resource') . ': ' . $row['res_id']);
+                    } else {
+                        $this->runProcessor('resource/emptyrecyclebin');
                     }
                 }
             }
         }
         return;
     }
-
 
     /**
      * Подключить класс MpdfTc
@@ -323,7 +487,6 @@ class tcBillboard
         }
         return $this->MpdfTc;
     }
-
 
     /**
      * @param $num
@@ -351,12 +514,12 @@ class tcBillboard
 
         $pathPdf = $mpdf->createPdfFile($path, $num, $pdf);
         if ($sendEmail) {
-            $this->sendEmail($chunk, $pathPdf);
+            $profile = $this->getUserProfile($userId);
+            $this->sendEmail($chunk, null, $profile->email, $pathPdf);
         }
         unset($mpdf);
         return $pathPdf;
     }
-
 
     /**
      * Папка с файлами экспорта, по умолчанию
@@ -367,7 +530,6 @@ class tcBillboard
     {
         return $this->modx->getOption('core_path', null, MODX_CORE_PATH).'export/tcBillboard/';
     }
-
 
     /**
      * создаёт архив
@@ -394,7 +556,6 @@ class tcBillboard
         }
         return $result;
     }
-
 
     /*
      * Подготавливает чанк для создания pdf-файла
@@ -447,7 +608,6 @@ class tcBillboard
         }
     }
 
-
     /**
      * Получает название чанка по id
      * $id - ID чанка
@@ -463,7 +623,6 @@ class tcBillboard
         return $chunkName;
     }
 
-
     /**
      * Получает параметры сниппета
      * @param $name
@@ -477,7 +636,6 @@ class tcBillboard
         }
         return $properties;
     }
-
 
     /**
      * Записывает в БД путь до файла PDF с предупреждениями
@@ -497,7 +655,6 @@ class tcBillboard
         return;
     }
 
-
     /**
      * Записывает в БД путь до файла PDF
      * @param $id
@@ -513,7 +670,6 @@ class tcBillboard
         }
         return;
     }
-
 
     /**
      * @param $pathname
@@ -532,23 +688,26 @@ class tcBillboard
         return $response;
     }
 
-
     /**
      * @param $body
+     * @param null $subject
+     * @param null $email
      * @param string $attachment
      */
-    public function sendEmail($body, $attachment = '')
+    public function sendEmail($body, $subject = null, $email = null, $attachment = '')
     {
         if (!$this->modx->getService('mail', 'mail.modPHPMailer')) {
             $this->modx->log(modX::LOG_LEVEL_ERROR,
                 $this->modx->lexicon('tcbillboard_err_service') . ': modPHPMailer');
         }
-        $subject = $this->modx->getOption('tcbillboard_email_subject');
+        $subject = !$subject
+            ? $this->modx->getOption('tcbillboard_email_subject')
+            : $subject;
         $emailSender = $this->modx->getOption('tcbillboard_email_sender');
         $siteName = $this->modx->getOption('site_name');
 
         $this->modx->mail->setHTML(true);
-        $this->modx->mail->address('to', $this->user->email);
+        $this->modx->mail->address('to', $email);
         $this->modx->mail->set(modMail::MAIL_SUBJECT, $subject);
         $this->modx->mail->set(modMail::MAIL_BODY, $body);
         $this->modx->mail->set(modMail::MAIL_FROM, $emailSender);
@@ -558,11 +717,11 @@ class tcBillboard
         }
         if (!$this->modx->mail->send()) {
             $this->modx->log(modX::LOG_LEVEL_ERROR,
-                $this->modx->lexicon('tcbillboard_err_email_send') . ' ' . $this->modx->mail->mailer->ErrorInfo);
+                $this->modx->lexicon('tcbillboard_err_email_send') . ' '
+                . $this->modx->mail->mailer->ErrorInfo);
         }
         $this->modx->mail->reset();
     }
-
 
     /**
      * Сохранить ордер
@@ -629,12 +788,16 @@ class tcBillboard
             ));
             $setOrder->save();
 
+            $this->invokeEvent('tcBillboardAfterCancelOrder', array(
+                'mode' => 'new',
+                'order' => $setOrder->toArray(),
+            ));
+
             //unset($_SESSION['tcBillboard']);
             return true;
         }
         return false;
     }
-
 
     /**
      * Получить название способа оплаты
@@ -649,7 +812,6 @@ class tcBillboard
         }
         return $response;
     }
-
 
     /**
      * Разбор полученного $action ajax
@@ -683,7 +845,6 @@ class tcBillboard
         return $response;
     }
 
-
     /**
      * Валидация дат календаря
      * Максимальная дата не может быть меньше или равной минимальной дате
@@ -710,7 +871,6 @@ class tcBillboard
         }
         return $response;
     }
-
 
     /**
      * Обработка цен, количество заказанных дней.
@@ -773,7 +933,6 @@ class tcBillboard
         return $response;
     }
 
-
     /**
      * Выставить прайс
      * @param $days
@@ -792,7 +951,6 @@ class tcBillboard
         return $price;
     }
 
-
     /**
      * @param $date
      * @param string $format
@@ -803,7 +961,6 @@ class tcBillboard
         $date = date_create($date);
         return date_format($date, $format);
     }
-
 
     /**
      * Сравнить даты
@@ -822,10 +979,8 @@ class tcBillboard
         return $result;
     }
 
-
     /**
      * Получить прайс
-     *
      * @return array
      */
     public function getPrice()
@@ -845,7 +1000,6 @@ class tcBillboard
         return $prices;
     }
 
-
     /**
      * Получить количество дней публикации
      * $maxDate - максимальная дата
@@ -864,12 +1018,11 @@ class tcBillboard
         return $output;
     }
 
-
     /**
      * Записать даты в сессию
-     *
      * @param $date
      * @param string $action
+     * @param string $mode
      * @return mixed
      */
     public function setSessionDate($date, $action = '', $mode = '')
@@ -888,7 +1041,6 @@ class tcBillboard
         return $_SESSION['tcBillboard'];
     }
 
-
     /**
      * @return mixed
      */
@@ -897,14 +1049,12 @@ class tcBillboard
         return $_SESSION['tcBillboard'];
     }
 
-
     /**
      * Записать способ оплаты в сессию
-     *
      * @param $payment
      * @return array|string
      */
-    public function setSessionPayment($payment, $redirect = false)
+    public function setSessionPayment($payment)
     {
         if (empty($payment)) {
             $this->modx->log(modX::LOG_LEVEL_ERROR,
@@ -922,28 +1072,9 @@ class tcBillboard
         return $this->success('');
     }
 
-
     /**
-     * Определяет куда редеректить после создания акции
-     * $paymentId - ID метода оплаты
-     * @param $paymentId
-     * @return array|string
-     */
-//    public function redirectPayment($paymentId)
-//    {
-//        $data = array();
-//        if ($paymentId == 1) {
-//            $data['payment'] = $paymentId;
-//            $data['redirect'] = $this->modx->makeUrl(
-//                (int)$this->modx->getOption('tcbillboard_resource_form'),'','','full')
-//                . '?payment=' . $paymentId;
-//        }
-//        return $this->success('', $data);
-//    }
-
-
-    /**
-     * Отдаём чанк с благодарностью и банковскими реквизитами.
+     * Отдаём чанк с благодарностью и банковскими реквизитами, или кнопку оплаты
+     * PayPal, в зависимости от выбранного метода оплаты.
      * $resId - ID созданного ресурса
      * @param $resId
      * @return string
@@ -954,14 +1085,16 @@ class tcBillboard
         $properties = $this->getSnippetProperties('tcBillboardForm');
         $order = $this->modx->getObject('tcBillboardOrders', array('res_id' => (int)$resId));
         $data = $order->toArray();
-        if ($data['payment'] == 1) {
+        $data['sum'] = $data['sum'] + $data['penalty'];
+        $data['pubdatedon'] = date('d-m-Y', strtotime($data['pubdatedon']));
+        $data['unpubdatedon'] = date('d-m-Y', strtotime($data['unpubdatedon']));
+        if ($data['payment'] == 1 || ($data['payment'] == 2 && $data['sum'] == 0)) {
             $output = $this->getChunk($properties['tplSuccessBank'], $data);
-        } elseif ($data['payment'] == 2) {
+        } elseif ($data['payment'] == 2 && $data['sum'] > 0) {
             $output = $this->getChunk($properties['tplSuccessPayPal'], $data);
         }
         return $output;
     }
-
 
     /**
      * Получить среднее значение по каждому методу оплаты
@@ -997,7 +1130,6 @@ class tcBillboard
         return json_encode($result);
     }
 
-
     /**
      * @param $chunk
      * @param array $properties
@@ -1013,26 +1145,33 @@ class tcBillboard
         return $response;
     }
 
-
     /**
      * Возвращает профиль пользователя
+     * @param $userId
      * @return mixed
      */
-    public function getUserProfile()
+    public function getUserProfile($userId)
     {
-        return $this->user;
+        $profile = null;
+        if ($user = $this->modx->getObject('modUser', $userId)) {
+            $profile = $user->getOne('Profile');
+        }
+        return $profile;
     }
-
 
     /**
      * Удаляет указанную директорию
      * @param $path
+     * @return bool|mixed
      */
-    public function removeDir($path, $options = array())
+    public function removeDir($path)
     {
-        $this->runProcessor('browser/directory/remove', array('dir' => $path));
+        $response = $this->runProcessor('browser/directory/remove', array('dir' => $path));
+        if ($response->isError()) {
+            $this->modx->log(modX::LOG_LEVEL_ERROR, 'tcBillboard: ' . $response->getMessage());
+        }
+        return $response;
     }
-
 
     /**
      * Запускает указанный процессор
@@ -1041,6 +1180,7 @@ class tcBillboard
      * $options - опции
      * @param string $action
      * @param array $data
+     * @param array $options
      * @return bool|mixed
      */
     public function runProcessor($action = '', $data = array(), $options = array())
@@ -1049,10 +1189,8 @@ class tcBillboard
             return false;
         }
         $this->modx->error->reset();
-
         return $this->modx->runProcessor($action, $data, $options);
     }
-
 
     /**
      * @param array $data
@@ -1090,7 +1228,6 @@ class tcBillboard
         return $this->success('', $file);
     }
 
-
     /**
      * Удаляет титульную картинку (ajax)
      * @param array $data
@@ -1118,7 +1255,6 @@ class tcBillboard
         return $this->success('', $response);
     }
 
-
     /**
      * Получить путь до заглушки, если нет титульной картинки
      * @return string
@@ -1127,7 +1263,6 @@ class tcBillboard
     {
         return MODX_ASSETS_URL . 'components/tcbillboard/img/noImg.png';
     }
-
 
     /**
      * Получает ID старых файлов
@@ -1153,10 +1288,8 @@ class tcBillboard
         return $idsImgOld;
     }
 
-
     /**
      * Ставит отметку deleted у старых файлов
-     *
      * @param $ids
      * @return array|bool|string
      */
@@ -1167,7 +1300,7 @@ class tcBillboard
         }
 
         foreach ($ids as $id) {
-            if ($file = $this->modx->getObject('TicketFile', (int) $id)) {
+            if ($file = $this->modx->getObject('TicketFile', (int)$id)) {
                 $file->set('deleted', 1);
                 $file->save();
             } else {
@@ -1177,10 +1310,8 @@ class tcBillboard
         return $this->success('');
     }
 
-
     /**
      * Получить все свойства формы
-     *
      * @param $formId
      * @return mixed
      */
@@ -1188,7 +1319,6 @@ class tcBillboard
     {
         return $_SESSION['TicketForm'][$formId];
     }
-
 
     /**
      * @param string $message
@@ -1206,7 +1336,6 @@ class tcBillboard
         return json_encode($response);
     }
 
-
     /**
      * @param string $message
      * @param array $data
@@ -1221,6 +1350,34 @@ class tcBillboard
             'data' => $data,
         );
         return json_encode($response);
+    }
+
+    /**
+     * Массовое удаление объектов
+     * @param $class
+     * @param array $data
+     * @return bool|int
+     */
+    private function removeCollection($class, array $data = array())
+    {
+        if (!$data) {
+            return false;
+        }
+        $result = $this->modx->removeCollection($class, $data);
+        return $result;
+    }
+
+    /**
+     * @param $eventName
+     * @param array $params
+     * @return array|bool
+     */
+    private function invokeEvent($eventName, array $params = array())
+    {
+        if (isset($this->modx->event->returnedValues)) {
+            $this->modx->event->returnedValues = null;
+        }
+        return $this->modx->invokeEvent($eventName, $params);
     }
 
 }

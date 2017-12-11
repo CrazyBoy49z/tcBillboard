@@ -19,15 +19,13 @@ tcBillboard.combo.Status = function (config) {
 
     Ext.applyIf(config, {
         name: 'status',
-        //id: 'tcbillboard-combo-status',
+        id: 'tcbillboard-combo-status',
         hiddenName: 'status',
         displayField: 'name',
         valueField: 'id',
-        editable: true,
         fields: ['id', 'name'],
         pageSize: 10,
-        emptyText: 'Выберите статус',
-        hideMode: 'offsets',
+        emptyText: _('tcbillboard_status_select'),
         url: tcBillboard.config.connector_url,
         baseParams: {
             action: 'mgr/settings/status/getlist',

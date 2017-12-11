@@ -10,8 +10,7 @@
     <a href="[[++site_url]]">
         <img style="display:block;margin: auto;"
              src="[[++site_url]]assets/components/tcbillboard/examples/img/logo.png"
-             alt="[[++site_name]]"
-             width="120" height="90"/>
+             alt="[[++site_name]]" height="90"/>
     </a>
     <table class="body-wrap" style="padding:0 20px 20px 20px;width: 100%;background:#ffffff;margin-top:10px;">
         <tr>
@@ -21,10 +20,6 @@
                     <table style="width:100%;">
                         <tr>
                             <td>
-                                <h3 style="font-family:Arial;color: #111111;font-weight: 200;line-height: 1.2em;margin: 40px 20px;font-size: 22px;">
-                                    [[++site_name]]
-                                </h3>
-
                                 <div>
                                     <p>Sehr geehrter Saisonverkauf Info Kunde, </p>
                                     <p>im Anhang finden Sie die Rechnung zu Ihrer Werbung Bestellung.</p>

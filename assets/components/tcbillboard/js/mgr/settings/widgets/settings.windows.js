@@ -215,14 +215,14 @@ Ext.extend(tcBillboard.window.CreateStatus, MODx.Window, {
     getFields: function (config) {
         return [
             {xtype: 'hidden', name: 'id', id: config.id + '-id'},
-            {xtype: 'hidden', name: 'color', id: config.id + '-color'},
+            /*{xtype: 'hidden', name: 'color', id: config.id + '-color' },*/
             {
                 xtype: 'textfield',
                 id: config.id + '-name',
                 fieldLabel: _('tcbillboard_name'),
                 name: 'name',
                 anchor: '99%'
-            },{
+            },/*{
                 xtype: 'colorpalette',
                 fieldLabel: _('tcbillboard_status_color'),
                 id: config.id + '-color-palette',
@@ -236,7 +236,7 @@ Ext.extend(tcBillboard.window.CreateStatus, MODx.Window, {
                         }
                     }
                 }
-            },{
+            },*/{
                 layout: 'column',
                 items: [{
                     columnWidth: .5,

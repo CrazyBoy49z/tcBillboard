@@ -30,7 +30,7 @@
         </tr>
         <tr>
             <td>[[%tcbillboard_sum_order]]:</td>
-            <td><strong>[[+sum]]€</strong></td>
+            <td><strong>[[+sum]] €</strong></td>
         </tr>
     </table>
     `]]

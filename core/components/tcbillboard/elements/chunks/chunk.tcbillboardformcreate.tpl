@@ -156,10 +156,6 @@
 
 </form>
 
-<pre>
-    [[#SESSION.tcBillboard]]
-</pre>
-
 <script type="text/javascript">
     $(document).ready(function() {
         $('#tcbillboard-checked').change(function() {
@@ -203,7 +199,7 @@
         ],
         advlist_bullet_styles:'',
         advlist_number_styles:'',
-        menu:{},
+        menu:{ },
         toolbar:'undo redo | bold italic underline strikethrough alignleft aligncenter | bullist numlist'
     });
 </script>

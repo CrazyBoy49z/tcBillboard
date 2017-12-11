@@ -103,19 +103,20 @@ class tcBillboardPaymentGetListProcessor extends modObjectGetListProcessor
                 'menu' => true,
             );
         }
-        $data['actions'][] = array(
-            'cls' => array(
-                'menu' => 'red',
-                'button' => 'red',
-            ),
-            'icon' => 'icon icon-trash-o',
-            'title' => $this->modx->lexicon('tcbillboard_remove'),
-            'multiple' => $this->modx->lexicon('tcbillboard_multiple_remove'),
-            'action' => 'removePayment',
-            'button' => true,
-            'menu' => true,
-        );
-
+        if ($data['editable']) {
+            $data['actions'][] = array(
+                'cls' => array(
+                    'menu' => 'red',
+                    'button' => 'red',
+                ),
+                'icon' => 'icon icon-trash-o',
+                'title' => $this->modx->lexicon('tcbillboard_remove'),
+                'multiple' => $this->modx->lexicon('tcbillboard_multiple_remove'),
+                'action' => 'removePayment',
+                'button' => true,
+                'menu' => true,
+            );
+        }
         return $data;
     }
 

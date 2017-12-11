@@ -58,7 +58,7 @@ $tmp = array(
 
     'google_api_key' => array(
         'xtype' => 'textfield',
-        'value' => 'AIzaSyBieBOt8ZHL25GvY4d1z8ktOm_lVr0NvNI',
+        'value' => '',
         'area' => 'tcbillboard_google_map',
     ),
     'google_map_zoom' => array(
@@ -93,37 +93,17 @@ $tmp = array(
         'area' => 'tcbillboard_bank_transfer',
     ),
 
-    'paypal_api_url' => array(
-        'xtype' => 'textfield',
-        'value' => 'https://api-3t.paypal.com/nvp',
-        'area' => 'tcbillboard_paypal',
-    ),
-    'paypal_checkout_url' => array(
-        'xtype' => 'textfield',
-        'value' => 'https://www.paypal.com/webscr?cmd=_express-checkout&token=',
-        'area' => 'tcbillboard_paypal',
-    ),
     'paypal_currency' => array(
         'xtype' => 'textfield',
         'value' => 'EUR',
         'area' => 'tcbillboard_paypal',
     ),
-    'paypal_pwd' => array(
+    'paypal_key_sandbox' => array(
         'xtype' => 'textfield',
         'value' => '',
         'area' => 'tcbillboard_paypal',
     ),
-    'paypal_signature' => array(
-        'xtype' => 'textfield',
-        'value' => '',
-        'area' => 'tcbillboard_paypal',
-    ),
-    'paypal_success_id' => array(
-        'xtype' => 'textfield',
-        'value' => '',
-        'area' => 'tcbillboard_paypal',
-    ),
-    'paypal_login' => array(
+    'paypal_key_production' => array(
         'xtype' => 'textfield',
         'value' => '',
         'area' => 'tcbillboard_paypal',
@@ -137,6 +117,11 @@ $tmp = array(
     'email_subject' => array(
         'xtype' => 'textfield',
         'value' => 'Ihre Saisonverkauf Info Rechnung',
+        'area' => 'tcbillboard_email',
+    ),
+    'email_to_manager' => array(
+        'xtype' => 'textfield',
+        'value' => '',
         'area' => 'tcbillboard_email',
     ),
 );

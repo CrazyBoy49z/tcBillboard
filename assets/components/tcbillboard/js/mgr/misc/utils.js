@@ -65,6 +65,9 @@ tcBillboard.utils.renderNotice = function(value, props, row) {
         return '<div class="tcbillboard-notice"><div class="tcbilboard-notice-box">' +
             '<span class="icon icon-warning"></span>&nbsp;' +
             '<span class="icon icon-warning"></span></div></div>';
+    } else if (value == 'incasso') {
+        return '<div class="tcbillboard-notice-incasso-box"><div class="tcbilboard-notice-box">' +
+            '<span>INCASSO</span></div></div>';
     } else {
         return '';
     }
@@ -130,7 +133,7 @@ tcBillboard.utils.pagetitleLink = function (value, id, blank) {
         return value;
     }
     return String.format(
-        '<a href="index.php?a=resource/update&id={0}" class="ms2-link" target="{1}">{2}</a>',
+        '<a href="index.php?a=resource/update&id={0}" class="ms2-link" target="{1}">{2}</a> ({0})',
         id,
         (blank ? '_blank' : '_self'),
         value

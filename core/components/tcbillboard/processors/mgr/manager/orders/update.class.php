@@ -5,10 +5,9 @@ class tcBillboardOrdersUpdateProcessor extends modObjectUpdateProcessor
     public $classKey = 'tcBillboardOrders';
     public $languageTopics = array('tcbillboard:default');
     //public $beforeSaveEvent = 'msOnBeforeUpdateOrder';
-    //public $afterSaveEvent = 'msOnUpdateOrder';
+    public $afterSaveEvent = 'tcBillboardAfterCancelOrder';
     //public $permission = 'msorder_save';
     protected $status;
-    //protected $delivery;
     protected $payment;
     /** @var  tcBillboard $tcBillboard */
     protected $tcBillboard;
@@ -55,36 +54,38 @@ class tcBillboardOrdersUpdateProcessor extends modObjectUpdateProcessor
     /**
      * @return bool|string
      */
-    /*public function beforeSave()
+    public function beforeSave()
     {
-        if ($this->object->get('status') != $this->status) {
-            $change_status = $this->ms2->changeOrderStatus($this->object->get('id'),
-                $this->object->get('status'));
-            if ($change_status !== true) {
-                return $change_status;
+        $status = $this->object->get('status');
+        if ($status != $this->status) {
+            if ($status == 2) {
+                $this->object->set('paymentdate', time());
+            } elseif ($status == 3) {
+                $this->object->set('unpubdatedon', time());
             }
         }
-        $this->object->set('updatedon', time());
-
         return parent::beforeSave();
-    }*/
+    }
 
 
     /**
-     *
+     * @return bool
      */
-    /*public function afterSave()
+    public function afterSave()
     {
-        if ($address = $this->object->getOne('Address')) {
-            foreach ($this->getProperties() as $k => $v) {
-                if (strpos($k, 'addr_') !== false) {
-                    $address->set(substr($k, 5), $v);
+        $status = $this->object->get('status');
+        if ($status != $this->status) {
+            $this->tcBillboard->changeStatusEmail($this->object->toArray());
+            if ($status == 3) {
+                $response = $this->tcBillboard->runProcessor('resource/unpublish',
+                    array('id' => $this->object->get('res_id')));
+                if ($response->isError()) {
+                    $this->modx->log(modX::LOG_LEVEL_ERROR, 'tcBillboard: ' . $response->getMessage());
                 }
             }
-            $address->save();
         }
-    }*/
-
+        return parent::afterSave();
+    }
 }
 
 return 'tcBillboardOrdersUpdateProcessor';

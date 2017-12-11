@@ -1,41 +1,48 @@
 <?php
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 /** @var modX $modx */
 /** @var array $scriptProperties */
 /** @var tcBillboard $tcBillboard */
-if (!$tcBillboard = $modx->getService('tcbillboard', 'tcBillboard', $modx->getOption('tcbillboard_core_path', null,
-        $modx->getOption('core_path') . 'components/tcbillboard/') . 'model/tcbillboard/', $scriptProperties)
-) {
-    return 'Could not load tcBillboard class!';
+
+if (!$modx->loadClass('tcBillboard', MODX_CORE_PATH . 'components/tcbillboard/model/tcbillboard/', false, true)) {
+    return false;
+}
+$tcBillboard = new tcBillboard($modx, $scriptProperties);
+
+$tpl = $modx->getOption('tpl', $scriptProperties, 'tcBillboardPreviewTpl', true);
+$createdBy = trim($modx->getOption('createdBy', $scriptProperties, ''));
+$resourceFields = $modx->getOption('resourceFields', $scriptProperties, '', true);
+
+$output = '';
+$tmp = array();
+
+$q = $modx->newQuery('modResource');
+$q->leftJoin('tcBillboardOrders', 'Orders', 'modResource.id = Orders.res_id');
+if (!empty($resourceFields)) {
+    $q->select($resourceFields);
+}
+$q->select('Orders.*');
+$q->where(array(
+    'class_key' => 'Ticket',
+));
+
+if (!empty($createdBy)) {
+    $q->where(array(
+        'createdby' => $createdBy,
+    ));
 }
 
-// Do your snippet code here. This demo grabs 5 items from our custom table.
-$tpl = $modx->getOption('tpl', $scriptProperties, 'Item');
-$sortby = $modx->getOption('sortby', $scriptProperties, 'name');
-$sortdir = $modx->getOption('sortbir', $scriptProperties, 'ASC');
-$limit = $modx->getOption('limit', $scriptProperties, 5);
-$outputSeparator = $modx->getOption('outputSeparator', $scriptProperties, "\n");
-$toPlaceholder = $modx->getOption('toPlaceholder', $scriptProperties, false);
-
-// Build query
-$c = $modx->newQuery('tcBillboardItem');
-$c->sortby($sortby, $sortdir);
-$c->limit($limit);
-$items = $modx->getIterator('tcBillboardItem', $c);
-
-// Iterate through items
-$list = array();
-/** @var tcBillboardItem $item */
-foreach ($items as $item) {
-    $list[] = $modx->getChunk($tpl, $item->toArray());
+if ($q->prepare() && $q->stmt->execute()) {
+    while ($row = $q->stmt->fetch(PDO::FETCH_ASSOC)) {
+        $tmp[] = $row;
+    }
 }
 
-// Output
-$output = implode($outputSeparator, $list);
-if (!empty($toPlaceholder)) {
-    // If using a placeholder, output nothing and set output to specified placeholder
-    $modx->setPlaceholder($toPlaceholder, $output);
+print '<pre>';
+print_r($tmp);
+print '</pre>';
 
-    return '';
-}
-// By default just return output
 return $output;

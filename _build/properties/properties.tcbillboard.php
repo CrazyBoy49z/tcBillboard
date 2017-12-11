@@ -5,31 +5,15 @@ $properties = array();
 $tmp = array(
     'tpl' => array(
         'type' => 'textfield',
-        'value' => 'tpl.tcBillboard.item',
+        'value' => 'tcBillboardPreviewTpl',
     ),
-    'sortby' => array(
+    'createdBy' => array(
         'type' => 'textfield',
-        'value' => 'name',
+        'value' => '',
     ),
-    'sortdir' => array(
-        'type' => 'list',
-        'options' => array(
-            array('text' => 'ASC', 'value' => 'ASC'),
-            array('text' => 'DESC', 'value' => 'DESC'),
-        ),
-        'value' => 'ASC',
-    ),
-    'limit' => array(
-        'type' => 'numberfield',
-        'value' => 10,
-    ),
-    'outputSeparator' => array(
+    'resourceFields' => array(
         'type' => 'textfield',
-        'value' => "\n",
-    ),
-    'toPlaceholder' => array(
-        'type' => 'combo-boolean',
-        'value' => false,
+        'value' => '',
     ),
 );
 

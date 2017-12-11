@@ -77,6 +77,7 @@ $_lang['tcbillboard_status_fixed'] = 'Фиксирует';
 $_lang['tcbillboard_status_fixed_help'] = 'Запрещает переключение на статусы, которые в таблице идут раньше него.';
 $_lang['tcbillboard_status_rank'] = 'Ранг';
 $_lang['tcbillboard_status_create'] = 'Добавить статус';
+$_lang['tcbillboard_status_select'] = 'Выберите статус';
 $_lang['tcbillboard_status_color'] = 'Цвет';
 $_lang['tcbillboard_status_subject_user'] = 'Тема письма покупателю';
 $_lang['tcbillboard_status_subject_manager'] = 'Тема письма менеджеру';
@@ -133,6 +134,7 @@ $_lang['tcbillboard_order_createdon'] = 'Дата создания';
 $_lang['tcbillboard_order_paymentdate'] = 'Дата оплаты';
 $_lang['tcbillbord_order_cost'] = 'Стоимость заказа';
 $_lang['tcbillboard_order_details'] = 'Детали заказа';
+$_lang['tcbillboard_order_pay'] = 'К оплате';
 
 $_lang['tcbillboard_invoice'] = 'Счёт-фактура';
 $_lang['tcbillboard_invoice_downloaded'] = 'Скачан';
@@ -164,6 +166,15 @@ $_lang['tcbillboard_front_grace_day'] = 'Льготных дней';
 $_lang['tcbillboard_front_just_day'] = 'Всего дней';
 $_lang['tcbillboard_front_amount_grace_period'] = 'Сумма за льготный период';
 $_lang['tcbillboard_front_total'] = 'Итого';
+$_lang['tcbillboard_front_complete_payment'] = 'Завершить оплату';
+$_lang['tcbillboard_front_success_payment'] = 'Ваш платёж успешно обработан. Спасибо!';
+$_lang['tcbillboard_front_select_payment'] = 'Осталось оплатить заказ, выбрав один из способов оплаты.';
+$_lang['tcbillboard_front_data_order'] = 'Данные заказа';
+
+$_lang['tcbillboard_email_subject_new_manager'] = 'На сайте новая публикация';
+$_lang['tcbillboard_email_subject_paid_user'] = 'Произведена оплата';
+$_lang['tcbillboard_email_subject_paid_manager'] = 'Поступила оплата';
+$_lang['tcBillboard_email_subject_cancelled_user'] = 'Ваш заказ отменён';
 
 $_lang['tcbillboard_err_empty_payment'] = 'Не смог записать метод оплаты.';
 $_lang['tcbillboard_err_access_denied'] = 'Доступ запрещен.';
@@ -183,6 +194,8 @@ $_lang['tcbillboard_err_status_name'] = 'Вы должны указать ста
 $_lang['tcbillboard_err_status_ae'] = 'Такой статус уже существует.';
 $_lang['tcbillboard_err_status_ns'] = 'Статус не указан.';
 $_lang['tcbillboard_err_status_nf'] = 'Статус не найден.';
+$_lang['tcbillboard_err_status_get'] = 'tcBillboard. Указанный ID статуса в базе данных не найден или не активирован';
+
 $_lang['tcbillboard_err_payment_name'] = 'Вы должны указать способ оплаты.';
 $_lang['tcbillboard_err_payment_ns'] = 'Способ оплаты не указан.';
 $_lang['tcbillboard_err_payment_nf'] = 'Способ оплаты не найден.';
@@ -201,31 +214,11 @@ $_lang['tcbillboard_err_file_upload'] = 'Вы пытаесь загрузить 
 $_lang['tcbillboard_err_to_export_files'] = 'Ошибка при попытке экспорта файла или файлов';
 $_lang['tcbillboard_err_amount_days'] = 'Вы должны указать количество дней';
 $_lang['tcbillboard_err_amount_days_ae'] = 'Такое количество дней уже существует';
+$_lang['tcbillboard_err_email_to_manager'] = 'tcBillboard. Вы забыли в системных настройках 
+    указать ID менеджеров, которым будут приходить email-уведомления';
+$_lang['tcbillboard_err_email_chunk_user'] = 'tcBillboard. Чанк уведомления пользователя не найден ID = ';
+$_lang['tcbillboard_err_email_chunk_manager'] = 'tcBillboard. Чанк уведомления менеджеров не найден ID = ';
 
-
-
-
-
-//$_lang['tcbillboard_intro_msg'] = 'Вы можете выделять сразу несколько предметов при помощи Shift или Ctrl.';
-//
-//$_lang['tcbillboard_items'] = 'Предметы';
-//$_lang['tcbillboard_item_id'] = 'Id';
-//$_lang['tcbillboard_item_name'] = 'Название';
-//
-//$_lang['tcbillboard_item_enable'] = 'Включить Предмет';
-//$_lang['tcbillboard_items_enable'] = 'Включить Предметы';
-//$_lang['tcbillboard_item_disable'] = 'Отключить Предмет';
-//$_lang['tcbillboard_items_disable'] = 'Отключить Предметы';
-//$_lang['tcbillboard_item_remove'] = 'Удалить Предмет';
-//$_lang['tcbillboard_items_remove'] = 'Удалить Предметы';
-//$_lang['tcbillboard_item_remove_confirm'] = 'Вы уверены, что хотите удалить этот Предмет?';
-//$_lang['tcbillboard_items_remove_confirm'] = 'Вы уверены, что хотите удалить эти Предметы?';
-//
-//$_lang['tcbillboard_item_err_name'] = 'Вы должны указать имя Предмета.';
-//$_lang['tcbillboard_item_err_ae'] = 'Предмет с таким именем уже существует.';
-//$_lang['tcbillboard_item_err_nf'] = 'Предмет не найден.';
-//$_lang['tcbillboard_item_err_ns'] = 'Предмет не указан.';
-//$_lang['tcbillboard_item_err_remove'] = 'Ошибка при удалении Предмета.';
-//$_lang['tcbillboard_item_err_save'] = 'Ошибка при сохранении Предмета.';
-//
-//$_lang['tcbillboard_grid_search'] = 'Поиск';
+$_lang['tcbillboard_err_user_not'] = 'Вы пытаетесь оплатить публикацию, которая вам не принадлежит. 
+    Просьба связаться с администрацией сайта.';
+$_lang['tcbillboard_err_order_not'] = 'Публикация, которую Вы пытаетесь оплатить, не найдена';

@@ -54,13 +54,11 @@ $_lang['setting_tcbillboard_bank_transfer_ibandesc'] = 'Код банка.';
 
 $_lang['area_tcbillboard_paypal'] = 'PayPal';
 
-$_lang['setting_tcbillboard_paypal_api_url'] = 'Url api запросов PayPal';
-$_lang['setting_tcbillboard_paypal_checkout_url'] = 'Url оплаты PayPal';
 $_lang['setting_tcbillboard_paypal_currency'] = 'Валюта PayPal';
-$_lang['setting_tcbillboard_paypal_pwd'] = 'Пароль продавца PayPal';
-$_lang['setting_tcbillboard_paypal_signature'] = 'Подпись продавца PayPal';
-$_lang['setting_tcbillboard_paypal_success_id'] = 'Страница успешной оплаты';
-$_lang['setting_tcbillboard_paypal_login'] = 'Логин продавца PayPal';
+$_lang['setting_tcbillboard_paypal_key_sandbox'] = 'Идентификатор клиента PayPal sandbox';
+$_lang['setting_tcbillboard_paypal_key_sandbox_desc'] = 'Идентификатор sandbox для теста PayPal';
+$_lang['setting_tcbillboard_paypal_key_production'] = 'Идентификатор клиента PayPal production';
+$_lang['setting_tcbillboard_paypal_key_production_desc'] = 'Идентификатор PayPal production';
 
 $_lang['area_tcbillboard_email'] = 'Почта';
 
@@ -68,3 +66,6 @@ $_lang['setting_tcbillboard_email_sender'] = 'Адрес отправителя'
 $_lang['setting_tcbillboard_email_sender_desc'] = 'Адрес электронной почты, от имени которого 
     будут отправляться письма пользователям';
 $_lang['setting_tcbillboard_email_subject'] = 'Тема письма';
+$_lang['setting_tcbillboard_email_to_manager'] = 'ID менеджеров';
+$_lang['setting_tcbillboard_email_to_manager_desc'] = 'ID менеджеров, через запятую, которым 
+    будут приходить уведомления на почту';

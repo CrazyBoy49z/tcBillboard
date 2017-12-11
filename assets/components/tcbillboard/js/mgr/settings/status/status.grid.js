@@ -10,9 +10,7 @@ tcBillboard.grid.Status = function (config) {
         tbar: this.getTopBar(config),
         sm: new Ext.grid.CheckboxSelectionModel(),
         baseParams: {
-            action: 'mgr/settings/status/getlist',
-            //sort: 'rank',
-            //dir: 'asc',
+            action: 'mgr/settings/status/getlist'
         },
         listeners: {
             rowDblClick: function (grid, rowIndex, e) {
@@ -39,9 +37,6 @@ tcBillboard.grid.Status = function (config) {
         changed: false,
         stateful: true,
         stateId: config.id,
-
-        //ddGroup: 'ms2-settings-status',
-        //ddAction: 'mgr/settings/status/sort',
         enableDragDrop: true,
     });
     tcBillboard.grid.Status.superclass.constructor.call(this, config);
@@ -99,34 +94,6 @@ Ext.extend(tcBillboard.grid.Status, MODx.grid.Grid, {
             scope: this
         }];
     },
-
-    /*statusAction: function (method) {
-        var ids = this._getSelectedIds();
-        if (!ids.length) {
-            return false;
-        }
-        MODx.Ajax.request({
-            url: tcBillboard.config.connector_url,
-            params: {
-                //action: 'mgr/settings/status/multiple',
-                method: method,
-                ids: Ext.util.JSON.encode(ids),
-            },
-            listeners: {
-                success: {
-                    fn: function () {
-                        //noinspection JSUnresolvedFunction
-                        this.refresh();
-                    }, scope: this
-                },
-                failure: {
-                    fn: function (response) {
-                        MODx.msg.alert(_('error'), response.message);
-                    }, scope: this
-                },
-            }
-        })
-    },*/
 
     createStatus: function (btn, e) {
         var w = Ext.getCmp('tcbillboard-status-window-create');
@@ -221,30 +188,11 @@ Ext.extend(tcBillboard.grid.Status, MODx.grid.Grid, {
         })
     },
 
-    /*removeStatus: function () {
-        var ids = this._getSelectedIds();
-
-        Ext.MessageBox.confirm(
-            _('ms2_menu_remove_title'),
-            ids.length > 1
-                ? _('ms2_menu_remove_multiple_confirm')
-                : _('ms2_menu_remove_confirm'),
-            function (val) {
-                if (val == 'yes') {
-                    this.statusAction('remove');
-                }
-            }, this
-        );
-    },*/
-
     removeStatus: function () {
         var ids = this._getSelectedIds();
         if (!ids.length) {
             return false;
         }
-
-        //console.log(this.config.url);
-        //console.log(Ext.util.JSON.encode(ids));
 
         MODx.msg.confirm({
             title: ids.length > 1

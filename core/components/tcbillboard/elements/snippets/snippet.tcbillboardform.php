@@ -1,7 +1,7 @@
 <?php
-ini_set('error_reporting', E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+/** @var modX $modx */
+/** @var array $scriptProperties */
+/** @var tcBillboard $tcBillboard */
 
 if (!$modx->loadClass('tcBillboard', MODX_CORE_PATH . 'components/tcbillboard/model/tcbillboard/', false, true)) {
     return false;
@@ -26,12 +26,6 @@ $frontendCss = trim($modx->getOption('frontedCss', $scriptProperties, 'component
 $frontendJsFile = trim($modx->getOption('frontendJsFile', $scriptProperties, 'components/tcbillboard/js/web/tcbillboardfile.js', true));
 $frontendJs = trim($modx->getOption('frontendJs', $scriptProperties, 'components/tcbillboard/js/web/tcbillboard.js', true));
 
-//if ($_REQUEST['payment'] == 1) {
-//    print '<pre>';
-//    print_r($_SESSION);
-//    print '</pre>';
-//}
-
 $source = empty($scriptProperties['source'])
     ? $modx->getOption('tcbillboard_source_default')
     : $scriptProperties['source'];
@@ -47,7 +41,7 @@ $displayNone = ' tcbillboard-display-none';
 $tcBillboard->loadJsCss('tplFormCreate', $scriptProperties);
 $form = $tcBillboard->process('TicketForm', $scriptProperties);
 
-if ($userProfile = $tcBillboard->getUserProfile()) {
+if ($userProfile = $tcBillboard->getUserProfile($modx->user->id)) {
     if (!empty($userProfile->photo)) {
         $thumb = $userProfile->photo;
         $name = '';
@@ -82,10 +76,5 @@ $modx->toPlaceholders(array(
     'name' => $name,
     'display' => $displayNone,
 ));
-
-
-//print '<pre>';
-//print_r(MODX_ASSETS_URL);
-//print '</pre>';
 
 return $form;

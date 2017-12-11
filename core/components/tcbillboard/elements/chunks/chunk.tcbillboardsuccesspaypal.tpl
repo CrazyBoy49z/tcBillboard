@@ -5,45 +5,59 @@
     <br /><br /><br />
 </div>
 
-<div>
-    <p>Осталось оплатить заказ, нажав эту кнопку.</p>
+<div id="tcbillboard-confirm">
+    <h4>[[%tcbillboard_front_data_order]]:</h4>
+    <table class="table tcbillboard-table">
+        <tr>
+            <td>[[%tcbillboard_num_invoice]]:</td>
+            <td><strong>[[+num]]</strong></td>
+        </tr>
+        <tr>
+            <td>[[%tcbillboard_pubdatedon]]:</td>
+            <td><strong>[[+pubdatedon]]</strong></td>
+        </tr>
+        <tr>
+            <td>[[%tcbillboard_unpubdatedon]]:</td>
+            <td><strong>[[+unpubdatedon]]</strong></td>
+        </tr>
+        <tr>
+            <td>[[%tcbillboard_sum_order]]:</td>
+            <td><strong>[[+sum]] €</strong></td>
+        </tr>
+    </table>
+
+    <p><strong>[[%tcbillboard_front_select_payment]]</strong></p>
 </div>
-
-
-
 
 <div id="paypal-button-container"></div>
 
-<div id="confirm" style="display: none;">
-    <div>Ship to:</div>
-    <div><span id="recipient"></span>, <span id="line1"></span>, <span id="city"></span></div>
-    <div><span id="state"></span>, <span id="zip"></span>, <span id="country"></span></div>
+<div id="tcbillboard-error" class="text-danger"></div>
 
-    <button id="confirmButton">Complete Payment</button>
+<div id="confirm" style="display: none;">
+    <button id="confirmButton">[[%tcbillboard_front_complete_payment]]</button>
 </div>
 
 <div id="thanks" style="display: none;">
-    Thanks, <span id="thanksname"></span>!
+    <span id="thanksname"></span>, [[%tcbillboard_front_success_payment]]
+</div>
 
-    <br /><br />
+<br /><br />
+<div id="tcbillboard-open" style="display: none;">
     <a href="[[*uri]]" class="btn btn-default">[[%tcbillboard_open]]</a>
 </div>
 
 
 <script>
     paypal.Button.render({
-
         env: 'sandbox', // sandbox | production
-        locale: 'de_DE',
-
+        locale: 'ru_RU',
         style: {
             size: 'medium',
             fundingicons: true
         },
-
         client: {
-            sandbox:    'AQahnTkrbrXlGO83r7qW2kiG_acR2zj5CN-r15ry6IMBm6cN6cszCzorLPgr8mXpUdZfD2B6iicHUB_Q',
-            production: 'AZh9fDi0JdI052zaJXBHVMIMOnHQil3CbedobqTGDHUsUb4kn9NDcgEpZQuKm-DcKH-gR6en2FQKCGAW'
+            sandbox:    '[[++tcbillboard_paypal_key_sandbox]]',
+            //production: '[[++tcbillboard_paypal_key_production]]'
         },
 
         payment: function(data, actions) {
@@ -51,54 +65,72 @@
                 payment: {
                     transactions: [
                         {
-                            amount: { total: '0.01', currency: 'USD' }
+                            amount: { total: '[[+sum]]', currency: '[[++tcbillboard_paypal_currency]]' }
                         }
                     ]
                 }
             });
         },
 
-        // Wait for the payment to be authorized by the customer
-
         onAuthorize: function(data, actions) {
-
-            // Get the payment details
-
             return actions.payment.get().then(function(data) {
-
-                // Display the payment details and a confirmation button
-
                 var shipping = data.payer.payer_info.shipping_address;
-
-                document.querySelector('#recipient').innerText = shipping.recipient_name;
-                document.querySelector('#line1').innerText     = shipping.line1;
-                document.querySelector('#city').innerText      = shipping.city;
-                document.querySelector('#state').innerText     = shipping.state;
-                document.querySelector('#zip').innerText       = shipping.postal_code;
-                document.querySelector('#country').innerText   = shipping.country_code;
+                var sendData = {
+                        action: 'tcBillboard/paymentPayPal',
+                        value: data,
+                        res: [[*id]]
+                }
 
                 document.querySelector('#paypal-button-container').style.display = 'none';
-                document.querySelector('#confirm').style.display = 'block';
+                document.querySelector('#tcbillboard-confirm').style.display = 'none';
 
-                // Listen for click on confirm button
+                $.ajax({
+                    type: 'POST',
+                    url: '[[++assets_url]]components/tcbillboard/action.php',
+                    data: sendData,
+                    dataType: 'json',
+                    cache: false,
+                    success: function(response) {
+                        if (response.success == true) {
+                            document.querySelector('#confirm').style.display = 'block';
+                        } else if(response.success == false) {
+                            document.querySelector('#tcbillboard-error').innerText = response.message;
+                            document.querySelector('#tcbillboard-open').style.display = 'block';
+                        }
+                    }
+                });
 
                 document.querySelector('#confirmButton').addEventListener('click', function() {
-
-                    // Disable the button and show a loading message
 
                     document.querySelector('#confirm').innerText = 'Loading...';
                     document.querySelector('#confirm').disabled = true;
 
-                    // Execute the payment
+                    return actions.payment.execute().then(function(data) {
+                        var sendData = {
+                            action: 'tcBillboard/paymentPayPal',
+                            value: data,
+                            res: [[*id]]
+                        }
 
-                    return actions.payment.execute().then(function() {
+                        $.ajax({
+                            type: 'POST',
+                            url: '[[++assets_url]]components/tcbillboard/action.php',
+                            data: sendData,
+                            dataType: 'json',
+                            cache: false,
+                            success: function(response) {
+                                if (response.success == true) {
+                                    document.querySelector('#thanksname').innerText = shipping.recipient_name;
 
-                        // Show a thank-you note
-
-                        document.querySelector('#thanksname').innerText = shipping.recipient_name;
-
-                        document.querySelector('#confirm').style.display = 'none';
-                        document.querySelector('#thanks').style.display = 'block';
+                                    document.querySelector('#confirm').style.display = 'none';
+                                    document.querySelector('#thanks').style.display = 'block';
+                                    document.querySelector('#tcbillboard-open').style.display = 'block';
+                                } else if(response.success == false) {
+                                    document.querySelector('#tcbillboard-error').innerText = response.message;
+                                    document.querySelector('#tcbillboard-open').style.display = 'block';
+                                }
+                            }
+                        });
                     });
                 });
             });
@@ -125,16 +157,3 @@
     }, '#paypal-button-container');
 
 </script>
-
-[[-
-Sandbox
-Sandbox account - yugan@inbox.ru
-Client ID - AdmL3nCHKKF3YygPIyaQAMiaKX4WJzG0OZj3b4oiHdmFqjVyBOGC4GuRyaHkepLr7BLKdSIIfA3buEAx
-Secret key - EAAdQ9c69Esse9GB7gV-5pkXc9Szs8ctBP129eDcPNVJgZkHdeOVMJTXrEF86RpUlBVm-H1LcRQCO8r7
-
-
-PayPal account: yugan@inbox.ru
-Client ID - AXPX8ldoeZZZHudbR5Yiuxtvu7Ud7-RWnnPTnruVMMG37nrkKx3q_SBGVzobAaY5e4cuS0fGgc4jLl_9
-Secret key - EH_2YK1c2xDx0jqmgdWZd-1Xz38qem6PC5yPqYEh7IjZL92225sT9h2pV9yI04LPwTMGDCkRjedRBJll
-
-]]

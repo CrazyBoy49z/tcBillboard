@@ -34,9 +34,6 @@ class tcBillboardStatusGetListProcessor extends modObjectGetListProcessor
             ));
         }
 
-//        print_r($this->getProperties());
-//        die;
-
         if ($this->getProperty('combo')) {
             $c->select('id, name');
             $c->where(array('active' => 1));
@@ -125,7 +122,6 @@ class tcBillboardStatusGetListProcessor extends modObjectGetListProcessor
                 );
             }
         }
-
         return $data;
     }
 
