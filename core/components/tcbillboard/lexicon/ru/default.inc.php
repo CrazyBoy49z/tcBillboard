@@ -52,7 +52,8 @@ $_lang['tcbillboard_price_period'] = 'Период (дней)';
 $_lang['tcbillboard_price_price'] = 'Цена за единицу';
 $_lang['tcbillboard_price_price_unit'] = 'Цена';
 $_lang['tcbillboard_price_period_unit'] = 'Укажите период';
-$_lang['tcbillboard_price_graceperiod'] = 'Льготный период (до)';
+$_lang['tcbillboard_price_graceperiod'] = 'Льготный период (по)';
+$_lang['tcbillboard_price_graceperiod_start'] = 'Льготный период (от)';
 $_lang['tcbillboard_price_graceperiodprice'] = 'Цена в льготный период';
 $_lang['tcbillboard_price_formula'] = 'Формула';
 $_lang['tcbillboard_price_remove'] = 'Удалить Цену';
@@ -135,6 +136,10 @@ $_lang['tcbillboard_order_paymentdate'] = 'Дата оплаты';
 $_lang['tcbillbord_order_cost'] = 'Стоимость заказа';
 $_lang['tcbillboard_order_details'] = 'Детали заказа';
 $_lang['tcbillboard_order_pay'] = 'К оплате';
+$_lang['tcbillboard_orders_remove'] = 'Удалить ордера';
+$_lang['tcbillboard_order_remove'] = 'Удалить ордер';
+$_lang['tcbillboard_orders_remove_confirm'] = 'Вы уверены, что хотите удалить эти ордера';
+$_lang['tcbillboard_order_remove_confirm'] = 'Вы уверены, что хотите удалить этот ордер';
 
 $_lang['tcbillboard_invoice'] = 'Счёт-фактура';
 $_lang['tcbillboard_invoice_downloaded'] = 'Скачан';
@@ -186,6 +191,8 @@ $_lang['tcbillboard_err_price_ns'] = 'Прайс не указан.';
 $_lang['tcbillboard_err_price_nf'] = 'Прайс не найден.';
 $_lang['tcbillboard_err_unpub_pub'] = 'Дата отмены публикации не может быть меньше, или равным, даты начала публикации.';
 $_lang['tcbillboard_err_endstock_end'] = 'Дата окончания акции не может быть меньше, или равным, даты начала акции.';
+$_lang['tcbillboard_err_graceperiod_start'] = 'Дата начала льготного периода не может быть больше  
+    даты окончания льготного периода.';
 $_lang['tcbillboard_err_empty_snippet'] = 'tcBillboard. Указанный сниппет не найден. Возможно не установлен Ticket - требуется ';
 $_lang['tcbillboard_err_empty_action'] = 'tcBillboard. Получен пустой запрос.';
 $_lang['tcbillboard_err_get_price'] = 'tcBillboard. Не смог получить прайс.';
@@ -195,6 +202,9 @@ $_lang['tcbillboard_err_status_ae'] = 'Такой статус уже сущес
 $_lang['tcbillboard_err_status_ns'] = 'Статус не указан.';
 $_lang['tcbillboard_err_status_nf'] = 'Статус не найден.';
 $_lang['tcbillboard_err_status_get'] = 'tcBillboard. Указанный ID статуса в базе данных не найден или не активирован';
+
+$_lang['tcbillboard_err_order_ns'] = 'Ордер не указан.';
+$_lang['tcbillboard_err_order_nf'] = 'Ордер не найден.';
 
 $_lang['tcbillboard_err_payment_name'] = 'Вы должны указать способ оплаты.';
 $_lang['tcbillboard_err_payment_ns'] = 'Способ оплаты не указан.';

@@ -1,4 +1,9 @@
 <?php
+/** @var modX $modx */
+/** @var array $scriptProperties */
+/** @var tcBillboard $tcBillboard */
+
+$createdBy = $modx->getOption('createdBy', $scriptProperties, $modx->user->id, true);
 
 $output = '';
 
@@ -7,7 +12,7 @@ $q->select('url, thumb');
 $q->where(array(
     'class' => 'Ticket',
     'parent' => $id,
-    'createdby' => $modx->user->id,
+    'createdby' => $createdBy,
     'deleted' => 0,
 ));
 

@@ -142,10 +142,6 @@ var tcBillboard = {
                         $('input[name=thumbp]').val(response.data.photo).change();
                         $(selectorDisplay).attr('style', 'display: none;');
                     }
-                    // Редирект на оплату или благодарность
-                    // if (response.data.redirect) {
-                    //     document.location.href = response.data.redirect;
-                    // }
                 } else {
                     if (response.data.end_stock) {
                         $(selectorErrDateStock).html(response.message);
@@ -155,7 +151,7 @@ var tcBillboard = {
                         $(dtPicker2).val('').change();
                     }
                 }
-                console.log(response);
+                //console.log(response);
             },
             error: function(response){
 

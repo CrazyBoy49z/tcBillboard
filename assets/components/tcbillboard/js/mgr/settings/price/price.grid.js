@@ -55,7 +55,7 @@ Ext.extend(tcBillboard.grid.Price, MODx.grid.Grid, {
     },
 
     getFields: function () {
-        return ['id', 'period', 'price', 'graceperiod', 'graceperiodprice', 'active', 'actions' ];
+        return ['id', 'period', 'price', 'graceperiod_start', 'graceperiod', 'graceperiodprice', 'active', 'actions' ];
     },
     getColumns: function () {
         return [
@@ -65,6 +65,8 @@ Ext.extend(tcBillboard.grid.Price, MODx.grid.Grid, {
                 header: _('tcbillboard_price_period'), dataIndex: 'period', width: 150
             },{
                 header: _('tcbillboard_price_price'), dataIndex: 'price', width: 150
+            },{
+                header: _('tcbillboard_price_graceperiod_start'), dataindex: 'graceperiod_start', width: 150
             },{
                 header: _('tcbillboard_price_graceperiod'), dataIndex: 'graceperiod', width: 150
             },{

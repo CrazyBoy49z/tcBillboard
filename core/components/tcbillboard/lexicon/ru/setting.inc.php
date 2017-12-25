@@ -27,6 +27,8 @@ $_lang['setting_tcbillboard_penalty_activate_desc'] = 'Запускает сис
     в настройках компонента, таб Неустойка.';
 $_lang['setting_tcbillboard_resource_form'] = 'ID ресурса с формой';
 $_lang['setting_tcbillboard_resource_form_desc'] = 'Ресурс, где размещена форма для создания акции';
+$_lang['setting_tcbillboard_stock_template'] = 'ID шаблона акции';
+$_lang['setting_tcbillboard_stock_template_desc'] = 'ID шаблона для вывода отдельно взятой акции';
 
 $_lang['area_tcbillboard_google_map'] = 'Карта Google Map';
 

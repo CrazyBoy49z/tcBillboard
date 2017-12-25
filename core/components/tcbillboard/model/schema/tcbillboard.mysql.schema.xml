@@ -46,8 +46,8 @@
         <aggregate alias="Profile" class="modUserProfile" local="user_id" foreign="internalKey" cardinality="one" owner="foreign"/>
         <aggregate alias="Status" class="tcBillboardStatus" local="status" foreign="id" cardinality="one" owner="local"/>
         <aggregate alias="Payment" class="tcBillboardPayment" local="payment" foreign="id" cardinality="one" owner="local"/>
-        <aggregate alias="Resource" class="modResource" local="res_id" foreign="id" cardinality="one" owner="foreign"/>
 
+        <composite alias="Resource" class="modResource" local="res_id" foreign="id" cardinality="one" owner="foreign"/>
         <composite alias="Files" class="tcBillboardWarnFiles" local="id" foreign="order" cardinality="many" owner="local" />
     </object>
 
@@ -72,6 +72,7 @@
     <object class="tcBillboardPrice" table="tc_billboard_price" extends="xPDOSimpleObject">
         <field key="period" dbtype="int" precision="3" phptype="integer" null="true" default="0"/>
         <field key="price" dbtype="decimal" precision="12,2" phptype="float" null="true" default="0"/>
+        <field key="graceperiod_start" dbtype="datetime" phptype="datetime" null="true" />
         <field key="graceperiod" dbtype="datetime" phptype="datetime" null="true" />
         <field key="graceperiodprice" dbtype="decimal" precision="12,2" phptype="float" null="true" default="0"/>
         <field key="active" dbtype="tinyint" precision="1" phptype="integer" null="true" default="1"/>

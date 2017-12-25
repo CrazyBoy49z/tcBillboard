@@ -61,6 +61,22 @@ Ext.extend(tcBillboard.window.CreatePrice, MODx.Window, {
                 //defaults: {msgTarget: 'under'},
                 items: [{
                     xtype: 'xdatetime',
+                    fieldLabel: _('tcbillboard_price_graceperiod_start'),
+                    name: 'graceperiod_start',
+                    allowBlank: true,
+                    dateFormat: MODx.config.manager_date_format,
+                    timeFormat: MODx.config.manager_time_format,
+                    startDay: parseInt(MODx.config.manager_week_start),
+                    dateWidth: 200,
+                    timeWidth: 120,
+                    offset_time: 0
+                }]
+            },{
+                columnWidth: .5,
+                layout: 'form',
+                //defaults: {msgTarget: 'under'},
+                items: [{
+                    xtype: 'xdatetime',
                     fieldLabel: _('tcbillboard_price_graceperiod'),
                     name: 'graceperiod',
                     allowBlank: true,
@@ -71,17 +87,12 @@ Ext.extend(tcBillboard.window.CreatePrice, MODx.Window, {
                     timeWidth: 120,
                     offset_time: MODx.config.server_offset_time
                 }]
-            },{
-                columnWidth: .5,
-                layout: 'form',
-                //defaults: {msgTarget: 'under'},
-                items: [{
-                    xtype: 'numberfield',
-                    fieldLabel: _('tcbillboard_price_graceperiod_price'),
-                    name: 'graceperiodprice',
-                    anchor: '99%'
-                }]
             }]
+        },{
+            xtype: 'numberfield',
+            fieldLabel: _('tcbillboard_price_graceperiod_price'),
+            name: 'graceperiodprice',
+            anchor: '99%'
         },{
             xtype: 'xcheckbox',
             boxLabel: _('tcbillboard_enabled'),
@@ -113,77 +124,7 @@ tcBillboard.window.UpdatePrice = function (config) {
     });
     tcBillboard.window.UpdatePrice.superclass.constructor.call(this, config);
 };
-Ext.extend(tcBillboard.window.UpdatePrice, MODx.Window, {
-
-    getFields: function (config) {
-        return [{
-            xtype: 'hidden',
-            name: 'id'
-        },{
-            layout: 'column',
-            items: [{
-                columnWidth: .5,
-                layout: 'form',
-                defaults: {msgTarget: 'under'},
-                items: [{
-                    xtype: 'numberfield',
-                    fieldLabel: _('tcbillboard_price_period'),
-                    name: 'period',
-                    anchor: '99%',
-                    allowBlank: false
-                },{
-
-                }]
-            },{
-                columnWidth: .5,
-                layout: 'form',
-                defaults: {msgTarget: 'under'},
-                items: [{
-                    xtype: 'numberfield',
-                    fieldLabel: _('tcbillboard_price_price_unit'),
-                    name: 'price',
-                    decimalPrecision: 2,
-                    anchor: '99%',
-                    allowBlank: false
-                }]
-            }]
-        },{
-            layout: 'column',
-            items: [{
-                columnWidth: .5,
-                layout: 'form',
-                defaults: {msgTarget: 'under'},
-                items: [{
-                    xtype: 'xdatetime',
-                    fieldLabel: _('tcbillboard_price_graceperiod'),
-                    name: 'graceperiod',
-                    allowBlank: true,
-                    dateFormat: MODx.config.manager_date_format,
-                    timeFormat: MODx.config.manager_time_format,
-                    startDay: parseInt(MODx.config.manager_week_start),
-                    dateWidth: 200,
-                    timeWidth: 120,
-                    offset_time: MODx.config.server_offset_time
-                }]
-            },{
-                columnWidth: .5,
-                layout: 'form',
-                defaults: {msgTarget: 'under'},
-                items: [{
-                    xtype: 'numberfield',
-                    fieldLabel: _('tcbillboard_price_graceperiod_price'),
-                    name: 'graceperiodprice',
-                    anchor: '99%'
-                }]
-            }]
-        },{
-            xtype: 'xcheckbox',
-            boxLabel: _('tcbillboard_enabled'),
-            name: 'active',
-            checked: true
-        }];
-    }
-});
+Ext.extend(tcBillboard.window.UpdatePrice, tcBillboard.window.CreatePrice);
 Ext.reg('tcbillboard-price-window-update', tcBillboard.window.UpdatePrice);
 
 /*----------------------------------------------------------------------------*/

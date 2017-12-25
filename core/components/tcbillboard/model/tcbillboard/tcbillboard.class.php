@@ -124,6 +124,12 @@ class tcBillboard
         return false;
     }
 
+    /**
+     * Обработка оплаты PayPal
+     * @param array $data
+     * @param $resourceId
+     * @return array|string
+     */
     public function processPayPalPayment(array $data, $resourceId)
     {
         $response = '';
@@ -179,10 +185,6 @@ class tcBillboard
                 $response = $this->error('');
                 break;
         }
-
-
-        //print_r($payment);
-        //print_r($resourceId);
         return $response;
     }
 
@@ -443,19 +445,13 @@ class tcBillboard
                 'unpubdatedon:<' => date('Y-m-d 00:00:00', $time),
             ), null, 1);
         }
-//        if ($mode == 'first_warning') {
-//            $q->andCondition(array(
-//                //'pubdatedon:<' => date('Y-m-d 00:00:00', $time),
-//                'paymentdate:IS' => null,
-//                'notice:=' => 0
-//            ), null, 1);
-//        }
 
         if ($q->prepare() && $q->stmt->execute()) {
             while ($row = $q->stmt->fetch(PDO::FETCH_ASSOC)) {
                 if ($row['res_id'] && $mode == 'delete') {
                     $response = $this->runProcessor('resource/delete', array('id' => $row['res_id']));
                     if ($response->isError()) {
+                        continue;
 //                        $this->modx->log(modX::LOG_LEVEL_ERROR,
 //                            $this->modx->lexicon('tcbillboard_err_delete_resource') . ': ' . $row['res_id']);
                     } else {
@@ -469,7 +465,6 @@ class tcBillboard
 
     /**
      * Подключить класс MpdfTc
-     *
      * @return bool|MpdfTc
      */
     public function getMpdfTc()
@@ -523,7 +518,6 @@ class tcBillboard
 
     /**
      * Папка с файлами экспорта, по умолчанию
-     *
      * @return string
      */
     public function exportPath()
@@ -557,8 +551,10 @@ class tcBillboard
         return $result;
     }
 
-    /*
+    /**
      * Подготавливает чанк для создания pdf-файла
+     * @param array $data
+     * @param string $mode
      */
     public function prepareInvoice(array $data, $mode = 'invoice')
     {
@@ -578,8 +574,6 @@ class tcBillboard
             $t = $profile->toArray();
             $data = array_merge($t, $t['extended'], $data);
         }
-
-        //$this->modx->log(modX::LOG_LEVEL_ERROR, print_r($data, 1));
 
         switch ($mode) {
             case 'invoice':
@@ -887,41 +881,52 @@ class tcBillboard
                 $this->modx->lexicon('tcbillboard_err_get_price'));
         }
         $price = $this->exposePrice($days);
+        $price['totalDays'] = $days;
+        $price['graceDays'] = 0;
+        $beforeGrace = 0;
+        $afterGrace = 0;
 
-        // Если есть льготный период
+        // Если есть начало льготного периода
+        if (!empty($price['graceperiod_start'])) {
+            $startPeriod = $this->dateFormat($price['graceperiod_start'], $this->config['dateFormat']);
+            // Если дата публикации меньше даты начала льготного периода
+            if ($this->getDifference($this->order['pubdate'], $price['graceperiod_start'])) {
+                // Получить количество дней публикации до льготного периода
+                $beforeGrace = $this->countDate($startPeriod, $this->order['pubdate']) - 1;
+            }
+        }
+
+        // Если есть конец льготного периода
         if (!empty($price['graceperiod'])) {
             $endPeriod = $this->dateFormat($price['graceperiod'], $this->config['dateFormat']);
+            // Если дата окончания льготного периода меньше даты отмены публикации
             if ($difference = $this->getDifference($endPeriod, $this->order['unpubdate'])) {
-                $priceDays = $this->countDate($endPeriod, $this->order['unpubdate']);
-
-                $difference = $days - $priceDays;
-                // Если $difference больше нуля, т.е льготный период не прошёл
-                if ($difference > 0 ) {
-                    $costGrace = ($days - $priceDays) * $price['graceperiodprice'];
-                    $price['graceDays'] = $days - $priceDays;
-                    $price['totalDays'] = $days;
-                    $price['costGrace'] = $costGrace;
-                    $price['cost'] = $priceDays * $price['price'] + $costGrace;
-                } else {
-                    $price['graceDays'] = 0;
-                    $price['totalDays'] = $days;
-                    $price['costGrace'] = 0;
-                    $price['cost'] = $days * $price['price'];
-                }
+                // Получить количество дней публикации после льготного периода
+                $afterGrace = $this->countDate($endPeriod, $this->order['unpubdate']) - 1;
             } else {
                 $cost = $days * $price['graceperiodprice'];
                 $price['graceDays'] = $days;
-                $price['totalDays'] = $days;
                 $price['costGrace'] = $cost;
                 $price['cost'] = $cost;
             }
         } else {
             $cost = $days * $price['price'];
             $price['graceDays'] = 0;
-            $price['totalDays'] = $days;
+            $price['graceperiodprice'] = 0;
             $price['costGrace'] = 0;
             $price['cost'] = $cost;
         }
+        // Получить кол-во льготных дней и рассчитать стоимость
+        if ($beforeGrace || $afterGrace) {
+            $graceDays = $days - ($beforeGrace + $afterGrace);
+            $costGrace = $graceDays * $price['graceperiodprice'];
+            $priceDays = $days - $graceDays;
+            $cost = $priceDays * $price['price'] + $costGrace;
+            $price['graceDays'] = $graceDays;
+            $price['costGrace'] = $costGrace;
+            $price['cost'] = $cost;
+        }
+
         $_SESSION['tcBillboard']['order'] = $price;
 
         if ($snippet = $this->modx->getObject('modSnippet', array('name' => 'tcBillboardForm'))) {
@@ -988,7 +993,7 @@ class tcBillboard
         $prices = array();
 
         $q = $this->modx->newQuery('tcBillboardPrice');
-        $q->select('id, period, price, graceperiod, graceperiodprice, active');
+        $q->select('id, period, price, graceperiod, graceperiod_start, graceperiodprice, active');
         $q->where(array(
             'active' => 1,
         ));

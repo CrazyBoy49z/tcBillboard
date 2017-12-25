@@ -10,7 +10,7 @@ $_lang['tcbillboard_disable'] = 'Отключить';
 $_lang['tcbillboard_remove'] = 'Удалить';
 $_lang['tcbillboard_actions'] = 'Действия';
 $_lang['tcbillboard_create'] = 'Создать';
-$_lang['tcbillboard_settings'] = 'Настройки';
+$_lang['tcbillboard_settings'] = 'Einstellungen';
 $_lang['tcbillboard_settings_desc'] = 'Настройки Доски Объявлений.';
 $_lang['tcbillboard_name'] = 'Имя';
 $_lang['tcbillboard_update'] = 'Изменить';
@@ -52,7 +52,8 @@ $_lang['tcbillboard_price_period'] = 'Период (дней)';
 $_lang['tcbillboard_price_price'] = 'Цена за единицу';
 $_lang['tcbillboard_price_price_unit'] = 'Цена';
 $_lang['tcbillboard_price_period_unit'] = 'Укажите период';
-$_lang['tcbillboard_price_graceperiod'] = 'Льготный период (до)';
+$_lang['tcbillboard_price_graceperiod'] = 'Льготный период (по)';
+$_lang['tcbillboard_price_graceperiod_start'] = 'Льготный период (от)';
 $_lang['tcbillboard_price_graceperiodprice'] = 'Цена в льготный период';
 $_lang['tcbillboard_price_formula'] = 'Формула';
 $_lang['tcbillboard_price_remove'] = 'Удалить Цену';
@@ -90,7 +91,7 @@ $_lang['tcbillboard_statuses_remove_confirm'] = 'Вы уверены, что х�
 
 $_lang['tcbillboard_payment'] = 'Оплата';
 $_lang['tcbillboard_payment_intro'] = 'Заполнить..........';
-$_lang['tcbillboard_payment_name'] = 'Способ оплаты';
+$_lang['tcbillboard_payment_name'] = 'Zahlungsmethode';
 $_lang['tcbillboard_payment_create'] = 'Добавить способ оплаты';
 //$_lang['tcbillboard_payment_name'] = 'Способ оплаты';
 //$_lang['tcbillboard_payment_create'] = 'Добавить способ оплаты';
@@ -119,46 +120,50 @@ $_lang['tcbillboard_penalty_chunk'] = 'Чанк писма для этой не�
 $_lang['tcbillboard_orders'] = 'Заказы';
 $_lang['tcbillboard_order'] = 'Ордер';
 $_lang['tcbillboard_order_management'] = 'Управление заказами';
-$_lang['tcbillboard_createdon'] = 'Дата заказа';
-$_lang['tcbillboard_user_id'] = 'Заказчик';
+$_lang['tcbillboard_createdon'] = 'Bestellungsdatum';
+$_lang['tcbillboard_user_id'] = 'Kunde';
 $_lang['tcbillboard_pubdatedon'] = 'Дата публикации';
-$_lang['tcbillboard_unpubdatedon'] = 'Отмена публикации';
+$_lang['tcbillboard_unpubdatedon'] = 'Zurückziehen am';
 $_lang['tcbillboard_account'] = 'Стоимость';
 $_lang['tcbillboard_paymentdate'] = 'Дата оплаты';
 $_lang['tcbillboard_orders_after'] = 'Выбрать заказы с';
 $_lang['tcbillboard_orders_before'] = 'Выбрать заказы по';
 $_lang['tcbillboard_order_update'] = 'Изменить ордер';
 $_lang['tcbillboard_order_ad'] = 'Объявление';
-$_lang['tcbillboard_stock_name'] = 'Акция';
+$_lang['tcbillboard_stock_name'] = 'Aktion';
 $_lang['tcbillboard_order_createdon'] = 'Дата создания';
 $_lang['tcbillboard_order_paymentdate'] = 'Дата оплаты';
 $_lang['tcbillbord_order_cost'] = 'Стоимость заказа';
 $_lang['tcbillboard_order_details'] = 'Детали заказа';
 $_lang['tcbillboard_order_pay'] = 'К оплате';
+$_lang['tcbillboard_orders_remove'] = 'Удалить ордера';
+$_lang['tcbillboard_order_remove'] = 'Удалить ордер';
+$_lang['tcbillboard_orders_remove_confirm'] = 'Вы уверены, что хотите удалить эти ордера';
+$_lang['tcbillboard_order_remove_confirm'] = 'Вы уверены, что хотите удалить этот ордер';
 
-$_lang['tcbillboard_invoice'] = 'Счёт-фактура';
+$_lang['tcbillboard_invoice'] = 'Rechnung';
 $_lang['tcbillboard_invoice_downloaded'] = 'Скачан';
 $_lang['tcbillboard_invoice_file'] = 'Файл';
 $_lang['tcbillboard_invoice_msg'] = "Счета-фактуры, выписанные при размещении заказа.<br /> 
     Файлы хранятся в стандартной папке MODX: <strong>/core/export/</strong>, по принципу: 
     <strong>/год/месяц/день/пользователь/invoice/файл</strong>";
 
-$_lang['tcbillboard_warning'] = 'Предупреждения';
+$_lang['tcbillboard_warning'] = 'Mahnungen';
 $_lang['tcbillboard_warning_msg'] = 'Заполнить.....';
 
-$_lang['tcbillboard_front_select_category'] = 'Выберите категорию';
-$_lang['tcbillboard_front_titular_text'] = 'Если не выбрана титульная картинка, то будет загружен Ваш логотип.';
-$_lang['tcbillboard_front_change'] = 'Изменить';
-$_lang['tcbillboard_front_remove'] = 'Удалить';
-$_lang['tcbillboard_describe_your_action'] = "Опишите <span style=\"color: red;\">коротко</span> Вашу акцию";
-$_lang['tcbillboard_front_expand'] = 'Далее';
+$_lang['tcbillboard_front_select_category'] = 'W&auml;hlen Sie eine Kategorie aus';
+$_lang['tcbillboard_front_titular_text'] = 'Wenn Sie kein Titelbild zur Ihrer Aktion ausw&auml;hlen, wird dann Ihr Firmenlogo ausgestellt';
+$_lang['tcbillboard_front_change'] = '&Auml;ndern';
+$_lang['tcbillboard_front_remove'] = 'L&ouml;schen';
+$_lang['tcbillboard_describe_your_action'] = "Beschreiben Sie <span style=\"color: red;\">kurz</span> Ihre Aktion";
+$_lang['tcbillboard_front_expand'] = 'Weiter';
 $_lang['tcbillboard_front_duration_of_promotion'] = 'Акция продлится';
-$_lang['tcbillboard_front_duration_of_action'] = 'Длительность акции';
-$_lang['tcbillboard_front_with'] = 'с';
-$_lang['tcbillboard_front_by'] = 'по';
-$_lang['tcbillboard_front_promotion_displayed'] = 'Когда акция должна быть выставлена на сайт';
-$_lang['tcbillboard_front_payment_method'] = 'Способ оплаты';
-$_lang['tcbillboard_front_bank_transfer'] = 'Банковский перевод';
+$_lang['tcbillboard_front_duration_of_action'] = 'Aktionsdauer';
+$_lang['tcbillboard_front_with'] = 'von';
+$_lang['tcbillboard_front_by'] = 'bis';
+$_lang['tcbillboard_front_promotion_displayed'] = 'Ausstellungsdauer der Werbung';
+$_lang['tcbillboard_front_payment_method'] = 'Zahlungsmethode';
+$_lang['tcbillboard_front_bank_transfer'] = 'Banküberweisung';
 $_lang['tcbillboard_front_paypal'] = 'PayPal';
 $_lang['tcbillboard_front_price_day'] = 'Цена в день';
 $_lang['tcbillboard_front_price_grace_period'] = 'Цена в льготный период';
@@ -186,6 +191,8 @@ $_lang['tcbillboard_err_price_ns'] = 'Прайс не указан.';
 $_lang['tcbillboard_err_price_nf'] = 'Прайс не найден.';
 $_lang['tcbillboard_err_unpub_pub'] = 'Дата отмены публикации не может быть меньше, или равным, даты начала публикации.';
 $_lang['tcbillboard_err_endstock_end'] = 'Дата окончания акции не может быть меньше, или равным, даты начала акции.';
+$_lang['tcbillboard_err_graceperiod_start'] = 'Дата начала льготного периода не может быть больше  
+    даты окончания льготного периода.';
 $_lang['tcbillboard_err_empty_snippet'] = 'tcBillboard. Указанный сниппет не найден. Возможно не установлен Ticket - требуется ';
 $_lang['tcbillboard_err_empty_action'] = 'tcBillboard. Получен пустой запрос.';
 $_lang['tcbillboard_err_get_price'] = 'tcBillboard. Не смог получить прайс.';
@@ -195,6 +202,9 @@ $_lang['tcbillboard_err_status_ae'] = 'Такой статус уже сущес
 $_lang['tcbillboard_err_status_ns'] = 'Статус не указан.';
 $_lang['tcbillboard_err_status_nf'] = 'Статус не найден.';
 $_lang['tcbillboard_err_status_get'] = 'tcBillboard. Указанный ID статуса в базе данных не найден или не активирован';
+
+$_lang['tcbillboard_err_order_ns'] = 'Ордер не указан.';
+$_lang['tcbillboard_err_order_nf'] = 'Ордер не найден.';
 
 $_lang['tcbillboard_err_payment_name'] = 'Вы должны указать способ оплаты.';
 $_lang['tcbillboard_err_payment_ns'] = 'Способ оплаты не указан.';

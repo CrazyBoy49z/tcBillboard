@@ -123,29 +123,6 @@ class tcBillboardOrdersGetListProcessor extends modObjectGetListProcessor
      */
     public function prepareQueryBeforeCount(xPDOQuery $c)
     {
-        //if ($this->getProperty('init')) {
-        //    $this->init = $this->getProperty('init');
-        //}
-
-//        $c->leftJoin('modUserProfile', 'Profile', 'tcBillboardOrders.user_id = Profile.internalKey');
-//        $c->leftJoin('tcBillboardPayment', 'Payment', 'tcBillboardOrders.payment = Payment.id');
-//        $c->leftJoin('tcBillboardStatus', 'Status', 'tcBillboardOrders.status = Status.id');
-
-//
-//        $c->select($this->modx->getSelectColumns('tcBillboardOrders', 'tcBillboardOrders'));
-//        $c->select($this->modx->getSelectColumns('modUserProfile', 'Profile', 'user_',
-//            array(
-//                'internalKey', 'fullname', 'email', 'phone', 'mobilephone', 'address', 'country', 'city'
-//            )
-//        ));
-//        $c->select($this->modx->getSelectColumns('tcBillboardPayment', 'Payment', 'payment_',
-//            array('name')
-//        ));
-//        $c->select($this->modx->getSelectColumns('tcBillboardStatus', 'Status', 'status_',
-//            array('name', 'color')
-//        ));
-
-        //$c->leftJoin('modUser', 'User');
         $c->leftJoin('modUserProfile', 'Profile');
         $c->leftJoin('tcBillboardStatus', 'Status');
         $c->leftJoin('tcBillboardPayment', 'Payment');
@@ -235,7 +212,7 @@ class tcBillboardOrdersGetListProcessor extends modObjectGetListProcessor
             'icon' => 'icon icon-trash-o action-red',
             'title' => $this->modx->lexicon('tcbillboard_remove'),
             'multiple' => $this->modx->lexicon('tcbillboard_remove'),
-            'action' => 'removeItem',
+            'action' => 'removeOrder',
             'button' => true,
             'menu' => true,
         );

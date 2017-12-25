@@ -216,9 +216,37 @@ Ext.extend(tcBillboard.grid.Orders, MODx.grid.Grid, {
                 }
             }, this
         );
+    },*/
+
+    removeOrder: function () {
+        var ids = this._getSelectedIds();
+        if (!ids.length) {
+            return false;
+        }
+        MODx.msg.confirm({
+            title: ids.length > 1
+                ? _('tcbillboard_orders_remove')
+                : _('tcbillboard_order_remove'),
+            text: ids.length > 1
+                ? _('tcbillboard_orders_remove_confirm')
+                : _('tcbillboard_order_remove_confirm'),
+            url: this.config.url,
+            params: {
+                action: 'mgr/manager/orders/remove',
+                ids: Ext.util.JSON.encode(ids),
+            },
+            listeners: {
+                success: {
+                    fn: function () {
+                        this.refresh();
+                    }, scope: this
+                }
+            }
+        });
+        return true;
     },
 
-    _renderCost: function (val, idx, rec) {
+    /*_renderCost: function (val, idx, rec) {
         return rec.data['type'] != undefined && rec.data['type'] == 1
             ? '-' + val
             : val;

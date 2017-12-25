@@ -129,27 +129,38 @@ switch ($modx->event->name) {
             $time = time() - $deleteDay * 24 * 60 * 60;
             $tcBillboard->deleteResource($time, 'delete');
         }
-//        if ($firstWarning = $modx->getOption('tcbillboard_first_warning')) {
-//            $time = time() - $firstWarning * 24 * 60 * 60;
-//            $test = $tcBillboard->parseOption($time, 'first_warning');
-//        }
-
+        // Подсчёт неустойки
         if (!$tcBillboard->prepareRequestPenalty()) {
             $modx->log(1, $modx->event->name . ' '
                 . $this->modx->lexicon('tcbillboard_err_request_penalty'));
         }
+        // Записывает в плейсхолдер поля tcBillboardOrders и профиль создавшего ресурс
+        if ($modx->resource->template == $modx->getOption('tcbillboard_stock_template')) {
+            if ($order = $modx->getObject('tcBillboardOrders', array(
+                'res_id' => $modx->resource->id,
+                ))) {
+                $data = $order->toArray();
 
-        // Процессор очистки корзины
-        //$response = $modx->runProcessor('resource/emptyrecyclebin');
-        //if ($response->isError()) $response->getMessage();
+                if ($userProfile = $tcBillboard->getUserProfile($modx->resource->createdby)) {
+                    $profile = $userProfile->toArray();
+                    $data = array_merge($profile, $profile['extended'], $data);
+                }
 
-        //$modx->log(1, $modx->event->name . ' ' . print_r($test, 1));
+                if ($previewFail = $modx->getObject('TicketFile', array(
+                    'class' => 'tcBillboard',
+                    'parent' => $modx->resource->id,
+                ))) {
+                    $data['thumbp'] = $previewFail->get('thumb');
+                }
 
-        //$tcBillboard->test(); 1504874436
+                $modx->regClientCSS($tcBillboard->config['cssUrl'] . 'web/lib/jquery.fancybox.min.css');
+                $modx->regClientScript($tcBillboard->config['jsUrl'] . 'web/lib/jquery.fancybox.min.js');
+                $modx->setPlaceholders($data);
+            }
+        }
 
-        //$modx->sendRedirect($modx->makeUrl(1,'','','full'));
 
-        //$modx->log(1, $modx->event->name . ' ' . print_r($modx->resource->id, 1));
+        $modx->log(1, $modx->event->name . ' ' . print_r($data, 1));
 
         //$modx->resource->setContent($test);
         break;

@@ -70,7 +70,16 @@ $tmp = array(
     'tcBillboardPreviewTpl' => array(
         'file' => 'tcbillboardpreview',
         'description' => '',
-    )
+    ),
+
+    'tcBillboardStockTpl' => array(
+        'file' => 'tcbillboardstock',
+        'description' => '',
+    ),
+    'tcBillboardMyOrdersTpl' => array(
+        'file' => 'tcbillboardmyorders',
+        'description' => '',
+    ),
 );
 
 // Save chunks for setup options
