@@ -1,48 +1,57 @@
 <?php
-ini_set('error_reporting', E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-
 /** @var modX $modx */
 /** @var array $scriptProperties */
 /** @var tcBillboard $tcBillboard */
+
+if ($modx->resource->createdby != $modx->user->id) {
+    $modx->sendRedirect($modx->makeUrl($modx->getOption('site_start'),'','','full'));
+}
 
 if (!$modx->loadClass('tcBillboard', MODX_CORE_PATH . 'components/tcbillboard/model/tcbillboard/', false, true)) {
     return false;
 }
 $tcBillboard = new tcBillboard($modx, $scriptProperties);
 
-$tpl = $modx->getOption('tpl', $scriptProperties, 'tcBillboardPreviewTpl', true);
-$createdBy = trim($modx->getOption('createdBy', $scriptProperties, ''));
-$resourceFields = $modx->getOption('resourceFields', $scriptProperties, '', true);
+$tpl = $modx->getOption('tpl', $scriptProperties, 'tcBillboardMyOrdersTpl', true);
+$user = $modx->getOption('user', $scriptProperties, $modx->user->id, true);
+$sortby = $modx->getOption('sortby', $scriptProperties, 'DESC');
+$fields = $modx->getOption('fields', $scriptProperties, '', true);
+
+$dateFormat = $tcBillboard->config['dateFormat'];
+$fields = array_map('trim', explode(',', $fields));
 
 $output = '';
 $tmp = array();
 
-$q = $modx->newQuery('modResource');
-$q->leftJoin('tcBillboardOrders', 'Orders', 'modResource.id = Orders.res_id');
-if (!empty($resourceFields)) {
-    $q->select($resourceFields);
-}
-$q->select('Orders.*');
-$q->where(array(
-    'class_key' => 'Ticket',
-));
-
-if (!empty($createdBy)) {
-    $q->where(array(
-        'createdby' => $createdBy,
-    ));
-}
+$q = $modx->newQuery('tcBillboardOrders', array('user_id' => (int)$user));
+$q->select($modx->getSelectColumns('tcBillboardOrders', 'tcBillboardOrders', '', $fields));
+$q->sortby('id', $sortby);
 
 if ($q->prepare() && $q->stmt->execute()) {
     while ($row = $q->stmt->fetch(PDO::FETCH_ASSOC)) {
         $tmp[] = $row;
+
+        if ($row['pubdatedon']) {
+            $row['pubdatedon'] = date($dateFormat, strtotime($row['pubdatedon']));
+        }
+        if ($row['unpubdatedon']) {
+            $row['unpubdatedon'] = date($dateFormat, strtotime($row['unpubdatedon']));
+        }
+        if ($row['start_stock']) {
+            $row['start_stock'] = date($dateFormat, strtotime($row['start_stock']));
+        }
+        if ($row['end_stock']) {
+            $row['end_stock'] = date($dateFormat, strtotime($row['end_stock']));
+        }
+
+        $output .= $tcBillboard->getChunk($tpl, $row);
     }
 }
 
-print '<pre>';
-print_r($tmp);
-print '</pre>';
-
-return $output;
+if (empty($tpl)) {
+    print '<pre>';
+    print_r($tmp);
+    print '</pre>';
+} else {
+    return $output;
+}

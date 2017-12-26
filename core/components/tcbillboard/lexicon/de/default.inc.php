@@ -157,7 +157,7 @@ $_lang['tcbillboard_front_change'] = '&Auml;ndern';
 $_lang['tcbillboard_front_remove'] = 'L&ouml;schen';
 $_lang['tcbillboard_describe_your_action'] = "Beschreiben Sie <span style=\"color: red;\">kurz</span> Ihre Aktion";
 $_lang['tcbillboard_front_expand'] = 'Weiter';
-$_lang['tcbillboard_front_duration_of_promotion'] = 'Акция продлится';
+$_lang['tcbillboard_front_duration_of_promotion'] = 'Aktion gültig vom';
 $_lang['tcbillboard_front_duration_of_action'] = 'Aktionsdauer';
 $_lang['tcbillboard_front_with'] = 'von';
 $_lang['tcbillboard_front_by'] = 'bis';

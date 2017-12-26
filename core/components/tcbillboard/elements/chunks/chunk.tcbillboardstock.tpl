@@ -105,6 +105,10 @@
             <br />
             `]]
         `]]
+
+        [[$shariff]]
+        <br>
+
         <div class="tcbillboard-wrap-map">
             <div id="map"></div>
         </div>

@@ -5,13 +5,17 @@ $properties = array();
 $tmp = array(
     'tpl' => array(
         'type' => 'textfield',
-        'value' => 'tcBillboardPreviewTpl',
+        'value' => 'tcBillboardMyOrdersTpl',
     ),
-    'createdBy' => array(
-        'type' => 'textfield',
+    'user' => array(
+        'type' => 'numberfield',
         'value' => '',
     ),
-    'resourceFields' => array(
+    'sortby' => array(
+        'type' => 'textfield',
+        'value' => 'DESC',
+    ),
+    'fields' => array(
         'type' => 'textfield',
         'value' => '',
     ),

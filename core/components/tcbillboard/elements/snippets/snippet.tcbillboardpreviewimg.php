@@ -3,6 +3,7 @@
 /** @var array $scriptProperties */
 /** @var tcBillboard $tcBillboard */
 
+$tpl = $modx->getOption('tpl', $scriptProperties, 'tcBillboardImagesTpl', true);
 $createdBy = $modx->getOption('createdBy', $scriptProperties, $modx->user->id, true);
 
 $output = '';
