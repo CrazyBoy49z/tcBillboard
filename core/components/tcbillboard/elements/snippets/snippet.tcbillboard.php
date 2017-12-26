@@ -3,7 +3,7 @@
 /** @var array $scriptProperties */
 /** @var tcBillboard $tcBillboard */
 
-if ($modx->resource->createdby != $modx->user->id) {
+if (!$modx->user->isAuthenticated($modx->context->key)) {
     $modx->sendRedirect($modx->makeUrl($modx->getOption('site_start'),'','','full'));
 }
 
