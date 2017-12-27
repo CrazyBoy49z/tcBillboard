@@ -71,3 +71,11 @@ $_lang['setting_tcbillboard_email_subject'] = 'Тема письма';
 $_lang['setting_tcbillboard_email_to_manager'] = 'ID менеджеров';
 $_lang['setting_tcbillboard_email_to_manager_desc'] = 'ID менеджеров, через запятую, которым 
     будут приходить уведомления на почту';
+
+$_lang['area_tcbillboard_import_csv'] = 'Импорт CSV';
+
+$_lang['setting_tcbillboard_import_csv_text'] = 'Колонка с текстовым полем';
+$_lang['setting_tcbillboard_import_csv_text_desc'] = 'Колонка файла с названием текстового поля, 
+    где искать номер инвойса';
+$_lang['setting_tcbillboard_import_csv_amount'] = 'Колонка с суммой оплаты';
+$_lang['setting_tcbillboard_import_csv_amount_desc'] = 'Колонка файла, где искать сумму оплаты';

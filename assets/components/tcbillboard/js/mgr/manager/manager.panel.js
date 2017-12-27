@@ -54,6 +54,16 @@ tcBillboard.panel.Orders = function (config) {
                     xtype: 'tcbillboard-grid-warning',
                     id: 'tcbillboard-grid-warning'
                 }]
+            },{
+                title: _('tcbillboard_import_csv'),
+                layout: 'anchor',
+                items: [{
+                    html: _('tcbillboard_import_csv_msg'),
+                    cls: 'panel-desc'
+                },{
+                    xtype: 'tcbillboard-form-import-csv',
+                    id: 'tcbillboard-form-import-csv'
+                }]
             }]
         }]
     });

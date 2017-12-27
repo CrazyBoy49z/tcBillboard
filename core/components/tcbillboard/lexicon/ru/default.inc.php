@@ -232,3 +232,16 @@ $_lang['tcbillboard_err_email_chunk_manager'] = 'tcBillboard. Чанк увед�
 $_lang['tcbillboard_err_user_not'] = 'Вы пытаетесь оплатить публикацию, которая вам не принадлежит. 
     Просьба связаться с администрацией сайта.';
 $_lang['tcbillboard_err_order_not'] = 'Публикация, которую Вы пытаетесь оплатить, не найдена';
+
+$_lang['tcbillboard_import_csv'] = 'Импорт CSV';
+$_lang['tcbillboard_import_csv_msg'] = 'Заполнить...';
+$_lang['tcbillboard_import_csv_file'] = 'Загрузить CSV файл';
+$_lang['tcbillboard_import'] = 'Импортировать';
+$_lang['tcbillboard_import_failed'] = 'Нет данных для импорта. Проверьте файл.';
+$_lang['tcbillboard_import_success'] = 'Импорт завершён успешно!';
+
+$_lang['tcbillboard_success'] = 'Успех';
+$_lang['tcbillboard_failed'] = 'Нет данных';
+$_lang['tcbillboard_importing'] = 'Импортирую';
+
+$_lang['tcbillboard_err_text_amount'] = 'tcBillboard. Не смог получить названия колонок. Проверьте системные настройки';

@@ -77,6 +77,8 @@ class tcBillboardMgrBillboardsManagerController extends modExtraManagerControlle
         $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/manager/warning/warning.form.js');
         $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/manager/warning/warning.grid.js');
 
+        $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/manager/import/import.form.js');
+
 //        $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/vendor/highstock/highcharts.js');
 //        $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/vendor/highstock/modules/data.js');
 //        $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/vendor/highstock/modules/drilldown.js');

@@ -129,6 +129,17 @@ $tmp = array(
         'value' => '',
         'area' => 'tcbillboard_email',
     ),
+
+    'import_csv_text' => array(
+        'xtype' => 'textfield',
+        'value' => 'Buchungstext',
+        'area' => 'tcbillboard_import_csv',
+    ),
+    'import_csv_amount' => array(
+        'xtype' => 'textfield',
+        'value' => 'Betrag',
+        'area' => 'tcbillboard_import_csv',
+    ),
 );
 
 foreach ($tmp as $k => $v) {
