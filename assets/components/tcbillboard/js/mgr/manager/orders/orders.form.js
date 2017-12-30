@@ -111,17 +111,6 @@ tcBillboard.panel.OrdersForm = function(config) {
                     id: config.id + '-chart',
                 }]
             }]
-        },{
-            // xtype: 'panel',
-            // cls: 'button-holder',
-            // items: [{
-            //     xtype: 'button',
-            //     text: '<i class="icon icon-times"></i> ' + _('tcbillboard_reset'),
-            //     scope: this,
-            //     cls: 'btn',
-            //     iconCls: 'x-btn-small',
-            //     handler: this.reset
-            //}]
         }]
     });
     tcBillboard.panel.OrdersForm.superclass.constructor.call(this, config);
@@ -178,12 +167,6 @@ Ext.extend(tcBillboard.panel.OrdersForm, MODx.FormPanel, {
     // },
 
     setup: function(dataset) {
-        // var colors = {
-        //     time: '#68DBF2'
-        //     , create: '#87B953'
-        //     , update: '#8D3EA2'
-        //     , error: '#F05D5E'
-        // };
         var container = Ext.get('tcbillboard-chart');
         Ext.DomHelper.append(container, {tag: 'div', id: 'tcbillboard-chart-other'});
 

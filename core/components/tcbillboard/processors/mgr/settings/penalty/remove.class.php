@@ -4,7 +4,19 @@ class tcBillboardPenaltyRemoveProcessor extends modObjectProcessor
 {
     public $classKey = 'tcBillboardPenalty';
     public $languageTopics = array('tcbillboard');
-    //public $permission = 'remove';
+    public $permission = 'tbsetting_remove';
+
+
+    /**
+     * @return bool|null|string
+     */
+    public function initialize()
+    {
+        if (!$this->modx->hasPermission($this->permission)) {
+            return $this->modx->lexicon('access_denied');
+        }
+        return parent::initialize();
+    }
 
 
     /**
@@ -12,10 +24,6 @@ class tcBillboardPenaltyRemoveProcessor extends modObjectProcessor
      */
     public function process()
     {
-        if (!$this->checkPermissions()) {
-            return $this->failure($this->modx->lexicon('access_denied'));
-        }
-
         $ids = $this->modx->fromJSON($this->getProperty('ids'));
         if (empty($ids)) {
             return $this->failure($this->modx->lexicon('tcbillboard_err_penalty_ns'));
@@ -32,5 +40,4 @@ class tcBillboardPenaltyRemoveProcessor extends modObjectProcessor
     }
 
 }
-
 return 'tcBillboardPenaltyRemoveProcessor';

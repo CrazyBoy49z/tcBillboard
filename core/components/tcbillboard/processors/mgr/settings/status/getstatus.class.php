@@ -19,10 +19,8 @@ class tcBillboardGetStatusGetListProcessor extends modObjectGetListProcessor
         if ($query = trim($this->getProperty('query'))) {
             $c->where(array('name:LIKE' => "%{$query}%"));
         }
-
         return $c;
     }
 
 }
-
 return 'tcBillboardGetStatusGetListProcessor';

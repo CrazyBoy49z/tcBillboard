@@ -5,7 +5,7 @@ class tcBillboardPriceGetListProcessor extends modObjectGetListProcessor
     public $classKey = 'tcBillboardPrice';
     public $defaultSortField = 'id';
     public $defaultSortDirection = 'asc';
-    //public $permission = 'list';
+    public $permission = 'tbsetting_list';
 
 
     /**
@@ -19,28 +19,8 @@ class tcBillboardPriceGetListProcessor extends modObjectGetListProcessor
         if (!$this->checkPermissions()) {
             return $this->modx->lexicon('access_denied');
         }
-
         return true;
     }
-
-
-    /**
-     * @param xPDOQuery $c
-     *
-     * @return xPDOQuery
-     */
-    /*public function prepareQueryBeforeCount(xPDOQuery $c)
-    {
-        $query = trim($this->getProperty('query'));
-        if ($query) {
-            $c->where(array(
-                'period:LIKE' => "%{$query}%",
-            ));
-        }
-
-        return $c;
-    }*/
-
 
     /**
      * @param xPDOObject $object
@@ -94,10 +74,8 @@ class tcBillboardPriceGetListProcessor extends modObjectGetListProcessor
             'button' => true,
             'menu' => true,
         );
-
         return $array;
     }
 
 }
-
 return 'tcBillboardPriceGetListProcessor';

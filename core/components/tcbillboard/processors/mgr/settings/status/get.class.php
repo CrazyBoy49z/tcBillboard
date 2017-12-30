@@ -3,11 +3,9 @@
 class tcBillboardStatusGetProcessor extends modObjectGetProcessor
 {
     /** @var tcBillboardStatus $object */
-    public $object;
     public $classKey = 'tcBillboardStatus';
     public $languageTopics = array('tcbillboard');
-    //public $permission = 'view';
-
+    public $permission = 'tbsetting_view';
 
 
     /**
@@ -21,5 +19,4 @@ class tcBillboardStatusGetProcessor extends modObjectGetProcessor
         return parent::initialize();
     }
 }
-
 return 'tcBillboardStatusGetProcessor';

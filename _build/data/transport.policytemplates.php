@@ -26,6 +26,23 @@ $tmp = array(
             'view_unpublished' => array(),
         ),
     ),
+    'tcBillboardManagerPolicyTemplate' => array(
+        'description' => 'A policy for tcBillboard managers.',
+        'template_group' => 1,
+        'permissions' => array(
+            'tborder_import' => array(),
+            'tborder_invoice_list' => array(),
+            'tborder_view' => array(),
+            'tborder_list' => array(),
+            'tborder_remove' => array(),
+            'tborder_save' => array(),
+            'tborder_warning_list' => array(),
+            'tbsetting_view' => array(),
+            'tbsetting_list' => array(),
+            'tbsetting_remove' => array(),
+            'tbsetting_save' => array(),
+        ),
+    ),
 );
 /** @var modx $modx */
 foreach ($tmp as $k => $v) {

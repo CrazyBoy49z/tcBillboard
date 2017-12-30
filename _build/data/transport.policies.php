@@ -24,6 +24,22 @@ $tmp = array(
             'view_unpublished' => true,
         ),
     ),
+    'tcBillboardManagerPolicy' => array(
+        'description' => 'Order editing policy tcBillboard',
+        'data' => array(
+            'tborder_import' => false,
+            'tborder_invoice_list' => true,
+            'tborder_view' => true,
+            'tborder_list' => true,
+            'tborder_remove' => true,
+            'tborder_save' => true,
+            'tborder_warning_list' => true,
+            'tbsetting_view' => true,
+            'tbsetting_list' => true,
+            'tbsetting_remove' => true,
+            'tbsetting_save' => true,
+        ),
+    ),
 );
 /** @var modx $modx */
 foreach ($tmp as $k => $v) {

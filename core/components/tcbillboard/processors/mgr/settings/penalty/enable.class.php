@@ -4,7 +4,6 @@ class tcBillboardPenaltyEnableProcessor extends modObjectProcessor
 {
     public $classKey = 'tcBillboardPenalty';
     public $languageTopics = array('tcbillboard');
-    //public $permission = 'save';
 
 
     /**
@@ -32,5 +31,4 @@ class tcBillboardPenaltyEnableProcessor extends modObjectProcessor
         return $this->success();
     }
 }
-
 return 'tcBillboardPenaltyEnableProcessor';

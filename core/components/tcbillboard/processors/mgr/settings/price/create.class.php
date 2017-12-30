@@ -4,7 +4,6 @@ class tcBillboardPriceCreateProcessor extends modObjectCreateProcessor
 {
     public $classKey = 'tcBillboardPrice';
     public $languageTopics = array('tcbillboard');
-    //public $permission = 'create';
 
 
     /**
@@ -28,9 +27,7 @@ class tcBillboardPriceCreateProcessor extends modObjectCreateProcessor
             $this->modx->error->addField('graceperiod', '');
             return $this->modx->lexicon('tcbillboard_err_graceperiod_start');
         }
-
         return parent::beforeSet();
     }
 }
-
 return 'tcBillboardPriceCreateProcessor';

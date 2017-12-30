@@ -4,7 +4,6 @@ class tcBillboardPaymentDisableProcessor extends modObjectProcessor
 {
     public $classKey = 'tcBillboardPayment';
     public $languageTopics = array('tcbillboard');
-    //public $permission = 'save';
 
 
     /**
@@ -35,5 +34,4 @@ class tcBillboardPaymentDisableProcessor extends modObjectProcessor
     }
 
 }
-
 return 'tcBillboardPaymentDisableProcessor';

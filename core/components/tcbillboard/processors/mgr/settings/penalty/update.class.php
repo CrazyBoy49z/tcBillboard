@@ -4,22 +4,18 @@ class tcBillboardPenaltyUpdateProcessor extends modObjectUpdateProcessor
 {
     public $classKey = 'tcBillboardPenalty';
     public $languageTopics = array('tcbillboard');
-    //public $permission = 'save';
+    public $permission = 'tbsetting_save';
 
 
     /**
-     * We doing special check of permission
-     * because of our objects is not an instances of modAccessibleObject
-     *
-     * @return bool|string
+     * @return bool|null|string
      */
-    public function beforeSave()
+    public function initialize()
     {
-        if (!$this->checkPermissions()) {
+        if (!$this->modx->hasPermission($this->permission)) {
             return $this->modx->lexicon('access_denied');
         }
-
-        return true;
+        return parent::initialize();
     }
 
 
@@ -31,7 +27,6 @@ class tcBillboardPenaltyUpdateProcessor extends modObjectUpdateProcessor
         $id = (int)$this->getProperty('id');
         $days = trim($this->getProperty('days'));
         $formula = 'incasso';
-
 
         $percent = trim(str_replace(',', '.', $this->getProperty('percent')));
         $fine = trim(str_replace(',', '.', $this->getProperty('fine')));
@@ -51,9 +46,7 @@ class tcBillboardPenaltyUpdateProcessor extends modObjectUpdateProcessor
         } elseif ($this->modx->getCount($this->classKey, array('days' => $days, 'id:!=' => $id))) {
             $this->modx->error->addField('days', $this->modx->lexicon('tcbillboard_err_amount_days_ae'));
         }
-
         return parent::beforeSet();
     }
 }
-
 return 'tcBillboardPenaltyUpdateProcessor';

@@ -160,7 +160,7 @@ switch ($modx->event->name) {
         }
 
 
-        $modx->log(1, $modx->event->name . ' ' . print_r($data, 1));
+        //$modx->log(1, $modx->event->name . ' ' . print_r($data, 1));
 
         //$modx->resource->setContent($test);
         break;

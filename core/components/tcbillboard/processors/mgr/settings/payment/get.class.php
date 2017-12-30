@@ -4,7 +4,7 @@ class tcBillboardPaymentGetProcessor extends modObjectGetProcessor
 {
     public $classKey = 'tcBillboardPayment';
     public $languageTopics = array('tcbillboard');
-    //public $permission = 'view';
+    public $permission = 'tbsetting_view';
 
 
     /**
@@ -23,5 +23,4 @@ class tcBillboardPaymentGetProcessor extends modObjectGetProcessor
     }
 
 }
-
 return 'tcBillboardPaymentGetProcessor';

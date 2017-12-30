@@ -4,7 +4,7 @@ class tcBillboardPriceRemoveProcessor extends modObjectProcessor
 {
     public $classKey = 'tcBillboardPrice';
     public $languageTopics = array('tcbillboard');
-    //public $permission = 'remove';
+    public $permission = 'tbsetting_remove';
 
 
     /**
@@ -26,13 +26,10 @@ class tcBillboardPriceRemoveProcessor extends modObjectProcessor
             if (!$object = $this->modx->getObject($this->classKey, $id)) {
                 return $this->failure($this->modx->lexicon('tcbillboard_item_err_nf'));
             }
-
             $object->remove();
         }
-
         return $this->success();
     }
 
 }
-
 return 'tcBillboardPriceRemoveProcessor';

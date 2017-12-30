@@ -4,7 +4,7 @@ class tcBillboardPriceGetProcessor extends modObjectGetProcessor
 {
     public $classKey = 'tcBillboardPrice';
     public $languageTopics = array('tcbillboard:default');
-    //public $permission = 'view';
+    public $permission = 'tbsetting_view';
 
 
     /**
@@ -18,10 +18,8 @@ class tcBillboardPriceGetProcessor extends modObjectGetProcessor
         if (!$this->checkPermissions()) {
             return $this->failure($this->modx->lexicon('access_denied'));
         }
-
         return parent::process();
     }
 
 }
-
 return 'tcBillboardPriceGetProcessor';

@@ -5,7 +5,7 @@ class tcBillboardPenaltyGetListProcessor extends modObjectGetListProcessor
     public $classKey = 'tcBillboardPenalty';
     public $defaultSortField = 'days';
     public $defaultSortDirection = 'ASC';
-    //public $permission = 'list';
+    public $permission = 'tbsetting_list';
 
 
     /**
@@ -19,10 +19,8 @@ class tcBillboardPenaltyGetListProcessor extends modObjectGetListProcessor
         if (!$this->checkPermissions()) {
             return $this->modx->lexicon('access_denied');
         }
-
         return true;
     }
-
 
     /**
      * @param xPDOObject $object
@@ -79,5 +77,4 @@ class tcBillboardPenaltyGetListProcessor extends modObjectGetListProcessor
         return $array;
     }
 }
-
 return 'tcBillboardPenaltyGetListProcessor';

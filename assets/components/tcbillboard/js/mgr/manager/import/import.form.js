@@ -53,6 +53,7 @@ tcBillboard.panel.ImportCSV = function(config) {
                                 },
                                 success: function(form, response) {
                                     Ext.MessageBox.alert(_('tcbillboard_success'), response.result.message);
+                                    Ext.getCmp('tcbillboard-form-import-csv').refresh();
                                 }
                             });
                         }

@@ -4,7 +4,6 @@ class tcBillboardPaymentCreateProcessor extends modObjectCreateProcessor
 {
     public $classKey = 'tcBillboardPayment';
     public $languageTopics = array('tcbillboard');
-    //public $permission = 'create';
 
 
     /**
@@ -18,10 +17,8 @@ class tcBillboardPaymentCreateProcessor extends modObjectCreateProcessor
         } elseif ($this->modx->getCount($this->classKey, array('name' => $name))) {
             $this->modx->error->addField('name', $this->modx->lexicon('tcbillboard_err_payment_ae'));
         }
-
         return parent::beforeSet();
     }
 
 }
-
 return 'tcBillboardPaymentCreateProcessor';

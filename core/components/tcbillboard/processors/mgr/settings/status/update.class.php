@@ -6,7 +6,7 @@ class tcBillboardStatusUpdateProcessor extends modObjectUpdateProcessor
     public $object;
     public $classKey = 'tcBillboardStatus';
     public $languageTopics = array('tcbillboard');
-    //public $permission = 'mssetting_save';
+    public $permission = 'tbsetting_save';
 
 
     /**
@@ -17,10 +17,8 @@ class tcBillboardStatusUpdateProcessor extends modObjectUpdateProcessor
         if (!$this->modx->hasPermission($this->permission)) {
             return $this->modx->lexicon('access_denied');
         }
-
         return parent::initialize();
     }
-
 
     /**
      * @return bool
@@ -47,10 +45,8 @@ class tcBillboardStatusUpdateProcessor extends modObjectUpdateProcessor
         if ($this->modx->getCount($this->classKey, array('name' => $name, 'id:!=' => $this->object->id))) {
             $this->modx->error->addField('name', $this->modx->lexicon('tcbillboard_err_ae'));
         }
-
         return !$this->hasErrors();
     }
 
 }
-
 return 'tcBillboardStatusUpdateProcessor';

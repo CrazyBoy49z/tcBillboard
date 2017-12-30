@@ -6,7 +6,7 @@ class tcBillboardPaymentUpdateProcessor extends modObjectUpdateProcessor
     public $object;
     public $classKey = 'tcBillboardPayment';
     public $languageTopics = array('tcbillboard');
-    //public $permission = 'mssetting_save';
+    public $permission = 'tbsetting_save';
 
 
     /**
@@ -17,10 +17,8 @@ class tcBillboardPaymentUpdateProcessor extends modObjectUpdateProcessor
         if (!$this->modx->hasPermission($this->permission)) {
             return $this->modx->lexicon('access_denied');
         }
-
         return parent::initialize();
     }
-
 
     /**
      * @return bool
@@ -56,10 +54,8 @@ class tcBillboardPaymentUpdateProcessor extends modObjectUpdateProcessor
                 $this->setProperty($field, $tmp);
             }
         }
-
         return !$this->hasErrors();
     }
 
 }
-
 return 'tcBillboardPaymentUpdateProcessor';

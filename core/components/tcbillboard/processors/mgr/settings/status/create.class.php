@@ -4,7 +4,6 @@ class tcBillboardStatusCreateProcessor extends modObjectCreateProcessor
 {
     public $classKey = 'tcBillboardStatus';
     public $languageTopics = array('tcbillboard');
-    //public $permission = 'create';
 
 
     /**
@@ -18,10 +17,8 @@ class tcBillboardStatusCreateProcessor extends modObjectCreateProcessor
         } elseif ($this->modx->getCount($this->classKey, array('name' => $name))) {
             $this->modx->error->addField('name', $this->modx->lexicon('tcbillboard_err_status_ae'));
         }
-
         return parent::beforeSet();
     }
 
 }
-
 return 'tcBillboardStatusCreateProcessor';

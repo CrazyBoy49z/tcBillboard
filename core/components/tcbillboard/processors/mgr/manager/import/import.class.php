@@ -1,6 +1,15 @@
 <?php
 
-class tcBillboardImportCSVProcessor extends modProcessor {
+class tcBillboardImportCSVProcessor extends modProcessor
+{
+    public $permission = 'tborder_import';
+
+    /**
+     * @return bool
+     */
+    public function checkPermissions() {
+        return $this->modx->hasPermission($this->permission);
+    }
 
     /**
      * @return array

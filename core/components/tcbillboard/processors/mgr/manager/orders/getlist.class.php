@@ -6,14 +6,11 @@ class tcBillboardOrdersGetListProcessor extends modObjectGetListProcessor
     public $languageTopics = array('default', 'tcbillboard:manager');
     public $defaultSortField = 'id';
     public $defaultSortDirection = 'DESC';
-    //public $permission = 'msorder_list';
+    public $permission = 'tborder_list';
     /** @var  tcBillboard $tcBillboard */
     protected $tcBillboard;
     /** @var  xPDOQuery $query */
     protected $query;
-
-    //protected $init;
-    //protected $queryChart;
 
 
     /**
@@ -48,13 +45,8 @@ class tcBillboardOrdersGetListProcessor extends modObjectGetListProcessor
         } else {
             $list = $this->iterate($data);
         }
-
-//        print_r($list);
-//        die;
-
         return $this->outputArray($list, $data['total']);
     }
-
 
     /**
      * @param $exportPath
@@ -114,8 +106,6 @@ class tcBillboardOrdersGetListProcessor extends modObjectGetListProcessor
         return array('file' =>$handle, 'filename' => $file, 'content' => ob_get_clean());
     }
 
-
-
     /**
      * @param xPDOQuery $c
      *
@@ -156,7 +146,6 @@ class tcBillboardOrdersGetListProcessor extends modObjectGetListProcessor
         return $c;
     }
 
-
     /**
      * @param xPDOObject $object
      *
@@ -165,13 +154,7 @@ class tcBillboardOrdersGetListProcessor extends modObjectGetListProcessor
     public function prepareRow(xPDOObject $object)
     {
         $array = $object->toArray();
-        //$array['notice'] = array();
         $array['actions'] = array();
-
-        /*$array['notice'][] = array(
-            'cls' => '',
-            'icon' =>
-        );*/
 
         // Edit
         $array['actions'][] = array(
@@ -184,28 +167,6 @@ class tcBillboardOrdersGetListProcessor extends modObjectGetListProcessor
             'menu' => true,
         );
 
-        /*if (!$array['active']) {
-            $array['actions'][] = array(
-                'cls' => '',
-                'icon' => 'icon icon-power-off action-green',
-                'title' => $this->modx->lexicon('tcbillboard_item_enable'),
-                'multiple' => $this->modx->lexicon('tcbillboard_items_enable'),
-                'action' => 'enableItem',
-                'button' => true,
-                'menu' => true,
-            );
-        } else {
-            $array['actions'][] = array(
-                'cls' => '',
-                'icon' => 'icon icon-power-off action-gray',
-                'title' => $this->modx->lexicon('tcbillboard_item_disable'),
-                'multiple' => $this->modx->lexicon('tcbillboard_items_disable'),
-                'action' => 'disableItem',
-                'button' => true,
-                'menu' => true,
-            );
-        }*/
-
         // Remove
         $array['actions'][] = array(
             'cls' => '',
@@ -216,195 +177,8 @@ class tcBillboardOrdersGetListProcessor extends modObjectGetListProcessor
             'button' => true,
             'menu' => true,
         );
-
         return $array;
     }
-
-
-    /**
-     * @return array
-     */
-    /*public function getData()
-    {
-        $data = array();
-        $limit = intval($this->getProperty('limit'));
-        $start = intval($this->getProperty('start'));
-
-        $c = $this->modx->newQuery($this->classKey);
-        $c = $this->prepareQueryBeforeCount($c);
-        $data['total'] = $this->modx->getCount($this->classKey, $c);
-        $c = $this->prepareQueryAfterCount($c);
-
-        $sortClassKey = $this->getSortClassKey();
-        $sortKey = $this->modx->getSelectColumns($sortClassKey, $this->getProperty('sortAlias', $sortClassKey), '',
-            array($this->getProperty('sort')));
-        if (empty($sortKey)) {
-            $sortKey = $this->getProperty('sort');
-        }
-        $c->sortby($sortKey, $this->getProperty('dir'));
-        if ($limit > 0) {
-            $c->limit($limit, $start);
-        }
-
-        if ($c->prepare() && $c->stmt->execute()) {
-            $data['results'] = $c->stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-
-        return $data;
-    }*/
-
-
-    /*public function getData() {
-        $data = array();
-        $limit = intval($this->getProperty('limit'));
-        $start = intval($this->getProperty('start'));*/
-
-        /* query for chunks */
-       /* $c = $this->modx->newQuery($this->classKey);
-        $c = $this->prepareQueryBeforeCount($c);
-        $data['total'] = $this->modx->getCount($this->classKey,$c);
-        $c = $this->prepareQueryAfterCount($c);
-
-        $sortClassKey = $this->getSortClassKey();
-        $sortKey = $this->modx->getSelectColumns($sortClassKey,$this->getProperty('sortAlias',$sortClassKey),'',array($this->getProperty('sort')));
-        if (empty($sortKey)) $sortKey = $this->getProperty('sort');
-        $c->sortby($sortKey,$this->getProperty('dir'));
-        if ($limit > 0) {
-            $c->limit($limit,$start);
-        }
-
-        $data['results'] = $this->modx->getCollection($this->classKey,$c);
-        return $data;
-    }*/
-
-
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    /*public function iterate(array $data)
-    {
-        $list = array();
-        $list = $this->beforeIteration($list);
-        $this->currentIndex = 0;*/
-        /** @var xPDOObject|modAccessibleObject $object */
-        /*foreach ($data['results'] as $array) {
-            $list[] = $this->prepareArray($array);
-            $this->currentIndex++;
-        }
-        $list = $this->afterIteration($list);
-
-        return $list;
-    }*/
-
-
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    /*public function prepareArray(array $data)
-    {
-        if (empty($data['customer'])) {
-            $data['customer'] = $data['customer_username'];
-        }
-
-        $data['status'] = '<span style="color:#' . $data['color'] . ';">' . $data['status'] . '</span>';
-        unset($data['color']);
-
-        if (isset($data['cost'])) {
-            $data['cost'] = $this->ms2->formatPrice($data['cost']);
-        }
-        if (isset($data['cart_cost'])) {
-            $data['cart_cost'] = $this->ms2->formatPrice($data['cart_cost']);
-        }
-        if (isset($data['delivery_cost'])) {
-            $data['delivery_cost'] = $this->ms2->formatPrice($data['delivery_cost']);
-        }
-        if (isset($data['weight'])) {
-            $data['weight'] = $this->ms2->formatWeight($data['weight']);
-        }
-
-        $data['actions'] = array(
-            array(
-                'cls' => '',
-                'icon' => 'icon icon-edit',
-                'title' => $this->modx->lexicon('ms2_menu_update'),
-                'action' => 'updateOrder',
-                'button' => true,
-                'menu' => true,
-            ),
-            array(
-                'cls' => array(
-                    'menu' => 'red',
-                    'button' => 'red',
-                ),
-                'icon' => 'icon icon-trash-o',
-                'title' => $this->modx->lexicon('ms2_menu_remove'),
-                'multiple' => $this->modx->lexicon('ms2_menu_remove_multiple'),
-                'action' => 'removeOrder',
-                'button' => true,
-                'menu' => true,
-            ),*/
-            /*
-            array(
-                'cls' => '',
-                'icon' => 'icon icon-cog actions-menu',
-                'menu' => false,
-                'button' => true,
-                'action' => 'showMenu',
-                'type' => 'menu',
-            ),
-            */
-     /*   );
-
-        return $data;
-    }*/
-
-
-    /**
-     * @param array $array
-     * @param bool $count
-     *
-     * @return string
-     */
-    /*public function outputArray(array $array, $count = false)
-    {
-        if ($count === false) {
-            $count = count($array);
-        }
-
-        $selected = $this->query;
-        $selected->query['columns'] = array();
-        $selected->query['limit'] =
-        $selected->query['offset'] = 0;
-        $selected->where(array('type' => 0));
-        $selected->select('SUM(msOrder.cost)');
-        $selected->prepare();
-        $selected->stmt->execute();
-
-        $month = $this->modx->newQuery($this->classKey);
-        $month->where(array('status:IN' => array(2, 3), 'type' => 0));
-        $month->where('createdon BETWEEN NOW() - INTERVAL 30 DAY AND NOW()');
-        $month->select('SUM(msOrder.cost) as sum, COUNT(msOrder.id) as total');
-        $month->prepare();
-        $month->stmt->execute();
-        $month = $month->stmt->fetch(PDO::FETCH_ASSOC);
-
-        $data = array(
-            'success' => true,
-            'results' => $array,
-            'total' => $count,
-            'num' => number_format($count, 0, '.', ' '),
-            'sum' => number_format(round($selected->stmt->fetchColumn()), 0, '.', ' '),
-            'month_sum' => number_format(round($month['sum']), 0, '.', ' '),
-            'month_total' => number_format($month['total'], 0, '.', ' '),
-        );
-
-        return json_encode($data);
-    }*/
-
 }
 
 return 'tcBillboardOrdersGetListProcessor';

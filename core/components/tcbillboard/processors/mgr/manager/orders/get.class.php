@@ -4,7 +4,7 @@ class tcBillboardOrdersGetProcessor extends modObjectGetProcessor
 {
     public $classKey = 'tcBillboardOrders';
     public $languageTopics = array('tcbillboard:default');
-    //public $permission = 'view';
+    public $permission = 'tborder_view';
 
 
     /**
@@ -21,7 +21,6 @@ class tcBillboardOrdersGetProcessor extends modObjectGetProcessor
 
         return parent::process();
     }
-
 }
 
 return 'tcBillboardOrdersGetProcessor';

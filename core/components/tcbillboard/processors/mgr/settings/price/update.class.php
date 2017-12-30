@@ -4,7 +4,7 @@ class tcBillboardPriceUpdateProcessor extends modObjectUpdateProcessor
 {
     public $classKey = 'tcBillboardPrice';
     public $languageTopics = array('tcbillboard');
-    //public $permission = 'save';
+    public $permission = 'tbsetting_save';
 
 
     /**
@@ -18,10 +18,8 @@ class tcBillboardPriceUpdateProcessor extends modObjectUpdateProcessor
         if (!$this->checkPermissions()) {
             return $this->modx->lexicon('access_denied');
         }
-
         return true;
     }
-
 
     /**
      * @return bool
@@ -33,7 +31,6 @@ class tcBillboardPriceUpdateProcessor extends modObjectUpdateProcessor
         $price = (float)$this->getProperty('price');
         $graceperiodStart = date('Y-m-d 00:00:00', strtotime($this->getProperty('graceperiod_start')));
         $graceperiodEnd = date('Y-m-d 00:00:00', strtotime($this->getProperty('graceperiod')));
-        //$time = time();
 
         if (empty($id)) {
             return $this->modx->lexicon('tcbillboard_err_price_ns');
@@ -60,5 +57,4 @@ class tcBillboardPriceUpdateProcessor extends modObjectUpdateProcessor
         return parent::beforeSet();
     }
 }
-
 return 'tcBillboardPriceUpdateProcessor';

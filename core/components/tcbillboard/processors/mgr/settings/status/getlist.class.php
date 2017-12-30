@@ -5,7 +5,7 @@ class tcBillboardStatusGetListProcessor extends modObjectGetListProcessor
     public $classKey = 'tcBillboardStatus';
     public $defaultSortField = 'id';
     public $defaultSortDirection = 'asc';
-    //public $permission = 'mssetting_list';
+    public $permission = 'tbsetting_list';
 
 
     /**
@@ -18,7 +18,6 @@ class tcBillboardStatusGetListProcessor extends modObjectGetListProcessor
         }
         return parent::initialize();
     }
-
 
     /**
      * @param xPDOQuery $c
@@ -50,10 +49,8 @@ class tcBillboardStatusGetListProcessor extends modObjectGetListProcessor
                 }
             }
         }
-
         return $c;
     }
-
 
     /**
      * @param xPDOObject $object
@@ -125,7 +122,6 @@ class tcBillboardStatusGetListProcessor extends modObjectGetListProcessor
         return $data;
     }
 
-
     /**
      * @param array $array
      * @param bool $count
@@ -142,10 +138,8 @@ class tcBillboardStatusGetListProcessor extends modObjectGetListProcessor
                 ),
             ), $array);
         }
-
         return parent::outputArray($array, $count);
     }
 
 }
-
 return 'tcBillboardStatusGetListProcessor';

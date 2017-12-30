@@ -4,9 +4,8 @@ class tcBillboardOrdersUpdateProcessor extends modObjectUpdateProcessor
 {
     public $classKey = 'tcBillboardOrders';
     public $languageTopics = array('tcbillboard:default');
-    //public $beforeSaveEvent = 'msOnBeforeUpdateOrder';
     public $afterSaveEvent = 'tcBillboardAfterCancelOrder';
-    //public $permission = 'msorder_save';
+    public $permission = 'tborder_save';
     protected $status;
     protected $payment;
     /** @var  tcBillboard $tcBillboard */
@@ -18,16 +17,13 @@ class tcBillboardOrdersUpdateProcessor extends modObjectUpdateProcessor
      */
     public function initialize()
     {
-
         $this->tcBillboard = $this->modx->getService('tcBillboard');
 
         if (!$this->modx->hasPermission($this->permission)) {
             return $this->modx->lexicon('access_denied');
         }
-
         return parent::initialize();
     }
-
 
     /**
      * @return bool|null|string
@@ -46,10 +42,8 @@ class tcBillboardOrdersUpdateProcessor extends modObjectUpdateProcessor
                 return $this->modx->lexicon('ms2_err_status_final');
             }
         }
-
         return parent::beforeSet();
     }
-
 
     /**
      * @return bool|string
@@ -66,7 +60,6 @@ class tcBillboardOrdersUpdateProcessor extends modObjectUpdateProcessor
         }
         return parent::beforeSave();
     }
-
 
     /**
      * @return bool

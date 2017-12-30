@@ -6,7 +6,7 @@ class tcBillboardStatusRemoveProcessor extends modObjectProcessor
     public $object;
     public $classKey = 'tcBillboardStatus';
     public $languageTopics = array('tcbillboard');
-    //public $permission = 'mssetting_save';
+    public $permission = 'tbsetting_remove';
 
 
     /**
@@ -17,7 +17,6 @@ class tcBillboardStatusRemoveProcessor extends modObjectProcessor
         if (!$this->modx->hasPermission($this->permission)) {
             return $this->modx->lexicon('access_denied');
         }
-
         return parent::initialize();
     }
 
@@ -45,22 +44,5 @@ class tcBillboardStatusRemoveProcessor extends modObjectProcessor
         return $this->success();
     }
 
-
-    /**
-     * @return bool|string
-     */
-    /*public function beforeRemove()
-    {
-        //print_r($this->object->get('editable'));
-        //die;
-
-        if (!$this->object->get('editable')) {
-            return '';
-        }
-
-        return parent::beforeRemove();
-    }*/
-
 }
-
 return 'tcBillboardStatusRemoveProcessor';

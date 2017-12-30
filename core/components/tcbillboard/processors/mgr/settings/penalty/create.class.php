@@ -4,7 +4,6 @@ class tcBillboardPenaltyCreateProcessor extends modObjectCreateProcessor
 {
     public $classKey = 'tcBillboardPenalty';
     public $languageTopics = array('tcbillboard');
-    //public $permission = 'create';
 
 
     /**
@@ -24,15 +23,12 @@ class tcBillboardPenaltyCreateProcessor extends modObjectCreateProcessor
 
         $this->setProperty('formula', $formula);
 
-
         if (empty($days)) {
             $this->modx->error->addField('days', $this->modx->lexicon('tcbillboard_err_amount_days'));
         } elseif ($this->modx->getCount($this->classKey, array('days' => $days))) {
             $this->modx->error->addField('days', $this->modx->lexicon('tcbillboard_err_amount_days_ae'));
         }
-
         return parent::beforeSet();
     }
 }
-
 return 'tcBillboardPenaltyCreateProcessor';

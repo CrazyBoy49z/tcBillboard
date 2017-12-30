@@ -4,7 +4,7 @@ class tcBillboardOrdersRemoveProcessor extends modObjectProcessor
 {
     public $classKey = 'tcBillboardOrders';
     public $languageTopics = array('tcbillboard');
-    //public $permission = 'remove';
+    public $permission = 'tborder_remove';
 
     /** @var  tcBillboard $tcBillboard */
     protected $tcBillboard;
@@ -22,7 +22,6 @@ class tcBillboardOrdersRemoveProcessor extends modObjectProcessor
         }
         return parent::initialize();
     }
-
 
     /**
      * @return array|string

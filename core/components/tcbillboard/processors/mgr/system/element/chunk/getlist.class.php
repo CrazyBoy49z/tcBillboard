@@ -20,10 +20,8 @@ class tcBillboardChunkGetListProcessor extends modObjectGetListProcessor
         if ($query = trim($this->getProperty('query'))) {
             $c->where(array('name:LIKE' => "%{$query}%"));
         }
-
         return $c;
     }
 
 }
-
 return 'tcBillboardChunkGetListProcessor';

@@ -5,7 +5,7 @@ class tcBillboardPaymentGetListProcessor extends modObjectGetListProcessor
     public $classKey = 'tcBillboardPayment';
     public $defaultSortField = 'id';
     public $defaultSortDirection = 'asc';
-    //public $permission = 'mssetting_list';
+    public $permission = 'tbsetting_list';
 
 
     /**
@@ -16,11 +16,12 @@ class tcBillboardPaymentGetListProcessor extends modObjectGetListProcessor
         if (!$this->modx->hasPermission($this->permission)) {
             return $this->modx->lexicon('access_denied');
         }
-
         return parent::initialize();
     }
 
-
+    /**
+     * @return array|mixed|string
+     */
     public function process() {
         $beforeQuery = $this->beforeQuery();
         if ($beforeQuery !== true) {
@@ -29,12 +30,8 @@ class tcBillboardPaymentGetListProcessor extends modObjectGetListProcessor
         $data = $this->getData();
         $list = $this->iterate($data);
 
-        //print_r($list);
-        //die;
-
         return $this->outputArray($list,$data['total']);
     }
-
 
     /**
      * @param xPDOQuery $c
@@ -46,12 +43,8 @@ class tcBillboardPaymentGetListProcessor extends modObjectGetListProcessor
         if ($this->getProperty('combo')) {
             $c->select('id,name');
             $c->where(array('active' => 1));
-        } /*else {
-            $c->leftJoin('msDeliveryMember', 'Deliveries');
-            $c->groupby($this->classKey . '.id');
-            $c->select($this->modx->getSelectColumns($this->classKey, $this->classKey));
-            $c->select('COUNT(Deliveries.delivery_id) as deliveries');
-        }*/
+        }
+
         if ($query = trim($this->getProperty('query'))) {
             $c->where(array(
                 'name:LIKE' => "%{$query}%",
@@ -59,10 +52,8 @@ class tcBillboardPaymentGetListProcessor extends modObjectGetListProcessor
                 'OR:class:LIKE' => "%{$query}%",
             ));
         }
-
         return $c;
     }
-
 
     /**
      * @param xPDOObject $object
@@ -121,5 +112,4 @@ class tcBillboardPaymentGetListProcessor extends modObjectGetListProcessor
     }
 
 }
-
 return 'tcBillboardPaymentGetListProcessor';
