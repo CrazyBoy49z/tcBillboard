@@ -222,7 +222,7 @@ class tcBillboard
         if ($data = $this->getStatusData($order['status'])) {
             if ($data['email_user'] && $order['status'] != 1) {
                 if ($chunkName = $this->getChunkName($data['chunk_user'])) {
-                    $chunk = $this->getChunk($chunkName);
+                    $chunk = $this->getChunk($chunkName, $order);
                     $profile = $this->getUserProfile($order['user_id']);
 
                     $this->sendEmail($chunk,
@@ -236,7 +236,7 @@ class tcBillboard
             if ($data['email_manager']) {
                 if ($idsManager = $this->modx->getOption('tcbillboard_email_to_manager')) {
                     if ($chunkName = $this->getChunkName($data['chunk_manager'])) {
-                        $chunk = $this->getChunk($chunkName);
+                        $chunk = $this->getChunk($chunkName, $order);
                         $managers = explode(',', $idsManager);
                         $managers = array_map('trim', $managers);
 
