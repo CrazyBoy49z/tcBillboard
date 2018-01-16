@@ -57,9 +57,6 @@ class tcBillboardMgrBillboardsManagerController extends modExtraManagerControlle
         $this->addCss($this->tcBillboard->config['cssUrl'] . 'mgr/main.css');
         $this->addCss($this->tcBillboard->config['cssUrl'] . 'mgr/bootstrap.buttons.css');
 
-//        $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/lib/charts/loader.js');
-//        $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/manager/orders/orders.chart.js');
-
         $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/tcbillboard.js');
         $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/misc/utils.js');
         $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/misc/default.window.js');
@@ -77,11 +74,11 @@ class tcBillboardMgrBillboardsManagerController extends modExtraManagerControlle
         $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/manager/warning/warning.form.js');
         $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/manager/warning/warning.grid.js');
 
-        $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/manager/import/import.form.js');
+        $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/vendor/highstock/highcharts.js');
+        $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/vendor/highstock/modules/data.js');
+        $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/vendor/highstock/modules/drilldown.js');
 
-//        $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/vendor/highstock/highcharts.js');
-//        $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/vendor/highstock/modules/data.js');
-//        $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/vendor/highstock/modules/drilldown.js');
+        $this->addJavascript($this->tcBillboard->config['jsUrl'] . 'mgr/manager/import/import.form.js');
 
         $percentages = $this->tcBillboard->getAverageOrders();
 

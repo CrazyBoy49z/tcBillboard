@@ -25,7 +25,6 @@ tcBillboard.grid.OrderDetails = function(config) {
                 }
             }*/
         },
-        //cls: 'minishop2-grid',
         multi_select: false,
         stateful: true,
         stateId: config.id,
@@ -49,8 +48,6 @@ Ext.extend(tcBillboard.grid.OrderDetails, MODx.grid.Grid, {
             header: _('tcbillboard_stock_name'),
             dataIndex: 'stock_name',
             renderer: function(value, metaData, record) {
-
-                console.log(value, metaData, record);
                 return tcBillboard.utils.pagetitleLink(value, record['data']['res_id'], true);
             },
             width: 200

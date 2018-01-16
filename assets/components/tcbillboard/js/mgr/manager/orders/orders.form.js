@@ -57,58 +57,17 @@ tcBillboard.panel.OrdersForm = function(config) {
                     }
                 }]
             },{
-                columnWidth: .57,
+                columnWidth: .67,
                 layout: 'form',
                 items: [{
-                    // html: '<div id="tcbillboard-chart"></div>',
-                    // //id: 'tcbillboard-chart',
-                    // listeners: {
-                    //     // render: {
-                    //     //     fn: function(a,b,c,d,e,f) {
-                    //     //         this.setup(config);
-                    //     //
-                    //     //         console.log(a,b,c,d,e,f);
-                    //     //     }, scope: this
-                    //     // }
-                    //     afterlayout: {
-                    //         fn: function () {
-                    //             this.setup(config.dataset);
-                    //         }, scope: this
-                    //     },
-                    //     single: true
-                    // }
-                    html: '<div id="tcbillboard-chart"></div>',
-                    //id: 'tcbillboard-chart-orders',
-                    //xtype: 'tcbillboard-chart-orders',
+                    id: 'tcbillboard-chart-orders',
                     listeners: {
-                        afterlayout: {
-                            fn: function(dateField, dateObject) {
-                                //this.tcBillboardChart(config);
-                                //google.charts.load("current", {packages:["corechart"]});
-                                //tcBillboard.drawChart();
-                                this.getEl().on('click', function() {
-                                    this.fireEvent('change');
-                                    setTimeout(function() {
-                                        var value = Ext.getCmp(config.id + '-chart').getValue();
-
-                                        Ext.getCmp('tcbillboard-grid-orders').baseParams.chart = value;
-                                        Ext.getCmp('tcbillboard-grid-orders').getBottomToolbar().changePage(1);
-                                        Ext.getCmp('tcbillboard-grid-orders').refresh();
-                                    }, 300);
-                                }, this);
-                            }
-                        },
-                        single: true
+                        render: {
+                            fn: function (a,b) {
+                                this.ChartT(config);
+                            }, scope: this
+                        }, single: true
                     }
-                }]
-            },{
-                columnWidth: .1,
-                layout: 'form',
-                hidden: true,
-                items: [{
-                    xtype: 'textfield',
-                    name: 'chart',
-                    id: config.id + '-chart',
                 }]
             }]
         }]
@@ -117,60 +76,81 @@ tcBillboard.panel.OrdersForm = function(config) {
 };
 Ext.extend(tcBillboard.panel.OrdersForm, MODx.FormPanel, {
 
-    // drawChart: function() {
-    //     // google.charts.load("current", {packages: ["corechart"]});
-    //     // google.charts.setOnLoadCallback(drawChart);
-    //
-    //     //function drawChart() {
-    //         var data = google.visualization.arrayToDataTable([
-    //             ['Element', 'Доля', {role: 'style'}, 'value'],
-    //             ['PayPal ', tcBillboard.config.payment.PayPal, 'gold', 2],
-    //             ['Банковский перевод ', tcBillboard.config.payment.bank, 'color: #e5e4e2', 1]
-    //         ]);
-    //
-    //         var view = new google.visualization.DataView(data);
-    //         view.setColumns([0, 1,
-    //             {
-    //                 calc: "stringify",
-    //                 sourceColumn: 1,
-    //                 type: "string",
-    //                 role: "annotation"
-    //             },
-    //             2]);
-    //
-    //         var options = {
-    //             title: "Доля способов оплаты",
-    //             //width: 600,
-    //             height: 120,
-    //             bar: {groupWidth: "85%"},
-    //             legend: {position: "none"},
-    //             //isStacked: 'percent',
-    //             hAxis: {
-    //                 minValue: 0,
-    //                 //ticks: [0, .3, .6, .9, 1]
-    //             }
-    //         };
-    //         var chart = new google.visualization.BarChart(document.getElementById("tcbillboard-chart"));
-    //         chart.draw(view, options);
-    //
-    //         google.visualization.events.addListener(chart, 'select', function () {
-    //             var selection = chart.getSelection();
-    //             if (selection.length) {
-    //                 var row = selection[0].row;
-    //                 var value = data.getValue(row, 3);
-    //
-    //                 document.querySelector('#tcbillboard-form-orders-chart').value = data.getValue(row, 3);
-    //                 document.getElementById('tcbillboard-form-orders-chart').click();
-    //             }
-    //         });
-    //     //}
-    // },
+    ChartT: function () {
+        if (!Ext.get('tcbillboard-highlight')) {
+            container = Ext.get('tcbillboard-chart-orders');
+            Ext.DomHelper.append(container, {tag: 'div', id: 'tcbillboard-highlight'});
+        }
 
-    setup: function(dataset) {
-        var container = Ext.get('tcbillboard-chart');
-        Ext.DomHelper.append(container, {tag: 'div', id: 'tcbillboard-chart-other'});
+        var id = 'tcbillboard-highlight';
 
-        //console.log(container);
+        Highcharts.chart(id, {
+            chart: {
+                type: 'column',
+                height: 200
+            },
+            title: {
+                text: null
+            },
+            xAxis: {
+                type: 'category'
+            },
+            yAxis: {
+                title: {
+                    text: 'Total percent'
+                }
+
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    cursor: 'pointer',
+                    allowPointSelect: true,
+                    //selected: true,
+                    marker: {
+                        states: {
+                            select: {
+                                lineColor: 'red'
+                            }
+                        }
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y:.1f}%'
+                    },
+                    point: {
+                        events: {
+                            click: function () {
+                                Ext.getCmp('tcbillboard-grid-orders').baseParams.chart = this.val;
+                                Ext.getCmp('tcbillboard-grid-orders').getBottomToolbar().changePage(1);
+                                Ext.getCmp('tcbillboard-grid-orders').refresh();
+                            }
+                        }
+                    }
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+            },
+            series: [{
+                name: _('tcbillboard_payment_name'),
+                colorByPoint: true,
+                data: [{
+                    name: _('tcbillboard_front_bank_transfer'),
+                    y: tcBillboard.config.payment.bank,
+                    //drilldown: 'Банковский перевод',
+                    val: 1
+                }, {
+                    name: 'PayPal',
+                    y: tcBillboard.config.payment.PayPal,
+                    val: 2
+                    //drilldown: 'PayPal'
+                }]
+            }]
+        });
     },
 
     getButtons: function () {
@@ -179,7 +159,7 @@ Ext.extend(tcBillboard.panel.OrdersForm, MODx.FormPanel, {
             handler: this.reset,
             scope: this,
             cls: 'btn',
-            iconCls: 'x-btn-small'
+            iconCls: 'x-btn-small',
         },{
             text: '<i class="icon icon-download"></i> ' + _('tcbillboard_download_csv'),
             handler: function() {
@@ -213,7 +193,9 @@ Ext.extend(tcBillboard.panel.OrdersForm, MODx.FormPanel, {
     },
 
     refresh: function () {
+        Ext.getCmp('tcbillboard-grid-orders').baseParams.chart = null;
         Ext.getCmp('tcbillboard-grid-orders').getBottomToolbar().changePage(1);
+        this.ChartT();
     },
 });
 Ext.reg('tcbillboard-form-orders', tcBillboard.panel.OrdersForm);
