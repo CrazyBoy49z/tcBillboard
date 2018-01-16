@@ -123,7 +123,11 @@ Ext.extend(tcBillboard.panel.OrdersForm, MODx.FormPanel, {
                     point: {
                         events: {
                             click: function () {
-                                Ext.getCmp('tcbillboard-grid-orders').baseParams.chart = this.val;
+                                if (this.selected) {
+                                    Ext.getCmp('tcbillboard-grid-orders').baseParams.chart = null;
+                                } else {
+                                    Ext.getCmp('tcbillboard-grid-orders').baseParams.chart = this.val;
+                                }
                                 Ext.getCmp('tcbillboard-grid-orders').getBottomToolbar().changePage(1);
                                 Ext.getCmp('tcbillboard-grid-orders').refresh();
                             }
