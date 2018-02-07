@@ -36,5 +36,5 @@
     `]]
 
     <br /><br />
-    <a href="[[*uri]]" class="btn btn-default">[[%tcbillboard_open]]</a>
+    <a href="[[*uri]]" class="btn btn-primary">[[%tcbillboard_open]]</a>
 </div>

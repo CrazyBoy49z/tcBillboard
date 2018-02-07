@@ -13,8 +13,8 @@
     </div>
 
     <div class="ticket-file-meta">
-        <a href="#" class="tcbillboard-file-btn btn btn-default ticket-file-delete">[[%ticket_file_delete]]</a>
-        <a href="#" class="tcbillboard-file-btn btn btn-default ticket-file-restore">[[%ticket_file_restore]]</a>
+        <a href="#" class="tcbillboard-file-btn btn btn-default ticket-file-delete" data-file="img/delete">[[%ticket_file_delete]]</a>
+        <a href="#" class="tcbillboard-file-btn btn btn-default ticket-file-restore" data-file="img/restore">[[%ticket_file_restore]]</a>
     </div>
 </div>
 <!--tickets_deleted  deleted-->

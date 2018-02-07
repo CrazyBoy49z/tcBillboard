@@ -53,6 +53,7 @@
                         <label class="tcbilboard-label">[[%tcbillboard_front_with]]</label>
                         <input id="datetimepicker3" type="text" class="form-control tcbilboard-input"
                                data-tcbillboard="tcbillboard/startstock"name="start_stock" value="" />
+                        <div class="error"></div>
                         <input id="mask-start-stock" type="hidden" name="mask_start_stock" value="" />
                     </div>
                 </div>
@@ -61,6 +62,7 @@
                         <label class="tcbilboard-label">[[%tcbillboard_front_by]]</label>
                         <input id="datetimepicker4" type="text" class="form-control tcbilboard-input"
                                data-tcbillboard="tcbillboard/endstock"name="end_stock" value="" />
+                        <div class="error"></div>
                         <input id="mask-end-stock" type="hidden" name="mask_end_stock" value="" />
                     </div>
                 </div>

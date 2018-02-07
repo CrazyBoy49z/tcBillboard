@@ -43,14 +43,14 @@
 
 <br /><br />
 <div id="tcbillboard-open" style="display: none;">
-    <a href="[[*uri]]" class="btn btn-default">[[%tcbillboard_open]]</a>
+    <a href="[[*uri]]" class="btn btn-primary">[[%tcbillboard_open]]</a>
 </div>
 
 
 <script>
     paypal.Button.render({
         env: 'sandbox', // sandbox | production
-        locale: 'ru_RU',
+        locale: 'de_DE',
         style: {
             size: 'medium',
             fundingicons: true
@@ -65,7 +65,7 @@
                 payment: {
                     transactions: [
                         {
-                            amount: { total: '[[+sum]]', currency: '[[++tcbillboard_paypal_currency]]' }
+                            amount: { total: '[[+sum:replace=`,==.`]]', currency: '[[++tcbillboard_paypal_currency]]' }
                         }
                     ]
                 }
