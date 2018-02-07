@@ -104,20 +104,27 @@ switch ($modx->event->name) {
 
                 $modx->sendRedirect($modx->makeUrl($modx->resource->id, '', '', 'full'));
             }
-            $modx->resource->set('cacheable', 0);
-            if ($_SESSION['tcBillboard']['payment'] == 1) {
-                $modx->resource->setProperties(array(
-                    'disable_jevix' => 1,
-                    'process_tags' => 1,
-                ), 'tickets');
-                $modx->resource->set('content', $tcBillboard->chunkGratitude($modx->resource->id));
-            } elseif ($_SESSION['tcBillboard']['payment'] == 2) {
-                $modx->resource->setProperties(array(
-                    'disable_jevix' => 1,
-                    'process_tags' => 1,
-                ), 'tickets');
-                $modx->resource->set('content', $tcBillboard->chunkGratitude($modx->resource->id));
+            if ($paymentTemplate = $modx->getOption('tcbillboard_payment_template')) {
+                $modx->resource->set('cacheable', 0);
+                $modx->resource->set('template', $paymentTemplate);
+                if ($_SESSION['tcBillboard']['payment'] == 1) {
+                    $modx->resource->setProperties(array(
+                        'disable_jevix' => 1,
+                        'process_tags' => 1,
+                    ), 'tickets');
+                    $modx->resource->set('content', $tcBillboard->chunkGratitude($modx->resource->id));
+                } elseif ($_SESSION['tcBillboard']['payment'] == 2) {
+                    $modx->resource->setProperties(array(
+                        'disable_jevix' => 1,
+                        'process_tags' => 1,
+                    ), 'tickets');
+                    $modx->resource->set('content', $tcBillboard->chunkGratitude($modx->resource->id));
+                }
+            } else {
+                $modx->log(1, $modx->event->name . ' '
+                    . $this->modx->lexicon('tcbillboard_err_payment_template'));
             }
+
             unset($_SESSION['tcBillboard']['order']);
             unset($_SESSION['tcBillboard']['startstock']);
             unset($_SESSION['tcBillboard']['endstock']);

@@ -12,37 +12,9 @@ class tcBillboardTicketFileUploadProcessor extends TicketFileUploadProcessor
     private $class = 'Ticket';
 
 
-//    public function initialize()
-//    {
-//        if (!$this->modx->hasPermission($this->permission)) {
-//            return $this->modx->lexicon('access_denied');
-//        }
-//
-//        $tid = $this->getProperty('tid');
-//        if (!$this->ticket = $this->modx->getObject('Ticket', $tid)) {
-//            $this->ticket = $this->modx->newObject('Ticket');
-//            $this->ticket->set('id', 0);
-//        }
-//
-//        if ($source = $this->getProperty('source')) {
-//            /** @var modMediaSource $mediaSource */
-//            $mediaSource = $this->modx->getObject('sources.modMediaSource', $source);
-//            $mediaSource->set('ctx', $this->modx->context->key);
-//            if ($mediaSource->initialize()) {
-//                $this->mediaSource = $mediaSource;
-//            }
-//        }
-//
-//        if (!$this->mediaSource) {
-//            return $this->modx->lexicon('ticket_err_source_initialize');
-//        }
-//
-//        $this->class = $this->getProperty('class', 'Ticket');
-//
-//        return true;
-//    }
-
-
+    /**
+     * @return array|mixed|string
+     */
     public function process()
     {
         if (!$data = $this->handleFile()) {
@@ -91,7 +63,8 @@ class tcBillboardTicketFileUploadProcessor extends TicketFileUploadProcessor
         }
 
         // Check for files limit
-        if ($filesLimit = 12 /*$this->modx->getOption('tickets.max_files_upload')*/) {
+        if ($filesLimit = $this->modx->getOption('tcbillboard_files_limit', null, 12)) {
+            $this->modx->lexicon->load('tcbillboard:default');
             $where = $this->modx->newQuery($this->classKey, array('class' => $this->class));
             if (!empty($this->ticket->id)) {
                 $where->andCondition(array('parent:IN' => array(0, $this->ticket->id)));
@@ -150,70 +123,6 @@ class tcBillboardTicketFileUploadProcessor extends TicketFileUploadProcessor
             return $this->failure($this->modx->lexicon('ticket_err_file_save'));
         }
     }
-
-
-//    /**
-//     * @return array|bool
-//     */
-//    public function handleFile()
-//    {
-//        $tf = tempnam(MODX_BASE_PATH, 'tkt_');
-//
-//        if (!empty($_FILES['file']) && is_uploaded_file($_FILES['file']['tmp_name'])) {
-//            $name = $_FILES['file']['name'];
-//            move_uploaded_file($_FILES['file']['tmp_name'], $tf);
-//        } else {
-//            $file = $this->getProperty('file');
-//            if (!empty($file) && (strpos($file, '://') !== false || file_exists($file))) {
-//                $tmp = explode('/', $file);
-//                $name = end($tmp);
-//                if ($stream = fopen($file, 'r')) {
-//                    if ($res = fopen($tf, 'w')) {
-//                        while (!feof($stream)) {
-//                            fwrite($res, fread($stream, 8192));
-//                        }
-//                        fclose($res);
-//                    }
-//                    fclose($stream);
-//                }
-//            }
-//        }
-//
-//        clearstatcache(true, $tf);
-//        if (file_exists($tf) && !empty($name) && $size = filesize($tf)) {
-//            $res = fopen($tf, 'r');
-//            $hash = sha1(fread($res, 8192));
-//            fclose($res);
-//            $data = array(
-//                'name' => $name,
-//                'tmp_name' => $tf,
-//                'hash' => $hash,
-//                'size' => $size,
-//                'properties' => array(
-//                    'size' => $size,
-//                ),
-//            );
-//            $info = @getimagesize($tf);
-//            if (is_array($info)) {
-//                $data['properties'] = array_merge(
-//                    $data['properties'],
-//                    array(
-//                        'width' => $info[0],
-//                        'height' => $info[1],
-//                        'bits' => $info['bits'],
-//                        'mime' => $info['mime'],
-//                    )
-//                );
-//            }
-//
-//            return $data;
-//        } else {
-//            unlink($tf);
-//
-//            return false;
-//        }
-//    }
-
 }
 
 return 'tcBillboardTicketFileUploadProcessor';

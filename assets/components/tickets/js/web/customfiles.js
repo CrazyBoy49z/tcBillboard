@@ -116,8 +116,9 @@ $(document).on('click', '.ticket-file-delete, .ticket-file-restore', function ()
     var $parent = $this.parents('.ticket-file');
     var id = $parent.data('id');
     var form_key = $form.find('[name="form_key"]').val();
+    var file_action = $this.data('file');
 
-    $.post(TicketsConfig.actionUrl, {action: 'ticket/file/delete', id: id, form_key: form_key}, function (response) {
+    $.post(tcBillboardTicketsConfig.ticketsActionUrl, {action: 'ticket/file/delete', id: id, form_key: form_key, file_action: file_action}, function (response) {
         if (response.success) {
             if ($parent.hasClass(deleted)) {
                 $parent.removeClass(deleted)

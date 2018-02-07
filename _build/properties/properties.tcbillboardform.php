@@ -9,7 +9,7 @@ $tmp = array(
     ),
     'requiredFields' => array(
         'type' => 'textfield',
-        'value' => 'parent,pagetitle,content,pub_date,unpub_date,payment',
+        'value' => 'parent,pagetitle,content,pub_date,unpub_date,payment,start_stock,end_stock',
     ),
     'tplFormCreate' => array(
         'type' => 'textfield',

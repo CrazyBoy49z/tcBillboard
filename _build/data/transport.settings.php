@@ -60,6 +60,11 @@ $tmp = array(
         'value' => '',
         'area' => 'tcbillboard_main',
     ),
+    'payment_template' => array(
+        'xtype' => 'numberfield',
+        'value' => '',
+        'area' => 'tcbillboard_main',
+    ),
 
     'google_api_key' => array(
         'xtype' => 'textfield',

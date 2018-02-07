@@ -102,7 +102,7 @@ switch ($action) {
         $response = $tcBillboard->fileUpload($_POST, 'Ticket');
         break;
     case 'ticket/file/delete':
-        $response = $Tickets->fileDelete((int)$_POST['id']);
+        $response = $tcBillboard->fileDelete((int)$_POST['id'], $_POST['file_action']);
         break;
     default:
         $message = $_REQUEST['action'] != $action

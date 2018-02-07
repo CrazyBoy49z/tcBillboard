@@ -883,8 +883,12 @@ class tcBillboard
         $price = $this->exposePrice($days);
         $price['totalDays'] = $days;
         $price['graceDays'] = 0;
+        $startPeriod = 0;
         $beforeGrace = 0;
         $afterGrace = 0;
+
+        //        $currentDate = $this->dateFormat(date($this->config['dateFormat']), $this->config['dateFormat']);
+        //        $currentDifference = $this->getDifference($currentDate, $endPeriod);
 
         // Если есть начало льготного периода
         if (!empty($price['graceperiod_start'])) {
@@ -900,31 +904,40 @@ class tcBillboard
         if (!empty($price['graceperiod'])) {
             $endPeriod = $this->dateFormat($price['graceperiod'], $this->config['dateFormat']);
             // Если дата окончания льготного периода меньше даты отмены публикации
-            if ($difference = $this->getDifference($endPeriod, $this->order['unpubdate'])) {
+            if ($difference = $this->getDifference($endPeriod, $this->order['unpubdate'])
+                && $this->getDifference($startPeriod, $this->order['pubdate'])) {
                 // Получить количество дней публикации после льготного периода
                 $afterGrace = $this->countDate($endPeriod, $this->order['unpubdate']) - 1;
             } else {
-                $cost = $days * $price['graceperiodprice'];
+                $cost = $days * $price['graceperiodprice'] ;
                 $price['graceDays'] = $days;
-                $price['costGrace'] = $cost;
-                $price['cost'] = $cost;
+                $price['costGrace'] = number_format($cost, 2, '.', '');
+                $price['cost'] = number_format($cost, 2, '.', '');
             }
         } else {
             $cost = $days * $price['price'];
             $price['graceDays'] = 0;
             $price['graceperiodprice'] = 0;
-            $price['costGrace'] = 0;
-            $price['cost'] = $cost;
+            $price['costGrace'] = 0.00;
+            $price['cost'] = number_format($cost, 2, '.', '');
         }
         // Получить кол-во льготных дней и рассчитать стоимость
         if ($beforeGrace || $afterGrace) {
             $graceDays = $days - ($beforeGrace + $afterGrace);
-            $costGrace = $graceDays * $price['graceperiodprice'];
-            $priceDays = $days - $graceDays;
-            $cost = $priceDays * $price['price'] + $costGrace;
-            $price['graceDays'] = $graceDays;
-            $price['costGrace'] = $costGrace;
-            $price['cost'] = $cost;
+            if ($graceDays > 0) {
+                $costGrace = $graceDays * $price['graceperiodprice'];
+                $priceDays = $days - $graceDays;
+                $cost = $priceDays * $price['price'] + $costGrace;
+                $price['graceDays'] = $graceDays;
+                $price['costGrace'] = number_format($costGrace, 2, '.', '');
+                $price['cost'] = number_format($cost, 2, '.', '');
+            } else {
+                $cost = $days * $price['price'];
+                $price['graceDays'] = 0;
+                $price['graceperiodprice'] = 0;
+                $price['costGrace'] = 0.00;
+                $price['cost'] = number_format($cost, 2, '.', '');
+            }
         }
 
         $_SESSION['tcBillboard']['order'] = $price;
@@ -1090,7 +1103,7 @@ class tcBillboard
         $properties = $this->getSnippetProperties('tcBillboardForm');
         $order = $this->modx->getObject('tcBillboardOrders', array('res_id' => (int)$resId));
         $data = $order->toArray();
-        $data['sum'] = $data['sum'] + $data['penalty'];
+        $data['sum'] = number_format($data['sum'] + $data['penalty'], 2, '.', '');
         $data['pubdatedon'] = date('d-m-Y', strtotime($data['pubdatedon']));
         $data['unpubdatedon'] = date('d-m-Y', strtotime($data['unpubdatedon']));
         if ($data['payment'] == 1 || ($data['payment'] == 2 && $data['sum'] == 0)) {
