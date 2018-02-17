@@ -248,11 +248,8 @@ var Tickets = {
                         else if (response.data.redirect) {
                             //document.location.href = response.data.redirect;
                             var url = response.data.redirect + '?tcbillboard=payment';
+                            $('#ticketForm')[0].reset();
                             document.location.href = url;
-
-                            console.log(response);
-
-                            //document.location.href + '?order=success';
                         }
                     } else {
                         $(form).find('input[type="submit"], input[type="button"]').removeAttr('disabled');
