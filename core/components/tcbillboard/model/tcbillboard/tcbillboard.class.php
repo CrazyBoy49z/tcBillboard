@@ -285,6 +285,7 @@ class tcBillboard
     /**
      * Подготавливает запрос неустойки
      * @return bool
+     * @throws \Mpdf\MpdfException
      */
     public function prepareRequestPenalty()
     {
@@ -314,9 +315,11 @@ class tcBillboard
      * $penaltyItem - данные одного пункта неустойки
      * $orders - массив с просроченными (не оплаченными) ордерами
      * $notice - номер уведомления
+     *
      * @param array $penaltyItem
      * @param array $orders
      * @param $notice
+     * @throws \Mpdf\MpdfException
      */
     public function updateOrderPenalty(array $penaltyItem, array $orders, $notice)
     {
@@ -435,8 +438,6 @@ class tcBillboard
      */
     public function deleteResource($time, $mode = '')
     {
-        //$tmp = array();
-
         $q = $this->modx->newQuery('tcBillboardOrders');
         $q->select('res_id, unpubdatedon, pubdatedon, paymentdate, notice');
 
@@ -491,6 +492,7 @@ class tcBillboard
      * @param string $chunk
      * @param bool $sendEmail
      * @return string
+     * @throws \Mpdf\MpdfException
      */
     public function Mpdf($num, $pdf, $userId, $mode = 'invoice', $chunk = '', $sendEmail = true)
     {
@@ -552,9 +554,9 @@ class tcBillboard
     }
 
     /**
-     * Подготавливает чанк для создания pdf-файла
      * @param array $data
      * @param string $mode
+     * @throws \Mpdf\MpdfException
      */
     public function prepareInvoice(array $data, $mode = 'invoice')
     {
@@ -574,6 +576,9 @@ class tcBillboard
             $t = $profile->toArray();
             $data = array_merge($t, $t['extended'], $data);
         }
+
+        $data['sum'] = number_format($data['sum'], 2, '.', '');
+        $data['price'] = number_format($data['price'], 2, '.', '');
 
         switch ($mode) {
             case 'invoice':
@@ -917,8 +922,8 @@ class tcBillboard
         } else {
             $cost = $days * $price['price'];
             $price['graceDays'] = 0;
-            $price['graceperiodprice'] = 0;
-            $price['costGrace'] = 0.00;
+            $price['graceperiodprice'] = number_format(0, 2, '.', '');
+            $price['costGrace'] = number_format(0, 2, '.', '');
             $price['cost'] = number_format($cost, 2, '.', '');
         }
         // Получить кол-во льготных дней и рассчитать стоимость
@@ -934,8 +939,8 @@ class tcBillboard
             } else {
                 $cost = $days * $price['price'];
                 $price['graceDays'] = 0;
-                $price['graceperiodprice'] = 0;
-                $price['costGrace'] = 0.00;
+                $price['graceperiodprice'] = number_format(0, 2, '.', '');
+                $price['costGrace'] = number_format(0, 2, '.', '');
                 $price['cost'] = number_format($cost, 2, '.', '');
             }
         }

@@ -27,6 +27,7 @@ class MpdfTc
      * @param $num
      * @param $html
      * @return string
+     * @throws \Mpdf\MpdfException
      */
     public function createPdfFile($path, $num, $html)
     {
