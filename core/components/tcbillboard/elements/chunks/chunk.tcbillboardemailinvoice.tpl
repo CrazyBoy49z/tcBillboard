@@ -15,7 +15,7 @@
     <table class="body-wrap" style="padding:0 20px 20px 20px;width: 100%;background:#ffffff;margin-top:10px;">
         <tr>
             <td></td>
-            <td class="container" style="border:1px solid #f0f0f0;background:#ffffff;margin:auto;">
+            <td class="container" style="background:#ffffff;margin:auto;">
                 <div class="content">
                     <table style="width:100%;">
                         <tr>
@@ -23,6 +23,8 @@
                                 <div>
                                     <p>Sehr geehrter Saisonverkauf Info Kunde, </p>
                                     <p>im Anhang finden Sie die Rechnung zu Ihrer Werbung Bestellung.</p>
+                                    <br />
+                                    <br />
                                     <p>Mit freundlichen Grüßen</p>
                                     <p>Ihr Saisonverkauf Info Team</p>
                                 </div>
@@ -33,7 +35,7 @@
             </td>
         </tr>
     </table>
-
+    <hr />
     <table style="clear:both !important;width: 100%;">
         <tr>
             <td></td>
@@ -41,11 +43,13 @@
                 <div class="content">
                     <table style="width:100%;text-align: center;">
                         <tr>
-                            <td align="center">
-                                <p style="font-family: Arial;color: #666666;font-size: 12px;">
-                                    <a href="[[++site_url]]" style="color: #999999;">
-                                        [[++site_name]]
-                                    </a>
+                            <td align="center" style="font-family: Arial;color: #666666;font-size: 12px;">
+                                <p>Werbeagentur Lotz, Inh. Alexander Lotz<br />
+                                    Kaiser-Wilhelm-Ring 27-29<br />
+                                    50672 Köln<br />
+                                    Deutschland<br />
+                                    Telefon: +49 176 47519730 (Mo - Mi 10:00 - 12:00 Uhr) <br />
+                                    E-Mail: info@saisonverkauf.info<br />
                                 </p>
                             </td>
                         </tr>

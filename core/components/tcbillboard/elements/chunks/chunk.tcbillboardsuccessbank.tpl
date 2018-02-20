@@ -1,20 +1,19 @@
 <div>
+    <br />
     <p>[[%tcbillboard_bank_success]]</p>
-    <br /><br /><br />
+    <br />
+    <label>[[%tcbillboard_bank]]</label>
+    <br /><br />
 
     [[+sum:gt=`0`:then=`
     <table class="table tcbillboard-table">
         <tr>
-            <th>[[%tcbillboard_bank]]</th>
-            <th>&nbsp;</th>
+            <td>Kreditinstitut</td>
+            <td><strong>[[++tcbillboard_bank_transfer_name]]</strong></td>
         </tr>
         <tr>
-            <td>[[++tcbillboard_bank_transfer_name]]</td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td>Alexander Lotz</td>
-            <td>&nbsp;</td>
+            <td>Kontoinhaber</td>
+            <td><strong>Alexander Lotz</strong></td>
         </tr>
         <tr>
             <td>IBAN</td>

@@ -6,16 +6,18 @@
         <label for="ticket-sections">[[%tcbillboard_front_select_category]]</label>
         <select name="parent" class="form-control" id="ticket-sections">[[+sections]]</select>
         <span class="error"></span>
+        <br />
+        <p>Wenn SIe keine passende Kategorie gefunden haben, wenden Sie sich bitte an uns in unserem Kundenservice</p>
     </div>
     <br />
 
     <div class="row">
-        <div class="col-md-5 col-md-push-7 alert alert-success">
-            <span>[[%tcbillboard_front_titular_text]]</span>
+        <!--div class="col-md-5 col-md-push-7">
+            <span>[[-%tcbillboard_front_titular_text]]</span>
             <br /><br />
-        </div>
+        </div-->
 
-        <div class="col-md-7 col-md-pull-5">
+        <div class="col-md-12">
             <div id="tb-titul-block">
 
                 <div class="fileinput fileinput-new" data-provides="fileinput">
@@ -34,10 +36,13 @@
                        data-tid="[[+id]]">[[%tcbillboard_front_remove]]</a>
 
                 </div>
-
+                <br />
+                <span>[[%tcbillboard_front_titular_text]]</span>
+                <br /><br /><br />
             </div>
-            <br /><br />
-
+        </div>
+        <br /><br />
+        <div class="col-md-7">
             <div class="form-group">
                 <label for="ticket-pagetitle">[[%tcbillboard_describe_your_action]]</label>
                 <input type="text" class="form-control" name="pagetitle" value="" maxlength="50" id="ticket-pagetitle"/>
@@ -48,28 +53,29 @@
             <div><label>[[%tcbillboard_front_duration_of_action]]:</label></div>
 
             <div class="row">
-                <div class="col-xs-6">
-                    <div class="form-inline">
-                        <label class="tcbilboard-label">[[%tcbillboard_front_with]]</label>
-                        <input id="datetimepicker3" type="text" class="form-control tcbilboard-input"
-                               data-tcbillboard="tcbillboard/startstock"name="start_stock" value="" />
-                        <div class="error"></div>
-                        <input id="mask-start-stock" type="hidden" name="mask_start_stock" value="" />
+                <div class="col-xs-12">
+                    <div class="col-xs-6">
+                        <div class="form-inline">
+                            <label class="tcbilboard-label">[[%tcbillboard_front_with]]</label>
+                            <input id="datetimepicker3" type="text" class="form-control tcbilboard-input"
+                                   data-tcbillboard="tcbillboard/startstock"name="start_stock" value="" />
+                            <div class="error"></div>
+                            <input id="mask-start-stock" type="hidden" name="mask_start_stock" value="" />
+                        </div>
                     </div>
-                </div>
-                <div class="col-xs-6">
-                    <div class="form-inline">
-                        <label class="tcbilboard-label">[[%tcbillboard_front_by]]</label>
-                        <input id="datetimepicker4" type="text" class="form-control tcbilboard-input"
-                               data-tcbillboard="tcbillboard/endstock"name="end_stock" value="" />
-                        <div class="error"></div>
-                        <input id="mask-end-stock" type="hidden" name="mask_end_stock" value="" />
+                    <div class="col-xs-6">
+                        <div class="form-inline">
+                            <label class="tcbilboard-label">[[%tcbillboard_front_by]]</label>
+                            <input id="datetimepicker4" type="text" class="form-control tcbilboard-input"
+                                   data-tcbillboard="tcbillboard/endstock"name="end_stock" value="" />
+                            <div class="error"></div>
+                            <input id="mask-end-stock" type="hidden" name="mask_end_stock" value="" />
+                        </div>
                     </div>
+                    <span id="tcbillboard-err-date-stock" class="error"></span>
                 </div>
-                <span id="tcbillboard-err-date-stock" class="error"></span>
+                <br /><br /><br />
             </div>
-            <br /><br />
-
         </div>
     </div>
 
@@ -78,11 +84,14 @@
                   rows="10"></textarea>
         <span class="error"></span>
     </div>
-
+    <br />
+    <div>
+        <p>Sie können bis zu 12 Bilder hinzufügen</p>
+    </div>
     <div class="ticket-form-files">
         [[+files]]
     </div>
-
+    <br />
     <div class="form-actions row">
         <div class="col-md-6">
             <input type="button" class="btn btn-default preview" value="[[%ticket_preview]]" title="Ctrl + Enter"/>

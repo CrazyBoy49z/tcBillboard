@@ -14,7 +14,7 @@
     </tr>
 </table>
 
-<div style="margin-top:30pt; font-size: 9pt;"><u>Werbeagentur Lotz – Kleiststr. 2 – 42799 Leichlingen</u></div>
+<div style="margin-top:30pt; font-size: 9pt;"><u>Werbeagentur Lotz – Kaiser-Wilhelm-Ring 27-29 - 50672 Köln</u></div>
 <br />
 
 <table>
@@ -29,8 +29,8 @@
         <td width="35%" valign="top">
             <p>Werbeagentur Lotz</p>
             <p>Inh. Alexander Lotz</p>
-            <p>Kleiststr. 2</p>
-            <p>42799 Leichlingen</p>
+            <p>Kaiser-Wilhelm-Ring 27-29</p>
+            <p>50672 Köln</p>
             <p>Tel.: +49 176 47519730</p>
             <p>E-Mail: info@saisonverkauf.info</p>
             <p>Internet: saisonverkauf.info</p>
@@ -118,12 +118,12 @@
         <td>Finanzamt Leverkusen</td>
     </tr>
     <tr>
-        <td>Kleiststr. 2</td>
+        <td>Kaiser-Wilhelm-Ring 27-29</td>
         <td>BIC [[++tcbillboard_bank_transfer_bic]]</td>
         <td></td>
     </tr>
     <tr>
-        <td>42799 Leichlingen</td>
+        <td>50672 Köln</td>
         <td></td>
         <td></td>
     </tr>
