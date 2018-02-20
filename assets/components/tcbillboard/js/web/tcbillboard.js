@@ -60,7 +60,7 @@ var tcBillboard = {
         });
         $(dtPicker2).on("dp.change",function (e) {
             $(dtPicker1).data("DateTimePicker").maxDate(e.date);
-            $(dtPicker4).data("DateTimePicker").maxDate(e.date);
+            //$(dtPicker4).data("DateTimePicker").maxDate(e.date);
             $(maskUnPubDate).val(e.currentTarget.value).change();
             $(selectorErrDate).empty();
 
@@ -87,7 +87,7 @@ var tcBillboard = {
         });
         $(dtPicker3).on("dp.change",function (e) {
             $(dtPicker4).data("DateTimePicker").minDate(e.date);
-            $(dtPicker1).data("DateTimePicker").maxDate(e.date);
+            //$(dtPicker1).data("DateTimePicker").maxDate(e.date);
             $(maskStartStock).val(e.currentTarget.value).change();
 
             var action = $(this).data('tcbillboard');
@@ -97,7 +97,7 @@ var tcBillboard = {
         });
         $(dtPicker4).on("dp.change",function (e) {
             $(dtPicker3).data("DateTimePicker").maxDate(e.date);
-            $(dtPicker2).data("DateTimePicker").minDate(e.date);
+            //$(dtPicker2).data("DateTimePicker").minDate(e.date);
             $(maskStartStock).val(e.currentTarget.value).change();
             $(selectorErrDateStock).empty();
 
@@ -155,7 +155,7 @@ var tcBillboard = {
             },
             error: function(response){
 
-                console.log('error');
+                //console.log('error');
             }
         });
     }
