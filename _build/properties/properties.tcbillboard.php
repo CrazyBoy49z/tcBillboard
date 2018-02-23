@@ -7,6 +7,10 @@ $tmp = array(
         'type' => 'textfield',
         'value' => 'tcBillboardMyOrdersTpl',
     ),
+    'tplWrapper' => array(
+        'type' => 'textfield',
+        'value' => 'tcbillboardMyOrdersWrapperTpl',
+    ),
     'user' => array(
         'type' => 'numberfield',
         'value' => '',
@@ -18,6 +22,10 @@ $tmp = array(
     'fields' => array(
         'type' => 'textfield',
         'value' => '',
+    ),
+    'pagination' => array(
+        'type' => 'combo-boolean',
+        'value' => true,
     ),
 );
 
