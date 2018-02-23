@@ -80,6 +80,10 @@ $tmp = array(
         'file' => 'tcbillboardmyorders',
         'description' => '',
     ),
+    'tcbillboardMyOrdersWrapperTpl' => array(
+        'file' => 'tcbillboardmyorderswrapper',
+        'description' => '',
+    ),
 );
 
 // Save chunks for setup options

@@ -34,7 +34,7 @@
 <div id="tcbillboard-error" class="text-danger"></div>
 
 <div id="confirm" style="display: none;">
-    <button id="confirmButton">[[%tcbillboard_front_complete_payment]]</button>
+    <button id="confirmButton" class="btn btn-primary">[[%tcbillboard_front_complete_payment]]</button>
 </div>
 
 <div id="thanks" style="display: none;">

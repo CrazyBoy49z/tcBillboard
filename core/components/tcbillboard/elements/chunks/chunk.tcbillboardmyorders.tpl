@@ -6,8 +6,8 @@
     <td>[[+days]]</td>
     <td>[[+sum]]</td>
     <td>
-        [[+status:is=`1`:then=`neu`]]
-        [[+status:is=`2`:then=`bezahlt`]]
-        [[+status:is=`3`:then=`abgesagt`]]
+        [[+status:is=`1`:then=`<span style="color:red;">Nicht bezahlt</span>`]]
+        [[+status:is=`2`:then=`<span style="color:green;">Bezahlt</span>`]]
+        [[+status:is=`3`:then=`Abgesagt`]]
     </td>
 </tr>
