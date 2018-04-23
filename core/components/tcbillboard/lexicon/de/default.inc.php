@@ -178,6 +178,7 @@ $_lang['tcbillboard_front_complete_payment'] = 'Завершить оплату'
 $_lang['tcbillboard_front_success_payment'] = 'Ваш платёж успешно обработан. Спасибо!';
 $_lang['tcbillboard_front_select_payment'] = 'Осталось оплатить заказ, выбрав один из способов оплаты.';
 $_lang['tcbillboard_front_data_order'] = 'Данные заказа';
+$_lang['tcbillboard_front_nds'] = 'НДС';
 
 $_lang['tcbillboard_email_subject_new_manager'] = 'На сайте новая публикация';
 $_lang['tcbillboard_email_subject_paid_user'] = 'Произведена оплата';
@@ -230,7 +231,7 @@ $_lang['tcbillboard_err_ae'] = 'Это поле должно быть уника
 $_lang['tcbillboard_err_email_send'] = 'tcBillboard. При попытке отправить письмо произошла ошибка:';
 $_lang['tcbillboard_err_service'] = 'tcBillboard. Ошибка инициализации класса';
 $_lang['tcbillboard_err_delete_resource'] = 'tcBillboard. Ошибка удаления ресурса';
-$_lang['tcbillboard_err_file_upload'] = 'Вы пытаесь загрузить файлов больше, чем разрешено! Разрешено: ';
+$_lang['tcbillboard_err_file_upload'] = 'Sie versuchen mehr Bilder als erlaubt hochzuladen. Erlaubt: ';
 $_lang['tcbillboard_err_to_export_files'] = 'Ошибка при попытке экспорта файла или файлов';
 $_lang['tcbillboard_err_amount_days'] = 'Вы должны указать количество дней';
 $_lang['tcbillboard_err_amount_days_ae'] = 'Такое количество дней уже существует';

@@ -586,6 +586,12 @@ class tcBillboard
                 $unpubDate = strtotime($data['unpub_date']);
                 $data['pub_date'] = date($this->config['dateFormat'], $pubDate);
                 $data['unpub_date'] = date($this->config['dateFormat'], $unpubDate);
+                // НДС
+                $data['nds'] = 0;
+                if ($ndsPrise = $this->getNds($data['sum'])) {
+                    $data['nds'] = $ndsPrise;
+                }
+
                 $properties = $this->getSnippetProperties('tcBillboardForm');
 
                 $pdf = $this->getChunk($properties['tplInvoiceNewPdf'], $data); // PDF в прикреплении
@@ -945,6 +951,12 @@ class tcBillboard
             }
         }
 
+        // НДС
+        $price['nds'] = 0;
+        if ($ndsPrice = $this->getNds($price['cost'])) {
+            $price['nds'] = $ndsPrice;
+        }
+
         $_SESSION['tcBillboard']['order'] = $price;
 
         if ($snippet = $this->modx->getObject('modSnippet', array('name' => 'tcBillboardForm'))) {
@@ -954,6 +966,23 @@ class tcBillboard
             $response = $this->success('tplScore', $tpl);
         }
         return $response;
+    }
+
+    /**
+     * Если есть НДС и активирована настройка, возвращает сумму НДС
+     * @param $cost
+     * @return int|string
+     */
+    public function getNds($cost)
+    {
+        $nds = trim($this->modx->getOption('tcbillboard_nds'));
+        $ndsActive = $this->modx->getOption('tcbillboard_nds_active', null, false);
+        $ndsPrice = 0;
+
+        if (!empty($nds) && $ndsActive) {
+            $ndsPrice = number_format($cost / 100 * $nds, 2, '.', '');
+        }
+        return $ndsPrice;
     }
 
     /**
@@ -1108,9 +1137,14 @@ class tcBillboard
         $properties = $this->getSnippetProperties('tcBillboardForm');
         $order = $this->modx->getObject('tcBillboardOrders', array('res_id' => (int)$resId));
         $data = $order->toArray();
+        $data['nds'] = 0;
         $data['sum'] = number_format($data['sum'] + $data['penalty'], 2, '.', '');
         $data['pubdatedon'] = date('d-m-Y', strtotime($data['pubdatedon']));
         $data['unpubdatedon'] = date('d-m-Y', strtotime($data['unpubdatedon']));
+
+        if ($ndsPrice = $this->getNds($data['sum'])) {
+            $data['nds'] = $ndsPrice;
+        }
         if ($data['payment'] == 1 || ($data['payment'] == 2 && $data['sum'] == 0)) {
             $output = $this->getChunk($properties['tplSuccessBank'], $data);
         } elseif ($data['payment'] == 2 && $data['sum'] > 0) {

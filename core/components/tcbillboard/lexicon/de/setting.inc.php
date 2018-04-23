@@ -31,6 +31,12 @@ $_lang['setting_tcbillboard_stock_template'] = 'ID шаблона акции';
 $_lang['setting_tcbillboard_stock_template_desc'] = 'ID шаблона для вывода отдельно взятой акции';
 $_lang['setting_tcbillboard_payment_template'] = 'ID шаблона информации об оплате';
 $_lang['setting_tcbillboard_payment_template_desc'] = 'ID шаблона для вывода реквезитов оплаты, или формы PayPal.';
+$_lang['setting_tcbillboard_nds'] = 'Ставка НДС (%)';
+$_lang['setting_tcbillboard_nds_desc'] = 'Ставка НДС в процентах. Чтобы учитывался НДС, необходимо включить 
+    системную настройку <strong>tcbillboard_nds_active</strong>.';
+$_lang['setting_tcbillboard_nds_active'] = 'Учитывать НДС';
+$_lang['setting_tcbillboard_nds_active_desc'] = 'Чтобы учитывать НДС, включите эту настройку, и укажите ставку НДС в 
+    системной настройке <strong>tcbillboard_nds</strong>.';
 
 $_lang['area_tcbillboard_google_map'] = 'Карта Google Map';
 

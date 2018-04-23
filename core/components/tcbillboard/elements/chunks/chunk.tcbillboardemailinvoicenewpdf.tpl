@@ -82,6 +82,11 @@
         <th align="right" style="border-left: 1px solid #000000; border-bottom: 1px solid #000000;
             border-right: 1px solid #000000;"><span>[[+sum]] EUR</span></th>
     </tr>
+    <tr>
+        <th align="right">НДС</th>
+        <th align="right" style="border-left: 1px solid #000000; border-bottom: 1px solid #000000;
+            border-right: 1px solid #000000;"><span>[[+nds]] EUR</span></th>
+    </tr>
 </table>
 <br />
 

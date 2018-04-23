@@ -178,6 +178,7 @@ $_lang['tcbillboard_front_complete_payment'] = 'Завершить оплату'
 $_lang['tcbillboard_front_success_payment'] = 'Ваш платёж успешно обработан. Спасибо!';
 $_lang['tcbillboard_front_select_payment'] = 'Осталось оплатить заказ, выбрав один из способов оплаты.';
 $_lang['tcbillboard_front_data_order'] = 'Данные заказа';
+$_lang['tcbillboard_front_nds'] = 'НДС';
 
 $_lang['tcbillboard_email_subject_new_manager'] = 'На сайте новая публикация';
 $_lang['tcbillboard_email_subject_paid_user'] = 'Произведена оплата';

@@ -19,6 +19,12 @@
         <td>[[%tcbillboard_front_amount_grace_period]]:</td>
         <td>[[+costGrace]]</td>
     </tr>
+    [[++tcbillboard_nds_active:is=`1`:then=`
+    <tr>
+        <td>[[%tcbillboard_front_nds]]:</td>
+        <td>[[+nds]]</td>
+    </tr>
+    `]]
     <tr>
         <th>[[%tcbillboard_front_total]]:</th>
         <th>[[+cost]]</th>

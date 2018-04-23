@@ -65,6 +65,16 @@ $tmp = array(
         'value' => '',
         'area' => 'tcbillboard_main',
     ),
+    'nds' => array(
+        'xtype' => 'numberfield',
+        'value' => '',
+        'area' => 'tcbillboard_main',
+    ),
+    'nds_active' => array(
+        'xtype' => 'combo-boolean',
+        'value' => false,
+        'area' => 'tcbillboard_main',
+    ),
 
     'google_api_key' => array(
         'xtype' => 'textfield',
@@ -86,6 +96,7 @@ $tmp = array(
         'value' => 13.40392403,
         'area' => 'tcbillboard_google_map',
     ),
+
 
     'bank_transfer_name' => array(
         'xtype' => 'textfield',

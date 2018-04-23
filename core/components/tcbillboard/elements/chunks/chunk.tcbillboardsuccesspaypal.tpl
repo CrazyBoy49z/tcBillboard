@@ -24,6 +24,12 @@
             <td>[[%tcbillboard_sum_order]]:</td>
             <td><strong>[[+sum]] €</strong></td>
         </tr>
+        [[++tcbillboard_nds_active:is=`1`:then=`
+        <tr>
+            <td>[[%tcbillboard_front_nds]]:</td>
+            <td>[[+nds]]</td>
+        </tr>
+        `]]
     </table>
 
     <p><strong>[[%tcbillboard_front_select_payment]]</strong></p>
